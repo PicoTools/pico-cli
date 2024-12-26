@@ -1,0 +1,26 @@
+alias(
+  "exec-assembly",
+  fn (aid, cmd, args, raw) {
+    if args.len() == 0 {
+      return m_error(aid, "invalid number of arguments");
+    } elif args.len() == 1 {
+      m_notify(aid, "tasked ant to execute .NET in memory");
+      return a_exec_assembly(aid, args[0]);
+    } else {
+      splitted = raw.split(" ");
+      r = "";
+      for i = 1; i < splitted.len(); i += 1 {
+        if i != splitted.len() -1 {
+          r += splitted[i] + " ";
+        } else {
+          r += splitted[i];
+        }
+      }
+      m_notify(aid, "tasked ant to execute .NET with arguments in memory");
+      return a_exec_assembly(aid, args[0], r);
+    }
+  },
+  "execute .NET binary with arguments in ant's process memory",
+  "Usage:\n  execute-assembly [host file path] <args>",
+  true
+);

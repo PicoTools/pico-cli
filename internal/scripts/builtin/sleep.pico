@@ -1,0 +1,29 @@
+alias(
+  "sleep",
+  fn (aid, cmd, args, raw) {
+    if args.len() == 1 {
+      s = int(args[0]);
+      if s < 0 {
+        return m_error(aid, "invalid sleep value");
+      }
+      m_notify(aid, "tasked ant to change sleep/jitter values");
+      return a_sleep(aid, s);
+    } elif args.len() == 2 {
+      s = int(args[0]);
+      j = int(args[1]);
+      if s < 0 {
+        return m_error(aid, "invalid sleep value");
+      }
+      if j > 99 || j < 0 {
+        return m_error(aid, "invalid jitter value");
+      }
+      m_notify(aid, "tasked ant to change sleep/jitter values");
+      return a_sleep(aid, s, j);
+    } else {
+      return m_error(aid, "invalid number of arguments");
+    }
+  },
+  "change sleep/jitter values for ant",
+  "Usage:\n  sleep <sleep in sec> [jitter 1-99]",
+  true
+);

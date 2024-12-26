@@ -1,0 +1,14 @@
+alias(
+  "rm",
+  fn (aid, cmd, args, raw) {
+    if args.len() != 1 {
+      return m_error(aid, "invalid number of arguments");
+    }
+
+    m_notify(aid, "tasked ant to remove file/directory");
+    return a_rm(aid, args[0]);
+  },
+  "remove file/dir recursively",
+  "Usage:\n  rm [path]",
+  true
+);

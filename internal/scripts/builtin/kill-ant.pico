@@ -1,0 +1,14 @@
+alias(
+  "kill-ant",
+  fn (aid, cmd, args, raw) {
+    if args.len() != 0 {
+      return m_error(aid, "invalid number of arguments");
+    }
+
+    m_notify(aid, "tasked ant to kill itself");
+    return a_exit(aid);
+  },
+  "stop ant's process execution (without artifact removing from target system)",
+  "Usage:\n  kill-ant",
+  true
+);

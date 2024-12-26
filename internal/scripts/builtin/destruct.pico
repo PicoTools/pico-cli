@@ -1,0 +1,14 @@
+alias(
+  "destruct",
+  fn (aid, cmd, args, raw) {
+    if args.len() != 0 {
+      return m_error(aid, "invalid number of arguments");
+    }
+
+    m_notify(aid, "tasked ant to destruct itself");
+    return a_destruct(aid);
+  },
+  "destruct ant itself (remove binary and kill process)",
+  "Usage:\n  destruct",
+  true
+);

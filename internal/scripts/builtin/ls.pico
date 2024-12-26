@@ -1,0 +1,17 @@
+alias(
+    "ls",
+    fn (aid, cmd, args, raw) {
+      if args.len() == 0 {
+        m_notify(aid, "tasked ant to list files");
+        return a_ls(aid);
+      } elif args.len() == 1 {
+        m_notify(aid, "tasked ant to list files");
+        return a_ls(aid, args[0]);
+      } else {
+        return m_error(aid, "invalid number of arguments");
+      }
+    },
+    "list files in directory",
+    "Usage:\n  ls [dir/file]",
+    true
+);

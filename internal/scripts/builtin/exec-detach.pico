@@ -1,0 +1,26 @@
+alias(
+  "exec-detach",
+  fn (aid, cmd, args, raw) {
+    if args.len() == 0 {
+      return m_error(aid, "invalid number of arguments");
+    } elif args.len() == 1 {
+      m_notify(aid, "tasked ant to detached execute command");
+      return a_exec_detach(aid, args[0]);
+    } else {
+      splitted = raw.split(" ");
+      r = "";
+      for i = 1; i < splitted.len(); i += 1 {
+        if i != splitted.len() -1 {
+          r += splitted[i] + " ";
+        } else {
+          r += splitted[i];
+        }
+      }
+      m_notify(aid, "tasked ant to detached execute command with arguments");
+      return a_exec_detach(aid, args[0], r);
+    }
+  },
+  "executed detached process, specified by binary with arguments",
+  "Usage:\n  exec-detach [path] [args]",
+  true
+);
