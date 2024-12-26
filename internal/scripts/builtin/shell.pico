@@ -1,0 +1,14 @@
+alias(
+  "shell",
+  fn (aid, cmd, args, raw) {
+    if args.len() == 0 {
+      return m_error(aid, "invalid number of arguments");
+    }
+
+    m_notify(aid, "tasked ant to execute shell command");
+    return a_shell(aid, raw);
+  },
+  "execute command with arguments from target OS shell process, e.g. cmd.exe/sh",
+  "Usage:\n  shell [command] [args]",
+  true
+);

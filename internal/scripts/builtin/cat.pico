@@ -1,0 +1,14 @@
+alias(
+  "cat",
+  fn (aid, cmd, args, raw) {
+    if args.len() != 1 {
+      return m_error(aid, "invalid number of arguments");
+    }
+
+    m_notify(aid, "tasked ant to print content of file");
+    return a_cat(aid, args[0]);
+  },
+  "print content of file to console",
+  "Usage:\n  cat [file]",
+  true
+);

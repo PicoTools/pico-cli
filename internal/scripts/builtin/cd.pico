@@ -1,0 +1,14 @@
+alias(
+  "cd",
+  fn (aid, cmd, args, raw) {
+    if args.len() != 1 {
+      return m_error(aid, "invalid number of arguments");
+    }
+
+    m_notify(aid, "tasked ant to change working directory");
+    return a_cd(aid, args[0]);
+  },
+  "change working directory of ant process",
+  "Usage:\n  cd [path]",
+  true
+);

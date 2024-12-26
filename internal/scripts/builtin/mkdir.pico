@@ -1,0 +1,14 @@
+alias(
+  "mkdir",
+  fn (aid, cmd, args, raw) {
+    if args.len() != 1 {
+      return m_error(aid, "invalid number of arguments");
+    }
+
+    m_notify(aid, "tasked ant to create directory");
+    return a_mkdir(aid, args[0]);
+  },
+  "create directory on target",
+  "Usage:\n  mkdir [path]",
+  true
+);
