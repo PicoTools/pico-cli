@@ -1,6 +1,7 @@
-package ant
+package agent
 
 import (
+	"github.com/PicoTools/pico-cli/internal/commands/shared"
 	"github.com/PicoTools/pico-cli/internal/constants"
 	"github.com/reeflective/console"
 	"github.com/spf13/cobra"
@@ -21,6 +22,8 @@ func Commands(app *console.Console) console.Commands {
 
 		// command
 		cmd.AddCommand(commandCommand(app))
+		// use
+		cmd.AddCommand(shared.UseCommand(app))
 		// last
 		cmd.AddCommand(lastCommand(app))
 		// task

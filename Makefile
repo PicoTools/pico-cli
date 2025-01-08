@@ -24,5 +24,5 @@ dep-shared:
 
 .PHONY: dep-plan
 dep-plan:
-	@echo "Update mlan components..."
+	@echo "Update plan components..."
 	@export GOPRIVATE="github.com/PicoTools" && go get -u github.com/PicoTools/plan/ && go mod tidy && go mod vendor

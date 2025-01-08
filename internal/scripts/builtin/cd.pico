@@ -2,13 +2,15 @@ alias(
   "cd",
   fn (aid, cmd, args, raw) {
     if args.len() != 1 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
 
-    m_notify(aid, "tasked ant to change working directory");
+    c_notify("tasked agent to change working directory");
+    m_notify(aid, "tasked agent to change working directory");
     return a_cd(aid, args[0]);
   },
-  "change working directory of ant process",
+  "change working directory of agent process",
   "Usage:\n  cd [path]",
   true
 );

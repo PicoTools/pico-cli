@@ -1,4 +1,4 @@
-package ant
+package agent
 
 import (
 	"os"
@@ -62,7 +62,7 @@ func taskDownloadCommand(*console.Console) *cobra.Command {
 func taskCommand(c *console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "tasks",
-		Short:                 "show tasks for ant",
+		Short:                 "show tasks for agent",
 		Aliases:               []string{"t"},
 		DisableFlagsInUseLine: true,
 		GroupID:               constants.CoreGroupId,

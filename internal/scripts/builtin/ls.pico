@@ -2,12 +2,15 @@ alias(
     "ls",
     fn (aid, cmd, args, raw) {
       if args.len() == 0 {
-        m_notify(aid, "tasked ant to list files");
+        c_notify("tasked agent to list files");
+        m_notify(aid, "tasked agent to list files");
         return a_ls(aid);
       } elif args.len() == 1 {
-        m_notify(aid, "tasked ant to list files");
+        c_notify("tasked agent to list files");
+        m_notify(aid, "tasked agent to list files");
         return a_ls(aid, args[0]);
       } else {
+        c_error("invalid number of arguments");
         return m_error(aid, "invalid number of arguments");
       }
     },

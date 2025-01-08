@@ -22,7 +22,7 @@ var Commands = &commandsMapper{
 	},
 }
 
-// ResetStorage resets storage of commands for ant
+// ResetStorage resets storage of commands for agent
 func ResetStorage() {
 	Commands = &commandsMapper{
 		sorted: &commands{
@@ -325,7 +325,7 @@ type commands struct {
 	commands []*Command
 }
 
-// GetLast returns last command for ant
+// GetLast returns last command for agent
 func (t *commandsMapper) GetLast() *Command {
 	data := t.Get()
 	if len(data) == 0 {

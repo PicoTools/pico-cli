@@ -14,7 +14,27 @@ func SetOut(c *console.Console) {
 	out = c
 }
 
-// PrintChat prints chat's message in console
-func PrintChat(format string, args ...any) {
-	out.TransientPrintf("[%s] %s", color.CyanString("+"), fmt.Sprintf(format, args...))
+// PrintfNotify prints message with NOTIFY level without new line
+func PrintfNotify(format string, args ...any) {
+	out.TransientPrintf("[%s] %s", color.CyanString("*"), fmt.Sprintf(format, args...))
+}
+
+// PrintNotify prints message with NOTIFY level
+func PrintNotify(format string, args ...any) {
+	out.TransientPrintf("[%s] %s\n", color.CyanString("*"), fmt.Sprintf(format, args...))
+}
+
+// PrintInfo prints message with INFO level
+func PrintInfo(format string, args ...any) {
+	out.TransientPrintf("[%s] %s\n", color.GreenString("+"), fmt.Sprintf(format, args...))
+}
+
+// PrintWarning prints message with WARNING level
+func PrintWarning(format string, args ...any) {
+	out.TransientPrintf("[%s] %s\n", color.YellowString("!"), fmt.Sprintf(format, args...))
+}
+
+// PrintError prints message with ERROR level
+func PrintError(format string, args ...any) {
+	out.TransientPrintf("[%s] %s\n", color.RedString("-"), fmt.Sprintf(format, args...))
 }

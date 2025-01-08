@@ -2,16 +2,19 @@ alias(
   "pause",
   fn (aid, cmd, args, raw) {
     if args.len() != 1 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
     value = int(args[0]);
     if value < 0 {
+      c_error("invalid sleep value");
       return m_error(aid, "invalid sleep value");
     }
-    m_notify(aid, "tasked ant to pause communication");
+    c_notify("tasked agent to pause communication");
+    m_notify(aid, "tasked agent to pause communication");
     return a_pause(aid, value);
   },
-  "one-time sleep interval for ant",
+  "one-time sleep interval for agent",
   "Usage:\n  pause [time in sec]",
   true
 );

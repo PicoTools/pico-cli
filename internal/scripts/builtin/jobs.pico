@@ -2,13 +2,15 @@ alias(
   "jobs",
   fn (aid, cmd, args, raw) {
     if args.len() != 0 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
 
-    m_notify(aid, "tasked ant to list jobs");
+    c_notify("tasked agent to list jobs");
+    m_notify(aid, "tasked agent to list jobs");
     return a_jobs(aid);
   },
-  "list jobs, controlled by ant",
+  "list jobs, controlled by agent",
   "Usage:\n  jobs",
   true
 );

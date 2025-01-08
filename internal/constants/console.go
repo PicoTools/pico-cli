@@ -1,8 +1,8 @@
 package constants
 
 const (
-	BaseMenuName = "base"
-	AntMenuName  = "ant"
+	BaseMenuName  = "base"
+	AgentMenuName = "agent"
 )
 
 const (

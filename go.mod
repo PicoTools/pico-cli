@@ -3,8 +3,8 @@ module github.com/PicoTools/pico-cli
 go 1.23.4
 
 require (
-	github.com/PicoTools/pico-shared v0.0.0-20241225170905-6d74ff429c94
-	github.com/PicoTools/plan v0.0.0-20241224205948-844362e8314b
+	github.com/PicoTools/pico-shared v0.0.0-20250108170034-767c50cbbfc1
+	github.com/PicoTools/plan v0.0.0-20250108175246-592915f30fcd
 	github.com/antlr4-go/antlr/v4 v4.13.1
 	github.com/docker/go-units v0.5.0
 	github.com/fatih/color v1.18.0

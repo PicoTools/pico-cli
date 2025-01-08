@@ -1,4 +1,4 @@
-package ant
+package agent
 
 import (
 	"github.com/PicoTools/pico-cli/internal/constants"

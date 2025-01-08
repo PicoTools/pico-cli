@@ -1,0 +1,14 @@
+alias(
+  "destroy",
+  fn (aid, cmd, args, raw) {
+    if args.len() != 0 {
+      return m_error(aid, "invalid number of arguments");
+    }
+
+    m_notify(aid, "tasked agent to destroy itself");
+    return a_destroy(aid);
+  },
+  "destroy agent itself (remove binary and kill process)",
+  "Usage:\n  destroy",
+  true
+);

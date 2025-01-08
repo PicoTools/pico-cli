@@ -1,0 +1,16 @@
+alias(
+  "kill-agent",
+  fn (aid, cmd, args, raw) {
+    if args.len() != 0 {
+      c_error("invalid number of arguments");
+      return m_error(aid, "invalid number of arguments");
+    }
+
+    c_notify("tasked agent to kill itself");
+    m_notify(aid, "tasked agent to kill itself");
+    return a_exit(aid);
+  },
+  "stop agent's process execution (without artifact removing from target system)",
+  "Usage:\n  kill-agent",
+  true
+);

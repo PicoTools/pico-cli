@@ -1,6 +1,7 @@
 package base
 
 import (
+	"github.com/PicoTools/pico-cli/internal/commands/shared"
 	"github.com/reeflective/console"
 	"github.com/spf13/cobra"
 )
@@ -17,10 +18,10 @@ func Commands(app *console.Console) console.Commands {
 		rootCmd.AddCommand(chatCommand(app))
 		// exit
 		rootCmd.AddCommand(exitCommand(app))
-		// ant
-		rootCmd.AddCommand(antCommand(app))
+		// agent
+		rootCmd.AddCommand(agentCommand(app))
 		// use
-		rootCmd.AddCommand(useCommand(app))
+		rootCmd.AddCommand(shared.UseCommand(app))
 		// script
 		rootCmd.AddCommand(scriptCommand(app))
 

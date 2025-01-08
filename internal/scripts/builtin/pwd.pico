@@ -2,13 +2,15 @@ alias(
   "pwd",
   fn (aid, cmd, args, raw) {
     if args.len() != 0 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
 
-    m_notify(aid, "tasked ant to print process working directory");
+    c_notify("tasked agent to print process working directory");
+    m_notify(aid, "tasked agent to print process working directory");
     return a_pwd(aid);
   },
-  "print ant's process working directory",
+  "print agent's process working directory",
   "Usage:\n  pwd",
   true
 );

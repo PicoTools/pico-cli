@@ -3,21 +3,21 @@ package base
 import (
 	"fmt"
 
-	"github.com/PicoTools/pico-cli/internal/storage/ant"
+	"github.com/PicoTools/pico-cli/internal/storage/agent"
 	"github.com/PicoTools/pico-cli/internal/utils"
 	"github.com/fatih/color"
 	"github.com/reeflective/console"
 	"github.com/spf13/cobra"
 )
 
-func antListCommand(*console.Console) *cobra.Command {
+func agentListCommand(*console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:                   "list",
-		Short:                 "list ants",
+		Short:                 "list agents",
 		DisableFlagsInUseLine: true,
 		Run: func(cmd *cobra.Command, args []string) {
-			ants := ant.Ants.Get()
-			for _, v := range ants {
+			agents := agent.Agents.Get()
+			for _, v := range agents {
 				os := v.GetOs().StringShort()
 				if v.GetIsPrivileged() {
 					os = color.RedString(v.GetOs().StringShort())
@@ -42,14 +42,14 @@ func antListCommand(*console.Console) *cobra.Command {
 	}
 }
 
-func antCommand(c *console.Console) *cobra.Command {
+func agentCommand(c *console.Console) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                   "ants",
-		Short:                 "manage ants",
+		Use:                   "agents",
+		Short:                 "manage agents",
 		DisableFlagsInUseLine: true,
 	}
 	cmd.AddCommand(
-		antListCommand(c),
+		agentListCommand(c),
 	)
 	return cmd
 }

@@ -1,4 +1,4 @@
-package ant
+package agent
 
 import (
 	"strconv"
@@ -14,7 +14,7 @@ import (
 func commandCommand(c *console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "commands",
-		Short:                 "show commands for ant",
+		Short:                 "show commands for agent",
 		Aliases:               []string{"t"},
 		DisableFlagsInUseLine: true,
 		GroupID:               constants.CoreGroupId,

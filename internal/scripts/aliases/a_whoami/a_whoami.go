@@ -5,7 +5,7 @@ import (
 
 	merror "github.com/PicoTools/pico-cli/internal/scripts/aliases/m_error"
 	"github.com/PicoTools/pico-cli/internal/service"
-	"github.com/PicoTools/pico-cli/internal/storage/ant"
+	"github.com/PicoTools/pico-cli/internal/storage/agent"
 	commonv1 "github.com/PicoTools/pico-shared/proto/gen/common/v1"
 	operatorv1 "github.com/PicoTools/pico-shared/proto/gen/operator/v1"
 	"github.com/PicoTools/pico-shared/shared"
@@ -18,7 +18,7 @@ func GetApiName() string {
 	return name
 }
 
-func FrontendAntWhoami(args ...object.Object) (object.Object, error) {
+func FrontendAgentWhoami(args ...object.Object) (object.Object, error) {
 	if len(args) != 1 {
 		return nil, fmt.Errorf("expecting 1 argument, got %d", len(args))
 	}
@@ -26,22 +26,22 @@ func FrontendAntWhoami(args ...object.Object) (object.Object, error) {
 	if !ok {
 		return nil, fmt.Errorf("expecting 1st argument int, got '%s'", args[0].TypeName())
 	}
-	if err := BackendAntWhoami(uint32(id.GetValue().(int64))); err != nil {
+	if err := BackendAgentWhoami(uint32(id.GetValue().(int64))); err != nil {
 		return nil, err
 	}
 	return object.NewNull(), nil
 }
 
-func BackendAntWhoami(id uint32) error {
+func BackendAgentWhoami(id uint32) error {
 	cap := shared.CapWhoami
 
-	ant := ant.Ants.GetById(id)
-	if ant == nil {
-		return fmt.Errorf("no ant with id %d", id)
+	agent := agent.Agents.GetById(id)
+	if agent == nil {
+		return fmt.Errorf("no agent with id %d", id)
 	}
 
-	if !cap.ValidateMask(ant.GetCaps()) {
-		return merror.BackendMessageError(id, fmt.Sprintf("ant doesn't support %s", cap.String()))
+	if !cap.ValidateMask(agent.GetCaps()) {
+		return merror.BackendMessageError(id, fmt.Sprintf("agent doesn't support %s", cap.String()))
 	}
 
 	return service.NewTask(id, &operatorv1.CreateTaskRequest{

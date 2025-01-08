@@ -5,7 +5,7 @@ import (
 
 	merror "github.com/PicoTools/pico-cli/internal/scripts/aliases/m_error"
 	"github.com/PicoTools/pico-cli/internal/service"
-	"github.com/PicoTools/pico-cli/internal/storage/ant"
+	"github.com/PicoTools/pico-cli/internal/storage/agent"
 	commonv1 "github.com/PicoTools/pico-shared/proto/gen/common/v1"
 	operatorv1 "github.com/PicoTools/pico-shared/proto/gen/operator/v1"
 	"github.com/PicoTools/pico-shared/shared"
@@ -18,7 +18,7 @@ func GetApiName() string {
 	return name
 }
 
-func FrontendAntLs(args ...object.Object) (object.Object, error) {
+func FrontendAgentLs(args ...object.Object) (object.Object, error) {
 	if len(args) < 1 || len(args) > 2 {
 		return nil, fmt.Errorf("expecting 1 or 2 arguments, got %d", len(args))
 	}
@@ -33,22 +33,22 @@ func FrontendAntLs(args ...object.Object) (object.Object, error) {
 			return nil, fmt.Errorf("expecting 2nd argument str, got '%s'", args[1].TypeName())
 		}
 	}
-	if err := BackendAntLs(uint32(id.GetValue().(int64)), path.GetValue().(string)); err != nil {
+	if err := BackendAgentLs(uint32(id.GetValue().(int64)), path.GetValue().(string)); err != nil {
 		return nil, err
 	}
 	return object.NewNull(), nil
 }
 
-func BackendAntLs(id uint32, path string) error {
+func BackendAgentLs(id uint32, path string) error {
 	cap := shared.CapLs
 
-	ant := ant.Ants.GetById(id)
-	if ant == nil {
-		return fmt.Errorf("no ant with id %d", id)
+	agent := agent.Agents.GetById(id)
+	if agent == nil {
+		return fmt.Errorf("no agent with id %d", id)
 	}
 
-	if !cap.ValidateMask(ant.GetCaps()) {
-		return merror.BackendMessageError(id, fmt.Sprintf("ant doesn't support %s", cap.String()))
+	if !cap.ValidateMask(agent.GetCaps()) {
+		return merror.BackendMessageError(id, fmt.Sprintf("agent doesn't support %s", cap.String()))
 	}
 
 	return service.NewTask(id, &operatorv1.CreateTaskRequest{

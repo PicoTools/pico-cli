@@ -2,9 +2,11 @@ alias(
   "exec-assembly",
   fn (aid, cmd, args, raw) {
     if args.len() == 0 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     } elif args.len() == 1 {
-      m_notify(aid, "tasked ant to execute .NET in memory");
+      c_notify("tasked agent to execute .NET in memory");
+      m_notify(aid, "tasked agent to execute .NET in memory");
       return a_exec_assembly(aid, args[0]);
     } else {
       splitted = raw.split(" ");
@@ -16,11 +18,12 @@ alias(
           r += splitted[i];
         }
       }
-      m_notify(aid, "tasked ant to execute .NET with arguments in memory");
+      c_notify("tasked agent to execute .NET with arguments in memory");
+      m_notify(aid, "tasked agent to execute .NET with arguments in memory");
       return a_exec_assembly(aid, args[0], r);
     }
   },
-  "execute .NET binary with arguments in ant's process memory",
+  "execute .NET binary with arguments in agent's process memory",
   "Usage:\n  execute-assembly [host file path] <args>",
   true
 );

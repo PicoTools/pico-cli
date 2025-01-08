@@ -7,7 +7,7 @@ import (
 	acat "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_cat"
 	acd "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_cd"
 	acp "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_cp"
-	adestruct "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_destruct"
+	adestruct "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_destroy"
 	adownload "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_download"
 	aexec "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_exec"
 	aexecassembly "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_exec_assembly"
@@ -28,6 +28,10 @@ import (
 	aupload "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_upload"
 	awhoami "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_whoami"
 	"github.com/PicoTools/pico-cli/internal/scripts/aliases/alias"
+	cerror "github.com/PicoTools/pico-cli/internal/scripts/aliases/c_error"
+	cinfo "github.com/PicoTools/pico-cli/internal/scripts/aliases/c_info"
+	cnotify "github.com/PicoTools/pico-cli/internal/scripts/aliases/c_notify"
+	cwarning "github.com/PicoTools/pico-cli/internal/scripts/aliases/c_warning"
 	isarm32 "github.com/PicoTools/pico-cli/internal/scripts/aliases/is_arm32_arch"
 	isarm64 "github.com/PicoTools/pico-cli/internal/scripts/aliases/is_arm64_arch"
 	islinux "github.com/PicoTools/pico-cli/internal/scripts/aliases/is_linux_os"
@@ -60,59 +64,59 @@ func registerApi() {
 	storage.UserFunctions[mwarning.GetApiName()] = object.NewNativeFunc(mwarning.GetApiName(), mwarning.FrontendMessageWarning)
 	// m_error: command's message with ERROR type
 	storage.UserFunctions[merror.GetApiName()] = object.NewNativeFunc(merror.GetApiName(), merror.FrontendMessageError)
-	// a_sleep: change sleep/jitter ant's parameters
-	storage.UserFunctions[asleep.GetApiName()] = object.NewNativeFunc(asleep.GetApiName(), asleep.FrontendAntSleep)
+	// a_sleep: change sleep/jitter agent's parameters
+	storage.UserFunctions[asleep.GetApiName()] = object.NewNativeFunc(asleep.GetApiName(), asleep.FrontendAgentSleep)
 	// a_ls: get directory listing
-	storage.UserFunctions[als.GetApiName()] = object.NewNativeFunc(als.GetApiName(), als.FrontendAntLs)
+	storage.UserFunctions[als.GetApiName()] = object.NewNativeFunc(als.GetApiName(), als.FrontendAgentLs)
 	// a_pwd: get process working directory
-	storage.UserFunctions[apwd.GetApiName()] = object.NewNativeFunc(apwd.GetApiName(), apwd.FrontendAntPwd)
+	storage.UserFunctions[apwd.GetApiName()] = object.NewNativeFunc(apwd.GetApiName(), apwd.FrontendAgentPwd)
 	// a_cd: change process working directory
-	storage.UserFunctions[acd.GetApiName()] = object.NewNativeFunc(acd.GetApiName(), acd.FrontendAntCd)
+	storage.UserFunctions[acd.GetApiName()] = object.NewNativeFunc(acd.GetApiName(), acd.FrontendAgentCd)
 	// a_whoami: get current user and its grants
-	storage.UserFunctions[awhoami.GetApiName()] = object.NewNativeFunc(awhoami.GetApiName(), awhoami.FrontendAntWhoami)
+	storage.UserFunctions[awhoami.GetApiName()] = object.NewNativeFunc(awhoami.GetApiName(), awhoami.FrontendAgentWhoami)
 	// a_ps: get processes listing
-	storage.UserFunctions[aps.GetApiName()] = object.NewNativeFunc(aps.GetApiName(), aps.FrontendAntPs)
+	storage.UserFunctions[aps.GetApiName()] = object.NewNativeFunc(aps.GetApiName(), aps.FrontendAgentPs)
 	// a_cat: print content of file
-	storage.UserFunctions[acat.GetApiName()] = object.NewNativeFunc(acat.GetApiName(), acat.FrontendAntCat)
+	storage.UserFunctions[acat.GetApiName()] = object.NewNativeFunc(acat.GetApiName(), acat.FrontendAgentCat)
 	// a_exec: execute binary with arguments
-	storage.UserFunctions[aexec.GetApiName()] = object.NewNativeFunc(aexec.GetApiName(), aexec.FrontendAntExec)
+	storage.UserFunctions[aexec.GetApiName()] = object.NewNativeFunc(aexec.GetApiName(), aexec.FrontendAgentExec)
 	// a_cp: copy files/directories
-	storage.UserFunctions[acp.GetApiName()] = object.NewNativeFunc(acp.GetApiName(), acp.FrontendAntCp)
-	// a_jobs: get active jobs on ant
-	storage.UserFunctions[ajobs.GetApiName()] = object.NewNativeFunc(ajobs.GetApiName(), ajobs.FrontendAntJobs)
-	// a_jobkill: kill active job on ant
-	storage.UserFunctions[ajobkill.GetApiName()] = object.NewNativeFunc(ajobkill.GetApiName(), ajobkill.FrontendAntJobkill)
+	storage.UserFunctions[acp.GetApiName()] = object.NewNativeFunc(acp.GetApiName(), acp.FrontendAgentCp)
+	// a_jobs: get active jobs on agent
+	storage.UserFunctions[ajobs.GetApiName()] = object.NewNativeFunc(ajobs.GetApiName(), ajobs.FrontendAgentJobs)
+	// a_jobkill: kill active job on agent
+	storage.UserFunctions[ajobkill.GetApiName()] = object.NewNativeFunc(ajobkill.GetApiName(), ajobkill.FrontendAgentJobkill)
 	// a_kill: kill process on target OS
-	storage.UserFunctions[akill.GetApiName()] = object.NewNativeFunc(akill.GetApiName(), akill.FrontendAntKill)
+	storage.UserFunctions[akill.GetApiName()] = object.NewNativeFunc(akill.GetApiName(), akill.FrontendAgentKill)
 	// a_mv: move files/directories
-	storage.UserFunctions[amv.GetApiName()] = object.NewNativeFunc(amv.GetApiName(), amv.FrontendAntMv)
+	storage.UserFunctions[amv.GetApiName()] = object.NewNativeFunc(amv.GetApiName(), amv.FrontendAgentMv)
 	// a_mkdir: create directory
-	storage.UserFunctions[amkdir.GetApiName()] = object.NewNativeFunc(amkdir.GetApiName(), amkdir.FrontendAntMkdir)
+	storage.UserFunctions[amkdir.GetApiName()] = object.NewNativeFunc(amkdir.GetApiName(), amkdir.FrontendAgentMkdir)
 	// a_exec_assembly: execute .NET in CLR
-	storage.UserFunctions[aexecassembly.GetApiName()] = object.NewNativeFunc(aexecassembly.GetApiName(), aexecassembly.FrontendAntExecuteAssembly)
+	storage.UserFunctions[aexecassembly.GetApiName()] = object.NewNativeFunc(aexecassembly.GetApiName(), aexecassembly.FrontendAgentExecuteAssembly)
 	// a_download: download file from target FS
-	storage.UserFunctions[adownload.GetApiName()] = object.NewNativeFunc(adownload.GetApiName(), adownload.FrontendAntDownload)
+	storage.UserFunctions[adownload.GetApiName()] = object.NewNativeFunc(adownload.GetApiName(), adownload.FrontendAgentDownload)
 	// a_upload: upload file to target FS
-	storage.UserFunctions[aupload.GetApiName()] = object.NewNativeFunc(aupload.GetApiName(), aupload.FrontendAntUpload)
-	// a_pause: one-time pause of ant's execution (one-time sleep)
-	storage.UserFunctions[apause.GetApiName()] = object.NewNativeFunc(apause.GetApiName(), apause.FrontendAntPause)
-	// a_destruct: ant's self-destruction
-	storage.UserFunctions[adestruct.GetApiName()] = object.NewNativeFunc(adestruct.GetApiName(), adestruct.FrontendAntDestruct)
+	storage.UserFunctions[aupload.GetApiName()] = object.NewNativeFunc(aupload.GetApiName(), aupload.FrontendAgentUpload)
+	// a_pause: one-time pause of agent's execution (one-time sleep)
+	storage.UserFunctions[apause.GetApiName()] = object.NewNativeFunc(apause.GetApiName(), apause.FrontendAgentPause)
+	// a_destruct: agent's self-destruction
+	storage.UserFunctions[adestruct.GetApiName()] = object.NewNativeFunc(adestruct.GetApiName(), adestruct.FrontendAgentDestroy)
 	// a_exec_detach: execute binary with arguments with detaching
-	storage.UserFunctions[aexecdetach.GetApiName()] = object.NewNativeFunc(aexec.GetApiName(), aexecdetach.FrontendAntExecDetach)
+	storage.UserFunctions[aexecdetach.GetApiName()] = object.NewNativeFunc(aexec.GetApiName(), aexecdetach.FrontendAgentExecDetach)
 	// a_shell: execute shell command
-	storage.UserFunctions[ashell.GetApiName()] = object.NewNativeFunc(ashell.GetApiName(), ashell.FrontendAntShell)
+	storage.UserFunctions[ashell.GetApiName()] = object.NewNativeFunc(ashell.GetApiName(), ashell.FrontendAgentShell)
 	// a_ppid: spoof PPID
-	storage.UserFunctions[appid.GetApiName()] = object.NewNativeFunc(appid.GetApiName(), appid.FrontendAntPpid)
-	// a_exit: stop ant's execution
-	storage.UserFunctions[aexit.GetApiName()] = object.NewNativeFunc(aexit.GetApiName(), aexit.FrontendAntExit)
+	storage.UserFunctions[appid.GetApiName()] = object.NewNativeFunc(appid.GetApiName(), appid.FrontendAgentPpid)
+	// a_exit: stop agent's execution
+	storage.UserFunctions[aexit.GetApiName()] = object.NewNativeFunc(aexit.GetApiName(), aexit.FrontendAgentExit)
 	// t_cancel: cancel all operator's tasks with status NEW
 	storage.UserFunctions[tcancel.GetApiName()] = object.NewNativeFunc(tcancel.GetApiName(), tcancel.FrontendTasksCancel)
-	// is_windows: is ant running on windows
+	// is_windows: is agent running on windows
 	storage.UserFunctions[iswindows.GetApiName()] = object.NewNativeFunc(iswindows.GetApiName(), iswindows.FrontendIsWindows)
-	// is_linux: is ant running on linux
+	// is_linux: is agent running on linux
 	storage.UserFunctions[islinux.GetApiName()] = object.NewNativeFunc(islinux.GetApiName(), islinux.FrontendIsLinux)
-	// is_macos: is ant running on macos
+	// is_macos: is agent running on macos
 	storage.UserFunctions[ismacos.GetApiName()] = object.NewNativeFunc(ismacos.GetApiName(), ismacos.FrontendIsMacos)
 	// is_x64: is arch x64
 	storage.UserFunctions[isx64.GetApiName()] = object.NewNativeFunc(isx64.GetApiName(), isx64.FrontendIsX64)
@@ -122,6 +126,14 @@ func registerApi() {
 	storage.UserFunctions[isarm64.GetApiName()] = object.NewNativeFunc(isarm64.GetApiName(), isarm64.FrontendIsArm64)
 	// is_arm32: is arch arm32
 	storage.UserFunctions[isarm32.GetApiName()] = object.NewNativeFunc(isarm32.GetApiName(), isarm32.FrontendIsArm32)
+	// c_notify: print message to console with NOTIFY level
+	storage.UserFunctions[cnotify.GetApiName()] = object.NewNativeFunc(cnotify.GetApiName(), cnotify.FrontendConsoleNotify)
+	// c_info: print message to console with INFO level
+	storage.UserFunctions[cinfo.GetApiName()] = object.NewNativeFunc(cinfo.GetApiName(), cinfo.FrontendConsoleInfo)
+	// c_warning: print message to console with WARNING level
+	storage.UserFunctions[cwarning.GetApiName()] = object.NewNativeFunc(cwarning.GetApiName(), cwarning.FrontendConsoleWarning)
+	// c_error: print message to console with ERROR level
+	storage.UserFunctions[cerror.GetApiName()] = object.NewNativeFunc(cerror.GetApiName(), cerror.FrontendConsoleError)
 }
 
 var (

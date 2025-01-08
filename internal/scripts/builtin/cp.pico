@@ -2,10 +2,12 @@ alias(
   "cp",
   fn (aid, cmd, args, raw) {
     if args.len() != 2 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
 
-    m_notify(aid, "tasked ant to copy file/dir");
+    c_notify("tasked agent to copy file/dir");
+    m_notify(aid, "tasked agent to copy file/dir");
     return a_cp(aid, args[0], args[1]);
   },
   "copy source file to the specified destination on target",
