@@ -1,8 +1,8 @@
 package base
 
 import (
+	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/scripts"
-	"github.com/fatih/color"
 	"github.com/reeflective/console"
 	"github.com/rsteube/carapace"
 	"github.com/spf13/cobra"
@@ -16,10 +16,10 @@ func scriptLoadCommand(*console.Console) *cobra.Command {
 		Args:                  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := scripts.RegisterExternalByPath(args[0]); err != nil {
-				color.Red(err.Error())
+				notificator.PrintError("%s", err.Error())
 				return
 			}
-			color.Green("script successfully registered")
+			notificator.PrintInfo("script successfully registered")
 		},
 	}
 	carapace.Gen(cmd).PositionalCompletion(carapace.ActionCallback(func(c carapace.Context) carapace.Action {
@@ -36,7 +36,7 @@ func scriptListCommand(c *console.Console) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			registeredScripts := scripts.GetScripts()
 			if len(registeredScripts) == 0 {
-				color.Yellow("no scripts registered")
+				notificator.PrintWarning("no scripts registered")
 				return
 			}
 			for _, v := range registeredScripts {
@@ -58,10 +58,10 @@ func scriptRemoveCommand(*console.Console) *cobra.Command {
 		Args:                  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := scripts.RemoveExternalByPath(args[0]); err != nil {
-				color.Red(err.Error())
+				notificator.PrintError("%s", err.Error())
 				return
 			}
-			color.Green("script %s removed", args[0])
+			notificator.PrintInfo("script %s removed", args[0])
 		},
 	}
 	carapace.Gen(cmd).PositionalCompletion(externalScriptsCompleter())
@@ -78,17 +78,17 @@ func scriptReloadCommand(*console.Console) *cobra.Command {
 			if len(args) == 0 {
 				// reload all scripts
 				if err := scripts.Rebuild(); err != nil {
-					color.Red(err.Error())
+					notificator.PrintError("%s", err.Error())
 					return
 				}
-				color.Green("all scripts reloaded")
+				notificator.PrintInfo("all scripts reloaded")
 				return
 			}
 			if err := scripts.ReloadExternalByPath(args[0]); err != nil {
-				color.Red(err.Error())
+				notificator.PrintInfo("%s", err.Error())
 				return
 			}
-			color.Green("script %s reloaded", args[0])
+			notificator.PrintInfo("script %s reloaded", args[0])
 		},
 	}
 	carapace.Gen(cmd).PositionalCompletion(externalScriptsCompleter())

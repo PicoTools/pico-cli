@@ -5,10 +5,10 @@ import (
 	"strings"
 
 	"github.com/PicoTools/pico-cli/internal/constants"
+	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/scripts"
 	"github.com/PicoTools/pico-cli/internal/scripts/aliases"
 	"github.com/PicoTools/pico-cli/internal/storage/agent"
-	"github.com/fatih/color"
 	"github.com/reeflective/console"
 	"github.com/spf13/cobra"
 )
@@ -25,7 +25,7 @@ func aliasCommands(*console.Console) []*cobra.Command {
 			Run: func(cmd *cobra.Command, args []string) {
 				rawCmd := k + " " + strings.Join(args, " ")
 				if err := scripts.ProcessCommand(agent.ActiveAgent.GetId(), rawCmd); err != nil {
-					color.Red(err.Error())
+					notificator.PrintError("%s", err.Error())
 				}
 			},
 		}

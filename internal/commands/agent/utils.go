@@ -1,8 +1,8 @@
 package agent
 
 import (
+	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/storage/task"
-	"github.com/fatih/color"
 	"github.com/reeflective/console"
 )
 
@@ -19,11 +19,11 @@ func printTaskGroupData(c *console.Console, v task.TaskData) {
 			return
 		}
 		if data.GetIsOutputBig() {
-			c.Printf("[%s] %s %d %s\n", color.YellowString("!"), "output too big, use: task download", data.GetId(), "<path to save>")
+			notificator.PrintWarning("output too big, use: tasks download %d <path to save>", data.GetId())
 			return
 		}
 		if data.GetIsBinary() {
-			c.Printf("[%s] %s %d %s\n", color.YellowString("!"), "output is possible binary, use: task download", data.GetId(), "<path to save>")
+			notificator.PrintWarning("output is possible binary, use: tasks download %d <path to save>", data.GetId())
 			return
 		}
 		output := data.GetOutputString()

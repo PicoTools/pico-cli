@@ -4,8 +4,8 @@ import (
 	"strconv"
 
 	"github.com/PicoTools/pico-cli/internal/constants"
+	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/storage/task"
-	"github.com/fatih/color"
 	"github.com/reeflective/console"
 	"github.com/rsteube/carapace"
 	"github.com/spf13/cobra"
@@ -33,12 +33,12 @@ func commandCommand(c *console.Console) *cobra.Command {
 			}
 			id, err := strconv.ParseInt(args[0], 10, 64)
 			if err != nil {
-				color.Red("invalid task id")
+				notificator.PrintError("invalid task id")
 				return
 			}
 			tg := task.Commands.GetById(id)
 			if tg == nil {
-				color.Red("unknown task id")
+				notificator.PrintError("unknown task id")
 				return
 			}
 			for _, v := range tg.GetData().Get() {
