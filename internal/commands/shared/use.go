@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/PicoTools/pico-cli/internal/constants"
+	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/service"
 	"github.com/PicoTools/pico-cli/internal/storage/agent"
 	"github.com/PicoTools/pico-cli/internal/storage/task"
@@ -23,22 +24,22 @@ func UseCommand(c *console.Console) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			id, err := strconv.ParseUint(args[0], 16, 32)
 			if err != nil {
-				color.Red("invalid agent id")
+				notificator.PrintError("invalid agent id")
 				return
 			}
 			a := agent.Agents.GetById(uint32(id))
 			if a == nil {
-				color.Red("unknown agent id")
+				notificator.PrintError("unknown agent id")
 				return
 			}
 			if agent.ActiveAgent != nil {
 				if err := service.UnpollAgentTasks(agent.ActiveAgent); err != nil {
-					color.Yellow("unable stop polling tasks for agent: %s", err.Error())
+					notificator.PrintWarning("unable stop polling tasks for agent: %s", err.Error())
 				}
 				task.ResetStorage()
 			}
 			if err := service.PollAgentTasks(a); err != nil {
-				color.Red("unable start polling tasks for agent: %s", err.Error())
+				notificator.PrintError("unable start polling tasks for agent: %s", err.Error())
 				return
 			}
 			agent.ActiveAgent = a
