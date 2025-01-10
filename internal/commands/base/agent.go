@@ -1,9 +1,8 @@
 package base
 
 import (
-	"fmt"
-
 	"github.com/PicoTools/pico-cli/internal/constants"
+	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/storage/agent"
 	"github.com/PicoTools/pico-cli/internal/utils"
 	"github.com/fatih/color"
@@ -30,7 +29,7 @@ func agentListCommand(*console.Console) *cobra.Command {
 				if v.IsDead(0) {
 					last = color.RedString(utils.HumanDurationC(v.GetLast()))
 				}
-				fmt.Printf("[%s] (%15s) %6s %-20s %-16s %s\n",
+				notificator.Print("[%s] (%15s) %6s %-20s %-16s %s",
 					os,
 					last,
 					v.GetIdHex(),

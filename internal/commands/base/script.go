@@ -29,7 +29,7 @@ func scriptLoadCommand(*console.Console) *cobra.Command {
 	return cmd
 }
 
-func scriptListCommand(c *console.Console) *cobra.Command {
+func scriptListCommand(*console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:                   "list",
 		Short:                 "List registred scripts",
@@ -41,11 +41,7 @@ func scriptListCommand(c *console.Console) *cobra.Command {
 				return
 			}
 			for _, v := range registeredScripts {
-				timestamp := v.GetAddedAt().Format("01/02 15:04:05")
-				c.Printf("[%s] %s\n",
-					timestamp,
-					v.GetPath(),
-				)
+				notificator.Print("[%s] %s", v.GetAddedAt().Format("01/02 15:04:05"), v.GetPath())
 			}
 		},
 	}

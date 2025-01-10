@@ -21,9 +21,8 @@ func commandCommand(c *console.Console) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) == 0 {
 				for _, v := range task.Commands.Get() {
-					timestamp := v.GetCreatedAt().Format("01/02 15:04:05")
-					c.Printf("[%s] (%d) %s: %s\n",
-						timestamp,
+					notificator.Print("[%s] (%d) %s: %s",
+						v.GetCreatedAt().Format("01/02 15:04:05"),
 						v.GetId(),
 						v.GetAuthor(),
 						v.GetCmd(),
@@ -42,7 +41,7 @@ func commandCommand(c *console.Console) *cobra.Command {
 				return
 			}
 			for _, v := range tg.GetData().Get() {
-				printTaskGroupData(c, v)
+				printCommandData(c, v)
 			}
 		},
 	}

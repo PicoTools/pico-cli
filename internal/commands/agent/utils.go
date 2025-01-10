@@ -6,14 +6,15 @@ import (
 	"github.com/reeflective/console"
 )
 
-func printTaskGroupData(c *console.Console, v task.TaskData) {
+// printCommandData prints command's data
+func printCommandData(_ *console.Console, v task.TaskData) {
 	switch data := v.(type) {
 	case *task.Message:
-		c.Printf("%s\n", data.String())
+		notificator.Print("%s", data.String())
 	case *task.Task:
 		preambule := data.StringStatus()
 		if preambule != "" {
-			c.Printf("%s\n", preambule)
+			notificator.Print("%s", preambule)
 		}
 		if data.GetOutputLen() == 0 {
 			return
@@ -28,7 +29,7 @@ func printTaskGroupData(c *console.Console, v task.TaskData) {
 		}
 		output := data.GetOutputString()
 		if output != "" {
-			c.Printf("%s\n", output)
+			notificator.Print("%s", output)
 		}
 	}
 }

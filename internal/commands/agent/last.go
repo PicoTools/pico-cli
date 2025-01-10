@@ -22,7 +22,7 @@ func lastCommand(c *console.Console) *cobra.Command {
 				return
 			}
 			for _, v := range tg.GetData().Get() {
-				printTaskGroupData(c, v)
+				printCommandData(c, v)
 			}
 		},
 	}
