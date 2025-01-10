@@ -16,8 +16,8 @@ alias(
         }
     }
 
-    c_notify(temp);
-    return m_notify(aid, temp);
+    c_info(temp);
+    return m_info(aid, temp);
   },
   "List capabilities supported by agent",
   "Usage:\n  caps",
