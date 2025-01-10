@@ -2,13 +2,15 @@ alias(
   "upload",
   fn (aid, cmd, args, raw) {
     if args.len() != 2 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
 
-    m_notify(aid, "tasked ant to upload file");
+    c_notify("tasked agent to upload file");
+    m_notify(aid, "tasked agent to upload file");
     return a_upload(aid, args[0], args[1]);
   },
-  "upload file from host to target specified by path",
+  "Upload file from host to target specified by path",
   "Usage:\n  upload [host path] [dest path]",
   true
 );

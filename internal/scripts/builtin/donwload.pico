@@ -2,13 +2,15 @@ alias(
   "download",
   fn (aid, cmd, args, raw) {
     if args.len() != 1 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
 
-    m_notify(aid, "tasked ant to download file");
+    c_notify("tasked agent to download file");
+    m_notify(aid, "tasked agent to download file");
     return a_download(aid, args[0]);
   },
-  "download file from the target",
+  "Download file from the target",
   "Usage:\n  download [path]",
   true
 );

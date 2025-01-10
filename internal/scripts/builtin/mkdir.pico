@@ -2,13 +2,15 @@ alias(
   "mkdir",
   fn (aid, cmd, args, raw) {
     if args.len() != 1 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
 
-    m_notify(aid, "tasked ant to create directory");
+    c_notify("tasked agent to create directory");
+    m_notify(aid, "tasked agent to create directory");
     return a_mkdir(aid, args[0]);
   },
-  "create directory on target",
+  "Create directory on target FS",
   "Usage:\n  mkdir [path]",
   true
 );

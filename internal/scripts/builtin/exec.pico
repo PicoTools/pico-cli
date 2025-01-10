@@ -2,9 +2,11 @@ alias(
   "exec",
   fn (aid, cmd, args, raw) {
     if args.len() == 0 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     } elif args.len() == 1 {
-      m_notify(aid, "tasked ant to execute command");
+      c_notify("tasked agent to execute command");
+      m_notify(aid, "tasked agent to execute command");
       return a_exec(aid, args[0]);
     } else {
       splitted = raw.split(" ");
@@ -16,11 +18,12 @@ alias(
           r += splitted[i];
         }
       }
-      m_notify(aid, "tasked ant to execute command with arguments");
+      c_notify("tasked agent to execute command with arguments");
+      m_notify(aid, "tasked agent to execute command with arguments");
       return a_exec(aid, args[0], r);
     }
   },
-  "execute binary with arguments",
+  "Execute binary with arguments",
   "Usage:\n  exec [binary path] [args]",
   true
 );

@@ -2,13 +2,15 @@ alias(
   "kill",
   fn (aid, cmd, args, raw) {
     if args.len() != 1 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
     
-    m_notify(aid, "tasked ant to kill process");
+    c_notify("tasked agent to kill process");
+    m_notify(aid, "tasked agent to kill process");
     return a_kill(aid, int(args[0]));
   },
-  "kill specified process by PID",
+  "Kill specified process by PID",
   "Usage:\n  kill [pid]",
   true
 );

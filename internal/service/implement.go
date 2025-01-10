@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/PicoTools/pico-cli/internal/notificator"
-	"github.com/PicoTools/pico-cli/internal/storage/ant"
+	"github.com/PicoTools/pico-cli/internal/storage/agent"
 	"github.com/PicoTools/pico-cli/internal/storage/task"
 	"github.com/PicoTools/pico-cli/internal/version"
 	operatorv1 "github.com/PicoTools/pico-shared/proto/gen/operator/v1"
@@ -75,29 +75,29 @@ func SubscribeChat(ctx context.Context) error {
 		if msg.GetMessage() != nil {
 			v := msg.GetMessage()
 			if v.GetIsServer() {
-				notificator.PrintChat("%s", v.GetMessage())
+				notificator.PrintfNotify("%s", v.GetMessage())
 				continue
 			}
 			if v.GetFrom().GetValue() == operatorConn.metadata.username {
 				// do not print message from operator itself
 				continue
 			}
-			notificator.PrintChat("(%s): %s", v.GetFrom(), v.GetMessage())
+			notificator.PrintfInfo("(%s): %s", v.GetFrom().GetValue(), v.GetMessage())
 			continue
 		}
 	}
 	return nil
 }
 
-// SubscribeChat subscribes operator on gathering ants events
-func SubscribeAnts(ctx context.Context) error {
-	stream, err := getSvc().SubscribeAnts(ctx, &operatorv1.SubscribeAntsRequest{
+// SubscribeAgents subscribes operator on gathering agents events
+func SubscribeAgents(ctx context.Context) error {
+	stream, err := getSvc().SubscribeAgents(ctx, &operatorv1.SubscribeAgentsRequest{
 		Cookie: &operatorv1.SessionCookie{
 			Value: operatorConn.metadata.cookie,
 		},
 	})
 	if err != nil {
-		return errors.Wrap(err, "open ant subscription stream")
+		return errors.Wrap(err, "open agent subscription stream")
 	}
 
 	for {
@@ -109,15 +109,15 @@ func SubscribeAnts(ctx context.Context) error {
 			return err
 		}
 
-		// get list of ants
-		if msg.GetAnts() != nil {
-			for _, v := range msg.GetAnts().GetAnts() {
-				b := &ant.Ant{}
+		// get list of agents
+		if msg.GetAgents() != nil {
+			for _, v := range msg.GetAgents().GetAgents() {
+				b := &agent.Agent{}
 				b.SetId(v.GetId())
 				b.SetListenerId(v.GetLid())
 				b.SetExtIp(v.GetExtIp().GetValue())
 				b.SetIntIp(v.GetIntIp().GetValue())
-				b.SetOs(shared.AntOs(v.GetOs()))
+				b.SetOs(shared.AgentOs(v.GetOs()))
 				b.SetOsMeta(v.GetOsMeta().GetValue())
 				b.SetHostname(v.GetHostname().GetValue())
 				b.SetUsername(v.GetUsername().GetValue())
@@ -125,7 +125,7 @@ func SubscribeAnts(ctx context.Context) error {
 				b.SetIsPrivileged(v.GetPrivileged().GetValue())
 				b.SetProcessName(v.GetProcName().GetValue())
 				b.SetPid(v.GetPid().GetValue())
-				b.SetArch(shared.AntArch(v.GetArch()))
+				b.SetArch(shared.AgentArch(v.GetArch()))
 				b.SetSleep(v.GetSleep())
 				b.SetJitter(uint8(v.GetJitter()))
 				b.SetCaps(v.GetCaps())
@@ -133,20 +133,20 @@ func SubscribeAnts(ctx context.Context) error {
 				b.SetNote(v.GetNote().GetValue())
 				b.SetFirst(v.GetFirst().AsTime().Add(operatorConn.metadata.delta))
 				b.SetLast(v.GetLast().AsTime().Add(operatorConn.metadata.delta))
-				// add ant to storage
-				ant.Ants.Add(b)
+				// add agent to storage
+				agent.Agents.Add(b)
 			}
 			continue
 		}
-		// get ant
-		if msg.GetAnt() != nil {
-			b := &ant.Ant{}
-			v := msg.GetAnt()
+		// get agent
+		if msg.GetAgent() != nil {
+			b := &agent.Agent{}
+			v := msg.GetAgent()
 			b.SetId(v.GetId())
 			b.SetListenerId(v.GetLid())
 			b.SetExtIp(v.GetExtIp().GetValue())
 			b.SetIntIp(v.GetIntIp().GetValue())
-			b.SetOs(shared.AntOs(v.GetOs()))
+			b.SetOs(shared.AgentOs(v.GetOs()))
 			b.SetOsMeta(v.GetOsMeta().GetValue())
 			b.SetHostname(v.GetHostname().GetValue())
 			b.SetUsername(v.GetUsername().GetValue())
@@ -154,7 +154,7 @@ func SubscribeAnts(ctx context.Context) error {
 			b.SetIsPrivileged(v.GetPrivileged().GetValue())
 			b.SetProcessName(v.GetProcName().GetValue())
 			b.SetPid(v.GetPid().GetValue())
-			b.SetArch(shared.AntArch(v.GetArch()))
+			b.SetArch(shared.AgentArch(v.GetArch()))
 			b.SetSleep(v.GetSleep())
 			b.SetJitter(uint8(v.GetJitter()))
 			b.SetCaps(v.GetCaps())
@@ -162,14 +162,14 @@ func SubscribeAnts(ctx context.Context) error {
 			b.SetNote(v.GetNote().GetValue())
 			b.SetFirst(v.GetFirst().AsTime().Add(operatorConn.metadata.delta))
 			b.SetLast(v.GetLast().AsTime().Add(operatorConn.metadata.delta))
-			// add ant to storage
-			ant.Ants.Add(b)
+			// add agent to storage
+			agent.Agents.Add(b)
 			continue
 		}
 		// get note
 		if msg.GetNote() != nil {
 			v := msg.GetNote()
-			if b := ant.Ants.GetById(v.GetId()); b != nil {
+			if b := agent.Agents.GetById(v.GetId()); b != nil {
 				b.SetNote(v.GetNote().GetValue())
 			}
 			continue
@@ -177,7 +177,7 @@ func SubscribeAnts(ctx context.Context) error {
 		// get color
 		if msg.GetColor() != nil {
 			v := msg.GetColor()
-			if b := ant.Ants.GetById(v.GetId()); b != nil {
+			if b := agent.Agents.GetById(v.GetId()); b != nil {
 				b.SetColor(v.GetColor().GetValue())
 			}
 			continue
@@ -185,7 +185,7 @@ func SubscribeAnts(ctx context.Context) error {
 		// get last checkout timestamp
 		if msg.GetLast() != nil {
 			v := msg.GetLast()
-			if b := ant.Ants.GetById(v.GetId()); b != nil {
+			if b := agent.Agents.GetById(v.GetId()); b != nil {
 				b.SetLast(v.GetLast().AsTime().Add(operatorConn.metadata.delta))
 			}
 			continue
@@ -193,7 +193,7 @@ func SubscribeAnts(ctx context.Context) error {
 		// get sleep value
 		if msg.GetSleep() != nil {
 			v := msg.GetSleep()
-			if b := ant.Ants.GetById(v.GetId()); b != nil {
+			if b := agent.Agents.GetById(v.GetId()); b != nil {
 				b.SetSleep(v.GetSleep())
 				b.SetJitter(uint8(v.GetJitter()))
 			}
@@ -310,36 +310,36 @@ func SubscribeTasks(ctx context.Context) error {
 	return nil
 }
 
-// PollAntTasks starts polling of tasks for ant
-func PollAntTasks(ant *ant.Ant) error {
+// PollAgentTasks starts polling of tasks for agent
+func PollAgentTasks(agent *agent.Agent) error {
 	if err := operatorConn.ss.tasksStream.Send(&operatorv1.SubscribeTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
 			Value: operatorConn.metadata.cookie,
 		},
 		Type: &operatorv1.SubscribeTasksRequest_Start{
-			Start: &operatorv1.StartPollAntRequest{
-				Id: ant.GetId(),
+			Start: &operatorv1.StartPollAgentRequest{
+				Id: agent.GetId(),
 			},
 		},
 	}); err != nil {
-		return errors.Wrapf(err, "poll tasks for ant %s", ant.GetIdHex())
+		return errors.Wrapf(err, "poll tasks for agent %s", agent.GetIdHex())
 	}
 	return nil
 }
 
-// UnpollAntTasks stop polling of tasks for ant
-func UnpollAntTasks(ant *ant.Ant) error {
+// UnpollAgentTasks stop polling of tasks for agent
+func UnpollAgentTasks(agent *agent.Agent) error {
 	if err := operatorConn.ss.tasksStream.Send(&operatorv1.SubscribeTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
 			Value: operatorConn.metadata.cookie,
 		},
 		Type: &operatorv1.SubscribeTasksRequest_Stop{
-			Stop: &operatorv1.StopPollAntRequest{
-				Id: ant.GetId(),
+			Stop: &operatorv1.StopPollAgentRequest{
+				Id: agent.GetId(),
 			},
 		},
 	}); err != nil {
-		return errors.Wrapf(err, "unpoll tasks for ant %s", ant.GetIdHex())
+		return errors.Wrapf(err, "unpoll tasks for agent %s", agent.GetIdHex())
 	}
 	return nil
 }
@@ -373,7 +373,7 @@ func NewCommand(id uint32, cmd string, visible bool) error {
 func CloseCommand(id uint32) error {
 	stream, ok := operatorConn.ss.commandStreams.Load(id)
 	if !ok {
-		return fmt.Errorf("unable load stream for ant %d", id)
+		return fmt.Errorf("unable load stream for agent %d", id)
 	}
 	defer func() {
 		// remove command from storage
@@ -391,7 +391,7 @@ func CloseCommand(id uint32) error {
 func NewCommandMessage(id uint32, tm shared.TaskMessage, message string) error {
 	stream, ok := operatorConn.ss.commandStreams.Load(id)
 	if !ok {
-		return fmt.Errorf("unable load stream for ant %d", id)
+		return fmt.Errorf("unable load stream for agent %d", id)
 	}
 	return stream.Send(&operatorv1.NewCommandRequest{
 		Cookie: &operatorv1.SessionCookie{
@@ -410,7 +410,7 @@ func NewCommandMessage(id uint32, tm shared.TaskMessage, message string) error {
 func NewTask(id uint32, v *operatorv1.CreateTaskRequest) error {
 	stream, ok := operatorConn.ss.commandStreams.Load(id)
 	if !ok {
-		return fmt.Errorf("unable load stream for ant %d", id)
+		return fmt.Errorf("unable load stream for agent %d", id)
 	}
 	return stream.Send(&operatorv1.NewCommandRequest{
 		Cookie: &operatorv1.SessionCookie{

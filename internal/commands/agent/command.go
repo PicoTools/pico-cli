@@ -1,11 +1,11 @@
-package ant
+package agent
 
 import (
 	"strconv"
 
 	"github.com/PicoTools/pico-cli/internal/constants"
+	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/storage/task"
-	"github.com/fatih/color"
 	"github.com/reeflective/console"
 	"github.com/rsteube/carapace"
 	"github.com/spf13/cobra"
@@ -14,16 +14,15 @@ import (
 func commandCommand(c *console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "commands",
-		Short:                 "show commands for ant",
+		Short:                 "Show commands for agent",
 		Aliases:               []string{"t"},
 		DisableFlagsInUseLine: true,
 		GroupID:               constants.CoreGroupId,
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) == 0 {
 				for _, v := range task.Commands.Get() {
-					timestamp := v.GetCreatedAt().Format("01/02 15:04:05")
-					c.Printf("[%s] (%d) %s: %s\n",
-						timestamp,
+					notificator.Print("[%s] (%d) %s: %s",
+						v.GetCreatedAt().Format("01/02 15:04:05"),
 						v.GetId(),
 						v.GetAuthor(),
 						v.GetCmd(),
@@ -33,16 +32,16 @@ func commandCommand(c *console.Console) *cobra.Command {
 			}
 			id, err := strconv.ParseInt(args[0], 10, 64)
 			if err != nil {
-				color.Red("invalid task id")
+				notificator.PrintError("invalid task id")
 				return
 			}
 			tg := task.Commands.GetById(id)
 			if tg == nil {
-				color.Red("unknown task id")
+				notificator.PrintError("unknown task id")
 				return
 			}
 			for _, v := range tg.GetData().Get() {
-				printTaskGroupData(c, v)
+				printCommandData(c, v)
 			}
 		},
 	}

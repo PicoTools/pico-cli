@@ -2,13 +2,15 @@ alias(
   "jobkill",
   fn (aid, cmd, args, raw) {
     if args.len() != 1 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
 
-    m_notify(aid, "tasked ant to kill job");
+    c_notify("tasked agent to kill job");
+    m_notify(aid, "tasked agent to kill job");
     return a_jobkill(aid, int(args[0]));
   },
-  "kill job, controlled by ant",
+  "Kill job, controlled by agent",
   "Usage:\n  jobkill [jid]",
   true
 );

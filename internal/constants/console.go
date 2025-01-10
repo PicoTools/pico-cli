@@ -1,11 +1,12 @@
 package constants
 
 const (
-	BaseMenuName = "base"
-	AntMenuName  = "ant"
+	BaseMenuName  = "base"
+	AgentMenuName = "agent"
 )
 
 const (
-	AliasGroupId = "alias"
-	CoreGroupId  = "core"
+	AliasGroupId = "Alias"
+	CoreGroupId  = "Core"
+	BaseGroupId  = "Base"
 )

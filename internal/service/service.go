@@ -74,7 +74,7 @@ func Init(ctx context.Context, host string, token string) error {
 		return SubscribeChat(ctx)
 	})
 	g.Go(func() error {
-		return SubscribeAnts(ctx)
+		return SubscribeAgents(ctx)
 	})
 	g.Go(func() error {
 		return SubscribeTasks(ctx)

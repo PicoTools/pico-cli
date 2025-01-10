@@ -5,7 +5,16 @@ import (
 )
 
 var (
-	ranger = []*unicode.RangeTable{unicode.Latin, unicode.Cyrillic, unicode.ASCII_Hex_Digit, unicode.Punct, unicode.White_Space}
+	ranger = []*unicode.RangeTable{
+		unicode.Latin,
+		unicode.Cyrillic,
+		unicode.Punct,
+		unicode.Digit,
+		unicode.White_Space,
+		unicode.Quotation_Mark,
+		unicode.Hyphen,
+		unicode.Pattern_Syntax,
+	}
 )
 
 // IsStrPrintable checks if string can be printed to console withour artifacts

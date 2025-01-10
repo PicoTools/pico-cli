@@ -2,13 +2,15 @@ alias(
   "mv",
   fn (aid, cmd, args, raw) {
     if args.len() != 2 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
 
-    m_notify(aid, "tasked ant to move file/dir");
+    c_notify("tasked agent to move file/dir");
+    m_notify(aid, "tasked agent to move file/dir");
     return a_mv(aid, args[0], args[1]);
   },
-  "move source file to the specified destination on target",
+  "Move source file to the specified destination on target",
   "Usage:\n  mv [src file path] [dest file path]",
   true
 );

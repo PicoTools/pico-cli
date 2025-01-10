@@ -2,13 +2,15 @@ alias(
   "whoami",
   fn (aid, cmd, args, raw) {
     if args.len() != 0 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
 
-    m_notify(aid, "tasked ant to whoami");
+    c_notify("tasked agent to whoami");
+    m_notify(aid, "tasked agent to whoami");
     return a_whoami(aid);
   },
-  "print current ant's process user",
+  "Print current agent's process user",
   "Usage:\n  whoami",
   true
 );

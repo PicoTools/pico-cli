@@ -2,13 +2,15 @@ alias(
   "cancel",
   fn (aid, cmd, args, raw) {
     if args.len() != 0 {
+      c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
 
-    m_notify(aid, "cancel all tasks in queue for ant");
+    c_notify("cancel all tasks in queue for agent");
+    m_notify(aid, "cancel all tasks in queue for agent");
     return t_cancel(aid);
   },
-  "cancel all (for operator) tasks in queue for ant",
+  "Cancel all (for operator) tasks in queue for agent",
   "Usage:\n  cancel",
   true
 );

@@ -2,15 +2,16 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"os/signal"
 	"slices"
 
 	"github.com/PicoTools/pico-cli/cmd/pico-cli/internal/cmd"
+	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/scripts"
 	"github.com/PicoTools/pico-cli/internal/service"
 	"github.com/PicoTools/pico-cli/internal/zapcfg"
-	"github.com/fatih/color"
 	"github.com/go-faster/sdk/zctx"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
@@ -58,6 +59,9 @@ func main() {
 			if !slices.Contains([]string{
 				"help",
 			}, cmd.Name()) {
+				// set default printf function for notifications
+				notificator.SetOut(fmt.Printf)
+
 				if err = app.Validate(); err != nil {
 					return err
 				}
@@ -79,7 +83,7 @@ func main() {
 	app.RegisterFlags(root.PersistentFlags())
 
 	if err = root.ExecuteContext(ctx); err != nil {
-		color.Red("%s", err.Error())
+		notificator.PrintError("%s", err.Error())
 		exit(2)
 	}
 }
