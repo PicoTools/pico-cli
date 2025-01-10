@@ -19,6 +19,9 @@ import (
 func Run(ctx context.Context) error {
 	app := console.New("pico-cli")
 
+	// apply tweaks on shell
+	applyTweaks(app.Shell())
+
 	// for notifications
 	notificator.SetOut(app)
 
