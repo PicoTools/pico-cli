@@ -4,6 +4,7 @@ import (
 	"embed"
 	"fmt"
 
+	acaps "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_caps"
 	acat "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_cat"
 	acd "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_cd"
 	acp "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_cp"
@@ -110,6 +111,8 @@ func registerApi() {
 	storage.UserFunctions[appid.GetApiName()] = object.NewNativeFunc(appid.GetApiName(), appid.FrontendAgentPpid)
 	// a_exit: stop agent's execution
 	storage.UserFunctions[aexit.GetApiName()] = object.NewNativeFunc(aexit.GetApiName(), aexit.FrontendAgentExit)
+	// a_caps: returns list of supported capabilities by agent
+	storage.UserFunctions[acaps.GetApiName()] = object.NewNativeFunc(acaps.GetApiName(), acaps.FrontendAgentCaps)
 	// t_cancel: cancel all operator's tasks with status NEW
 	storage.UserFunctions[tcancel.GetApiName()] = object.NewNativeFunc(tcancel.GetApiName(), tcancel.FrontendTasksCancel)
 	// is_windows: is agent running on windows
