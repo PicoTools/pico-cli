@@ -22,8 +22,8 @@ func Run(ctx context.Context) error {
 	// apply tweaks on shell
 	applyTweaks(app.Shell())
 
-	// for notifications
-	notificator.SetOut(app)
+	// print function for notifications
+	notificator.SetOut(app.TransientPrintf)
 
 	// base menu
 	base := app.NewMenu(constants.BaseMenuName)
@@ -44,5 +44,6 @@ func Run(ctx context.Context) error {
 
 	// switch on base menu
 	app.SwitchMenu(constants.BaseMenuName)
+
 	return app.StartContext(ctx)
 }
