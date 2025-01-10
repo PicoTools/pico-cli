@@ -29,6 +29,14 @@ func printCommandData(_ *console.Console, v task.TaskData) {
 		}
 		output := data.GetOutputString()
 		if output != "" {
+			// prepend '\n'
+			if output[0] != '\n' {
+				output = "\n" + output
+			}
+			// append '\n'
+			if output[len(output)-1] != '\n' {
+				output = output + "\n"
+			}
 			notificator.Print("%s", output)
 		}
 	}
