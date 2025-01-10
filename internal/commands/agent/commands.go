@@ -31,6 +31,8 @@ func Commands(app *console.Console) console.Commands {
 		cmd.AddCommand(taskCommand(app))
 		// exit
 		cmd.AddCommand(exitCommand(app))
+		// info
+		cmd.AddCommand(infoCommand(app))
 		// aliases
 		for _, v := range aliasCommands(app) {
 			cmd.AddCommand(v)
