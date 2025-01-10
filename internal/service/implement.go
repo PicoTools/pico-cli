@@ -270,6 +270,7 @@ func SubscribeTasks(ctx context.Context) error {
 			t.SetOutput(v.GetOutput().GetValue())
 			t.SetOutputLen(v.GetOutputLen())
 			t.SetStatus(shared.TaskStatus(v.GetStatus()))
+			t.SetCapability(shared.Capability(v.GetCap()))
 			command.AddTask(t)
 			continue
 		}

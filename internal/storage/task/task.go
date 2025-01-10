@@ -134,6 +134,7 @@ type Task struct {
 	outputLen   uint64
 	status      shared.TaskStatus
 	createdAt   time.Time
+	capability  shared.Capability
 }
 
 func (t *Task) StringStatus() string {
@@ -218,6 +219,14 @@ func (t *Task) GetCreatedAt() time.Time {
 
 func (t *Task) SetCreatedAt(createdAt time.Time) {
 	t.createdAt = createdAt
+}
+
+func (t *Task) GetCapability() shared.Capability {
+	return t.capability
+}
+
+func (t *Task) SetCapability(cap shared.Capability) {
+	t.capability = cap
 }
 
 func (m *Message) GetId() int64 {
@@ -357,6 +366,9 @@ func (t *commandsMapper) GetTasks() []*Task {
 			return true
 		})
 		return true
+	})
+	sort.Slice(temp, func(i, j int) bool {
+		return temp[i].GetCreatedAt().Before(temp[j].GetCreatedAt())
 	})
 	return temp
 }

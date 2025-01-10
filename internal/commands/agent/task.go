@@ -59,6 +59,22 @@ func taskDownloadCommand(*console.Console) *cobra.Command {
 	return cmd
 }
 
+func taskListCommand(*console.Console) *cobra.Command {
+	return &cobra.Command{
+		Use:   "list",
+		Short: "list tasks (with capabilities) for agent",
+		Run: func(*cobra.Command, []string) {
+			for _, v := range task.Commands.GetTasks() {
+				notificator.Print("[%s] (%d) %s",
+					v.GetCreatedAt().Format("01/02 15:04:05"),
+					v.GetId(),
+					v.GetCapability().String(),
+				)
+			}
+		},
+	}
+}
+
 func taskCommand(c *console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "tasks",
@@ -69,6 +85,7 @@ func taskCommand(c *console.Console) *cobra.Command {
 	}
 	cmd.AddCommand(
 		taskDownloadCommand(c),
+		taskListCommand(c),
 	)
 	return cmd
 }
