@@ -1,6 +1,7 @@
 package base
 
 import (
+	"github.com/PicoTools/pico-cli/internal/constants"
 	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/scripts"
 	"github.com/reeflective/console"
@@ -11,7 +12,7 @@ import (
 func scriptLoadCommand(*console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "load",
-		Short:                 "load script by path on FS",
+		Short:                 "Load script by path on FS",
 		DisableFlagsInUseLine: true,
 		Args:                  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
@@ -31,7 +32,7 @@ func scriptLoadCommand(*console.Console) *cobra.Command {
 func scriptListCommand(c *console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:                   "list",
-		Short:                 "list registred scripts",
+		Short:                 "List registred scripts",
 		DisableFlagsInUseLine: true,
 		Run: func(cmd *cobra.Command, args []string) {
 			registeredScripts := scripts.GetScripts()
@@ -53,7 +54,7 @@ func scriptListCommand(c *console.Console) *cobra.Command {
 func scriptRemoveCommand(*console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "remove",
-		Short:                 "remove registred scripts",
+		Short:                 "Remove registred scripts",
 		DisableFlagsInUseLine: true,
 		Args:                  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
@@ -71,7 +72,7 @@ func scriptRemoveCommand(*console.Console) *cobra.Command {
 func scriptReloadCommand(*console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "reload",
-		Short:                 "reload script/all scripts",
+		Short:                 "Reload script/all scripts",
 		DisableFlagsInUseLine: true,
 		Args:                  cobra.MaximumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
@@ -98,8 +99,9 @@ func scriptReloadCommand(*console.Console) *cobra.Command {
 func scriptCommand(c *console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "scripts",
-		Short:                 "manage scripts",
+		Short:                 "Manage scripts",
 		DisableFlagsInUseLine: true,
+		GroupID:               constants.BaseGroupId,
 	}
 	cmd.AddCommand(
 		scriptLoadCommand(c),

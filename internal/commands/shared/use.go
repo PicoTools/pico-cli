@@ -18,8 +18,9 @@ import (
 func UseCommand(c *console.Console) *cobra.Command {
 	useCmd := &cobra.Command{
 		Use:                   "use",
-		Short:                 "switch on agent shell",
+		Short:                 "Switch on agent shell",
 		DisableFlagsInUseLine: true,
+		GroupID:               constants.BaseGroupId,
 		Args:                  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			id, err := strconv.ParseUint(args[0], 16, 32)

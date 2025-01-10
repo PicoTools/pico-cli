@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "tasked agent to remove file/directory");
     return a_rm(aid, args[0]);
   },
-  "remove file/dir recursively",
+  "Remove file/dir recursively",
   "Usage:\n  rm [path]",
   true
 );

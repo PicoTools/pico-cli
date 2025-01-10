@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "tasked agent to move file/dir");
     return a_mv(aid, args[0], args[1]);
   },
-  "move source file to the specified destination on target",
+  "Move source file to the specified destination on target",
   "Usage:\n  mv [src file path] [dest file path]",
   true
 );

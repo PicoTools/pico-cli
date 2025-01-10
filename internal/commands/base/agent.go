@@ -3,6 +3,7 @@ package base
 import (
 	"fmt"
 
+	"github.com/PicoTools/pico-cli/internal/constants"
 	"github.com/PicoTools/pico-cli/internal/storage/agent"
 	"github.com/PicoTools/pico-cli/internal/utils"
 	"github.com/fatih/color"
@@ -13,7 +14,7 @@ import (
 func agentListCommand(*console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:                   "list",
-		Short:                 "list agents",
+		Short:                 "List agents",
 		DisableFlagsInUseLine: true,
 		Run: func(cmd *cobra.Command, args []string) {
 			agents := agent.Agents.Get()
@@ -45,8 +46,9 @@ func agentListCommand(*console.Console) *cobra.Command {
 func agentCommand(c *console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "agents",
-		Short:                 "manage agents",
+		Short:                 "Manage agents",
 		DisableFlagsInUseLine: true,
+		GroupID:               constants.BaseGroupId,
 	}
 	cmd.AddCommand(
 		agentListCommand(c),

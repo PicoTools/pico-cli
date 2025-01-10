@@ -29,7 +29,7 @@ alias(
       return m_error(aid, "invalid number of arguments");
     }
   },
-  "change sleep/jitter values for agent",
+  "Change sleep/jitter values for agent",
   "Usage:\n  sleep <sleep in sec> [jitter 1-99]",
   true
 );

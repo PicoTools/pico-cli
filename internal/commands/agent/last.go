@@ -12,7 +12,7 @@ func lastCommand(c *console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:                   "last",
 		Aliases:               []string{"l"},
-		Short:                 "get output of last task",
+		Short:                 "Get output of last task",
 		DisableFlagsInUseLine: true,
 		GroupID:               constants.CoreGroupId,
 		Run: func(cmd *cobra.Command, args []string) {

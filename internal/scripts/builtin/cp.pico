@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "tasked agent to copy file/dir");
     return a_cp(aid, args[0], args[1]);
   },
-  "copy source file to the specified destination on target",
+  "Copy source file to the specified destination on target",
   "Usage:\n  cp [src file] [dest file]",
   true
 );

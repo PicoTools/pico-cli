@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "tasked agent to print process working directory");
     return a_pwd(aid);
   },
-  "print agent's process working directory",
+  "Print agent's process working directory",
   "Usage:\n  pwd",
   true
 );

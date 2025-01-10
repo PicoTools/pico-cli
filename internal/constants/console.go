@@ -6,6 +6,7 @@ const (
 )
 
 const (
-	AliasGroupId = "alias"
-	CoreGroupId  = "core"
+	AliasGroupId = "Alias"
+	CoreGroupId  = "Core"
+	BaseGroupId  = "Base"
 )

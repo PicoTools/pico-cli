@@ -23,7 +23,7 @@ alias(
       return a_exec(aid, args[0], r);
     }
   },
-  "execute binary with arguments",
+  "Execute binary with arguments",
   "Usage:\n  exec [binary path] [args]",
   true
 );

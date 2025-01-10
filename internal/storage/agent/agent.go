@@ -48,7 +48,7 @@ type agents struct {
 }
 
 type agentsMapper struct {
-	agents   cmap.Map[uint32, *Agent]
+	agents cmap.Map[uint32, *Agent]
 	sorted *agents
 }
 

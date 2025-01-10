@@ -23,7 +23,7 @@ alias(
       return m_error(aid, "invalid number of arguments");
     }
   },
-  "spoof parent PID of agent's process",
+  "Spoof parent PID of agent's process",
   "Usage:\n  ppid [pid] - spoof PPID\n\tppid - reset PPID",
   true
 );

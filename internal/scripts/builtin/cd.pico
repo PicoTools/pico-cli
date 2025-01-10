@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "tasked agent to change working directory");
     return a_cd(aid, args[0]);
   },
-  "change working directory of agent process",
+  "Change working directory of agent process",
   "Usage:\n  cd [path]",
   true
 );

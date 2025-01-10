@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "tasked agent to kill itself");
     return a_exit(aid);
   },
-  "stop agent's process execution (without artifact removing from target system)",
+  "Stop agent's process execution (without artifact removing from target system)",
   "Usage:\n  kill-agent",
   true
 );

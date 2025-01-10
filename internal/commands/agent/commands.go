@@ -17,6 +17,7 @@ func Commands(app *console.Console) console.Commands {
 
 		cmd.AddGroup(
 			&cobra.Group{ID: constants.AliasGroupId, Title: constants.AliasGroupId},
+			&cobra.Group{ID: constants.BaseGroupId, Title: constants.BaseGroupId},
 			&cobra.Group{ID: constants.CoreGroupId, Title: constants.CoreGroupId},
 		)
 

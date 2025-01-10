@@ -14,7 +14,7 @@ import (
 func commandCommand(c *console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "commands",
-		Short:                 "show commands for agent",
+		Short:                 "Show commands for agent",
 		Aliases:               []string{"t"},
 		DisableFlagsInUseLine: true,
 		GroupID:               constants.CoreGroupId,

@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "tasked agent to list jobs");
     return a_jobs(aid);
   },
-  "list jobs, controlled by agent",
+  "List jobs, controlled by agent",
   "Usage:\n  jobs",
   true
 );

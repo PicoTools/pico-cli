@@ -14,7 +14,7 @@ alias(
         return m_error(aid, "invalid number of arguments");
       }
     },
-    "list files in directory",
+    "List files in directory",
     "Usage:\n  ls [dir/file]",
     true
 );

@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "tasked agent to list processes");
     return a_ps(aid);
   },
-  "list running processes on target machine",
+  "List running processes on target machine",
   "Usage:\n  ps",
   true
 );

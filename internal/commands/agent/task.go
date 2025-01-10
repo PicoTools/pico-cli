@@ -18,7 +18,7 @@ import (
 func taskDownloadCommand(*console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "download <task_id> <path>",
-		Short:                 "download output of task to file",
+		Short:                 "Download output of task to file",
 		DisableFlagsInUseLine: true,
 		Args:                  cobra.MinimumNArgs(2),
 		Run: func(cmd *cobra.Command, args []string) {

@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "cancel all tasks in queue for agent");
     return t_cancel(aid);
   },
-  "cancel all (for operator) tasks in queue for agent",
+  "Cancel all (for operator) tasks in queue for agent",
   "Usage:\n  cancel",
   true
 );

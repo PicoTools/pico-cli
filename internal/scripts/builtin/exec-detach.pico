@@ -23,7 +23,7 @@ alias(
       return a_exec_detach(aid, args[0], r);
     }
   },
-  "executed detached process, specified by binary with arguments",
+  "Execute detached process, specified by binary with arguments",
   "Usage:\n  exec-detach [path] [args]",
   true
 );

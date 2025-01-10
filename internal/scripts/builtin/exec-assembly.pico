@@ -23,7 +23,7 @@ alias(
       return a_exec_assembly(aid, args[0], r);
     }
   },
-  "execute .NET binary with arguments in agent's process memory",
+  "Execute .NET binary with arguments in agent's process memory",
   "Usage:\n  execute-assembly [host file path] <args>",
   true
 );

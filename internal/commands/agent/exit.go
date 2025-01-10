@@ -13,7 +13,7 @@ import (
 func exitCommand(c *console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:                   "exit",
-		Short:                 "switch back on base console",
+		Short:                 "Switch back on base console",
 		DisableFlagsInUseLine: true,
 		GroupID:               constants.CoreGroupId,
 		Run: func(cmd *cobra.Command, args []string) {

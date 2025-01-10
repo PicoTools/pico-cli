@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "tasked agent to execute shell command");
     return a_shell(aid, raw);
   },
-  "execute command with arguments from target OS shell process, e.g. cmd.exe/sh",
+  "Execute command with arguments from target OS shell process, e.g. cmd.exe/sh",
   "Usage:\n  shell [command] [args]",
   true
 );

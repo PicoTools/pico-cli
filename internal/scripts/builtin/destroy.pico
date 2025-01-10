@@ -8,7 +8,7 @@ alias(
     m_notify(aid, "tasked agent to destroy itself");
     return a_destroy(aid);
   },
-  "destroy agent itself (remove binary and kill process)",
+  "Destroy agent itself (remove binary and kill process)",
   "Usage:\n  destroy",
   true
 );

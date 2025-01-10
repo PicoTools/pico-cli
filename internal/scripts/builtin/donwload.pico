@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "tasked agent to download file");
     return a_download(aid, args[0]);
   },
-  "download file from the target",
+  "Download file from the target",
   "Usage:\n  download [path]",
   true
 );

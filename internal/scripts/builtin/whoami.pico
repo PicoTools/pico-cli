@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "tasked agent to whoami");
     return a_whoami(aid);
   },
-  "print current agent's process user",
+  "Print current agent's process user",
   "Usage:\n  whoami",
   true
 );

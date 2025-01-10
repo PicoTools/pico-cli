@@ -14,7 +14,7 @@ alias(
     m_notify(aid, "tasked agent to pause communication");
     return a_pause(aid, value);
   },
-  "one-time sleep interval for agent",
+  "One-time sleep interval for agent",
   "Usage:\n  pause [time in sec]",
   true
 );

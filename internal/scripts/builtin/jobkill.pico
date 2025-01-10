@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "tasked agent to kill job");
     return a_jobkill(aid, int(args[0]));
   },
-  "kill job, controlled by agent",
+  "Kill job, controlled by agent",
   "Usage:\n  jobkill [jid]",
   true
 );

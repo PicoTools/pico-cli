@@ -10,7 +10,7 @@ alias(
     m_notify(aid, "tasked agent to create directory");
     return a_mkdir(aid, args[0]);
   },
-  "create directory on target",
+  "Create directory on target FS",
   "Usage:\n  mkdir [path]",
   true
 );

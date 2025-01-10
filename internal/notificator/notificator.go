@@ -29,6 +29,11 @@ func PrintInfo(format string, args ...any) {
 	out.TransientPrintf("[%s] %s\n", color.GreenString("+"), fmt.Sprintf(format, args...))
 }
 
+// PrintfInfo prints message with INFO level without new line
+func PrintfInfo(format string, args ...any) {
+	out.TransientPrintf("[%s] %s", color.GreenString("+"), fmt.Sprintf(format, args...))
+}
+
 // PrintWarning prints message with WARNING level
 func PrintWarning(format string, args ...any) {
 	out.TransientPrintf("[%s] %s\n", color.YellowString("!"), fmt.Sprintf(format, args...))

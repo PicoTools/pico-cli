@@ -82,7 +82,7 @@ func SubscribeChat(ctx context.Context) error {
 				// do not print message from operator itself
 				continue
 			}
-			notificator.PrintfNotify("(%s): %s", v.GetFrom(), v.GetMessage())
+			notificator.PrintfInfo("(%s): %s", v.GetFrom().GetValue(), v.GetMessage())
 			continue
 		}
 	}
