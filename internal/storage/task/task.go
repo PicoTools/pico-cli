@@ -3,6 +3,7 @@ package task
 import (
 	"fmt"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/PicoTools/pico-cli/internal/utils"
@@ -110,18 +111,22 @@ type Message struct {
 }
 
 func (m *Message) String() string {
-	var data string
+	var s strings.Builder
+	s.WriteRune('[')
 	switch m.kind {
 	case shared.NotifyMessage:
-		data = fmt.Sprintf("[%s] %s", color.CyanString("*"), m.message)
+		s.WriteString(color.CyanString("*"))
 	case shared.InfoMessage:
-		data = fmt.Sprintf("[%s] %s", color.GreenString("+"), m.message)
+		s.WriteString(color.GreenString("+"))
 	case shared.WarningMessage:
-		data = fmt.Sprintf("[%s] %s", color.YellowString("!"), m.message)
+		s.WriteString(color.YellowString("!"))
 	case shared.ErrorMessage:
-		data = fmt.Sprintf("[%s] %s", color.RedString("-"), m.message)
+		s.WriteString(color.RedString("-"))
 	}
-	return data
+	s.WriteRune(']')
+	s.WriteRune(' ')
+	s.WriteString(m.message)
+	return s.String()
 }
 
 // Task implements TaskData interface and stores infromation about command's task
@@ -138,18 +143,23 @@ type Task struct {
 }
 
 func (t *Task) StringStatus() string {
-	var data string
+	var s strings.Builder
+	s.WriteRune('[')
 	switch t.status {
+	case shared.StatusNew:
+		s.WriteString(color.HiWhiteString("NEW"))
 	case shared.StatusInProgress:
-		data = fmt.Sprintf("[%s] (%d) received output with length %d bytes", color.HiCyanString("IN PROGRESS"), t.id, t.outputLen)
+		s.WriteString(color.HiCyanString("IN PROGRESS"))
 	case shared.StatusCancelled:
-		data = fmt.Sprintf("[%s] (%d) received output with length %d bytes", color.HiYellowString("CANCEL"), t.id, t.outputLen)
+		s.WriteString(color.HiYellowString("CANCELLED"))
 	case shared.StatusError:
-		data = fmt.Sprintf("[%s] (%d) received output with length %d bytes", color.HiRedString("ERROR"), t.id, t.outputLen)
+		s.WriteString(color.HiRedString("ERROR"))
 	case shared.StatusSuccess:
-		data = fmt.Sprintf("[%s] (%d) received output with length %d bytes", color.HiGreenString("DONE"), t.id, t.outputLen)
+		s.WriteString(color.HiGreenString("DONE"))
 	}
-	return data
+	s.WriteRune(']')
+	s.WriteString(fmt.Sprintf(" (%d) received output with length %d bytes", t.id, t.outputLen))
+	return s.String()
 }
 
 func (t *Task) GetId() int64 {
