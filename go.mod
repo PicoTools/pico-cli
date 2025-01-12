@@ -3,7 +3,7 @@ module github.com/PicoTools/pico-cli
 go 1.23.4
 
 require (
-	github.com/PicoTools/pico-shared v0.0.0-20250110202747-45f2b17ca2ac
+	github.com/PicoTools/pico-shared v0.0.0-20250112140806-f35177da4cab
 	github.com/PicoTools/plan v0.0.0-20250108175246-592915f30fcd
 	github.com/antlr4-go/antlr/v4 v4.13.1
 	github.com/docker/go-units v0.5.0
@@ -27,7 +27,7 @@ require (
 require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
-	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rsteube/carapace-shlex v0.1.2 // indirect

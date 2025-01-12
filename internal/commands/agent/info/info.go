@@ -1,4 +1,4 @@
-package agent
+package info
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func infoCommand(*console.Console) *cobra.Command {
+func Cmd(*console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:                   "info",
 		Short:                 "Get full information about agent",

@@ -19,8 +19,8 @@ func GetApiName() string {
 }
 
 func FrontendAgentPpid(args ...object.Object) (object.Object, error) {
-	if len(args) != 2 {
-		return nil, fmt.Errorf("expecting 2 arguments, got %d", len(args))
+	if len(args) < 1 || len(args) > 2 {
+		return nil, fmt.Errorf("expecting 1 or 2 arguments, got %d", len(args))
 	}
 	id, ok := args[0].(*object.Int)
 	if !ok {

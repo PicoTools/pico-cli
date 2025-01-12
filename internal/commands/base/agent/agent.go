@@ -1,4 +1,4 @@
-package base
+package agent
 
 import (
 	"github.com/PicoTools/pico-cli/internal/constants"
@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func agentListCommand(*console.Console) *cobra.Command {
+func listCmd(*console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:                   "list",
 		Short:                 "List agents",
@@ -42,7 +42,7 @@ func agentListCommand(*console.Console) *cobra.Command {
 	}
 }
 
-func agentCommand(c *console.Console) *cobra.Command {
+func Cmd(c *console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "agents",
 		Short:                 "Manage agents",
@@ -50,7 +50,7 @@ func agentCommand(c *console.Console) *cobra.Command {
 		GroupID:               constants.BaseGroupId,
 	}
 	cmd.AddCommand(
-		agentListCommand(c),
+		listCmd(c),
 	)
 	return cmd
 }

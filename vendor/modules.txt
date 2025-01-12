@@ -1,4 +1,4 @@
-# github.com/PicoTools/pico-shared v0.0.0-20250110202747-45f2b17ca2ac
+# github.com/PicoTools/pico-shared v0.0.0-20250112140806-f35177da4cab
 ## explicit; go 1.23.4
 github.com/PicoTools/pico-shared/proto/gen/common/v1
 github.com/PicoTools/pico-shared/proto/gen/operator/v1
@@ -44,8 +44,8 @@ github.com/kballard/go-shellquote
 # github.com/lrita/cmap v0.0.0-20231108122212-cb084a67f554
 ## explicit; go 1.18
 github.com/lrita/cmap
-# github.com/mattn/go-colorable v0.1.13
-## explicit; go 1.15
+# github.com/mattn/go-colorable v0.1.14
+## explicit; go 1.18
 github.com/mattn/go-colorable
 # github.com/mattn/go-isatty v0.0.20
 ## explicit; go 1.15
@@ -274,7 +274,6 @@ google.golang.org/protobuf/runtime/protoiface
 google.golang.org/protobuf/runtime/protoimpl
 google.golang.org/protobuf/types/known/anypb
 google.golang.org/protobuf/types/known/durationpb
-google.golang.org/protobuf/types/known/emptypb
 google.golang.org/protobuf/types/known/timestamppb
 google.golang.org/protobuf/types/known/wrapperspb
 # gopkg.in/yaml.v3 v3.0.1

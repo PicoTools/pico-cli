@@ -1,4 +1,4 @@
-package agent
+package utils
 
 import (
 	"github.com/PicoTools/pico-cli/internal/notificator"
@@ -6,8 +6,8 @@ import (
 	"github.com/reeflective/console"
 )
 
-// printCommandData prints command's data
-func printCommandData(_ *console.Console, v task.TaskData) {
+// PrintCommandData prints command's data
+func PrintCommandData(_ *console.Console, v task.TaskData) {
 	switch data := v.(type) {
 	case *task.Message:
 		notificator.Print("%s", data.String())

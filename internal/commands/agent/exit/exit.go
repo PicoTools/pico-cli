@@ -1,4 +1,4 @@
-package agent
+package exit
 
 import (
 	"github.com/PicoTools/pico-cli/internal/constants"
@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func exitCommand(c *console.Console) *cobra.Command {
+func Cmd(c *console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:                   "exit",
 		Short:                 "Switch back on base console",

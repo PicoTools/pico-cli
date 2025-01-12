@@ -1,25 +1,20 @@
-package base
+package whoami
 
 import (
-	"os"
-
 	"github.com/PicoTools/pico-cli/internal/constants"
+	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/service"
-	"github.com/PicoTools/pico-cli/internal/utils"
 	"github.com/reeflective/console"
 	"github.com/spf13/cobra"
 )
 
-func exitCommand(c *console.Console) *cobra.Command {
+func Cmd(*console.Console) *cobra.Command {
 	return &cobra.Command{
-		Use:     "exit",
-		Short:   "Exit operator cli",
+		Use:     "whoami",
+		Short:   "Get username of operator",
 		GroupID: constants.BaseGroupId,
 		Run: func(*cobra.Command, []string) {
-			if utils.ExitConsolePrompt(c) {
-				service.Close()
-				os.Exit(0)
-			}
+			notificator.Print("%s", service.GetUsername())
 		},
 	}
 }

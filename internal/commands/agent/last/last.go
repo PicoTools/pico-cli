@@ -1,6 +1,7 @@
-package agent
+package last
 
 import (
+	"github.com/PicoTools/pico-cli/internal/commands/agent/utils"
 	"github.com/PicoTools/pico-cli/internal/constants"
 	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/storage/task"
@@ -8,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func lastCommand(c *console.Console) *cobra.Command {
+func Cmd(c *console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:                   "last",
 		Aliases:               []string{"l"},
@@ -18,11 +19,11 @@ func lastCommand(c *console.Console) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			tg := task.Commands.GetLast()
 			if tg == nil {
-				notificator.PrintInfo("no tasks")
+				notificator.PrintInfo("no commands exist yet")
 				return
 			}
 			for _, v := range tg.GetData().Get() {
-				printCommandData(c, v)
+				utils.PrintCommandData(c, v)
 			}
 		},
 	}
