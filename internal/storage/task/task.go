@@ -141,13 +141,13 @@ func (t *Task) StringStatus() string {
 	var data string
 	switch t.status {
 	case shared.StatusInProgress:
-		data = fmt.Sprintf("[%s] (%d) received output with length %d bytes", color.CyanString("*"), t.id, t.outputLen)
+		data = fmt.Sprintf("[%s] (%d) received output with length %d bytes", color.HiCyanString("IN PROGRESS"), t.id, t.outputLen)
 	case shared.StatusCancelled:
-		data = fmt.Sprintf("[%s] (%d) received output with length %d bytes", color.YellowString("!"), t.id, t.outputLen)
+		data = fmt.Sprintf("[%s] (%d) received output with length %d bytes", color.HiYellowString("CANCEL"), t.id, t.outputLen)
 	case shared.StatusError:
-		data = fmt.Sprintf("[%s] (%d) received output with length %d bytes", color.RedString("!"), t.id, t.outputLen)
+		data = fmt.Sprintf("[%s] (%d) received output with length %d bytes", color.HiRedString("ERROR"), t.id, t.outputLen)
 	case shared.StatusSuccess:
-		data = fmt.Sprintf("[%s] (%d) received output with length %d bytes", color.GreenString("+"), t.id, t.outputLen)
+		data = fmt.Sprintf("[%s] (%d) received output with length %d bytes", color.HiGreenString("DONE"), t.id, t.outputLen)
 	}
 	return data
 }
