@@ -44,7 +44,9 @@ func Cmd(c *console.Console) *cobra.Command {
 				return
 			}
 			agent.ActiveAgent = a
-			c.Menu(constants.AgentMenuName).Prompt().Primary = func() string { return fmt.Sprintf("[%s] > ", color.MagentaString(args[0])) }
+			c.Menu(constants.AgentMenuName).Prompt().Primary = func() string {
+				return fmt.Sprintf("%s > ", color.New(color.FgHiMagenta).Add(color.Underline).Sprint(args[0]))
+			}
 			c.SwitchMenu(constants.AgentMenuName)
 		},
 	}
