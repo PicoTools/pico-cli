@@ -22,8 +22,9 @@ func Run(ctx context.Context) error {
 	// apply tweaks on shell
 	applyTweaks(app.Shell())
 
-	// print function for notifications
-	notificator.SetOut(app.TransientPrintf)
+	// print functions for notifications
+	notificator.SetPreOut(app.TransientPrintf)
+	notificator.SetPostOut(app.Printf)
 
 	// base menu
 	base := app.NewMenu(constants.BaseMenuName)

@@ -25,23 +25,23 @@ func HelloInit(ctx context.Context) (grpc.ServerStreamingClient[operatorv1.Hello
 
 // HelloHandshake processes hadnshake from hello topic
 func HelloHandshake(ctx context.Context) error {
-	msg, err := operatorConn.ss.controlStream.Recv()
+	msg, err := conn.ss.controlStream.Recv()
 	if err != nil {
 		return err
 	}
 	if msg.GetHandshake() == nil {
 		return fmt.Errorf("unexpected hello response (no handshake data)")
 	}
-	operatorConn.metadata.username = msg.GetHandshake().GetUsername()
-	operatorConn.metadata.cookie = msg.GetHandshake().GetCookie().GetValue()
-	operatorConn.metadata.delta = time.Now().Sub(msg.GetHandshake().GetTime().AsTime())
+	conn.metadata.username = msg.GetHandshake().GetUsername()
+	conn.metadata.cookie = msg.GetHandshake().GetCookie().GetValue()
+	conn.metadata.delta = time.Now().Sub(msg.GetHandshake().GetTime().AsTime())
 	return nil
 }
 
 // HelloMonitor maintained control session
 func HelloMonitor(ctx context.Context) error {
 	for {
-		if _, err := operatorConn.ss.controlStream.Recv(); err != nil {
+		if _, err := conn.ss.controlStream.Recv(); err != nil {
 			if errors.Is(err, io.EOF) {
 				break
 			}
@@ -55,7 +55,7 @@ func HelloMonitor(ctx context.Context) error {
 func SubscribeChat(ctx context.Context) error {
 	stream, err := getSvc().SubscribeChat(ctx, &operatorv1.SubscribeChatRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: operatorConn.metadata.cookie,
+			Value: conn.metadata.cookie,
 		},
 	})
 	if err != nil {
@@ -78,7 +78,7 @@ func SubscribeChat(ctx context.Context) error {
 				notificator.PrintfNotify("%s", v.GetMessage())
 				continue
 			}
-			if v.GetFrom().GetValue() == operatorConn.metadata.username {
+			if v.GetFrom().GetValue() == conn.metadata.username {
 				// do not print message from operator itself
 				continue
 			}
@@ -93,7 +93,7 @@ func SubscribeChat(ctx context.Context) error {
 func SubscribeAgents(ctx context.Context) error {
 	stream, err := getSvc().SubscribeAgents(ctx, &operatorv1.SubscribeAgentsRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: operatorConn.metadata.cookie,
+			Value: conn.metadata.cookie,
 		},
 	})
 	if err != nil {
@@ -131,8 +131,8 @@ func SubscribeAgents(ctx context.Context) error {
 				b.SetCaps(v.GetCaps())
 				b.SetColor(v.GetColor().GetValue())
 				b.SetNote(v.GetNote().GetValue())
-				b.SetFirst(v.GetFirst().AsTime().Add(operatorConn.metadata.delta))
-				b.SetLast(v.GetLast().AsTime().Add(operatorConn.metadata.delta))
+				b.SetFirst(v.GetFirst().AsTime().Add(conn.metadata.delta))
+				b.SetLast(v.GetLast().AsTime().Add(conn.metadata.delta))
 				// add agent to storage
 				agent.Agents.Add(b)
 			}
@@ -160,8 +160,8 @@ func SubscribeAgents(ctx context.Context) error {
 			b.SetCaps(v.GetCaps())
 			b.SetColor(v.GetColor().GetValue())
 			b.SetNote(v.GetNote().GetValue())
-			b.SetFirst(v.GetFirst().AsTime().Add(operatorConn.metadata.delta))
-			b.SetLast(v.GetLast().AsTime().Add(operatorConn.metadata.delta))
+			b.SetFirst(v.GetFirst().AsTime().Add(conn.metadata.delta))
+			b.SetLast(v.GetLast().AsTime().Add(conn.metadata.delta))
 			// add agent to storage
 			agent.Agents.Add(b)
 			continue
@@ -186,7 +186,7 @@ func SubscribeAgents(ctx context.Context) error {
 		if msg.GetLast() != nil {
 			v := msg.GetLast()
 			if b := agent.Agents.GetById(v.GetId()); b != nil {
-				b.SetLast(v.GetLast().AsTime().Add(operatorConn.metadata.delta))
+				b.SetLast(v.GetLast().AsTime().Add(conn.metadata.delta))
 			}
 			continue
 		}
@@ -212,7 +212,7 @@ func SubscribeTasks(ctx context.Context) error {
 	// operator's authorization message
 	if err = stream.Send(&operatorv1.SubscribeTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: operatorConn.metadata.cookie,
+			Value: conn.metadata.cookie,
 		},
 		Type: &operatorv1.SubscribeTasksRequest_Hello{
 			Hello: &operatorv1.SubscribeTasksHelloRequest{},
@@ -221,7 +221,7 @@ func SubscribeTasks(ctx context.Context) error {
 		return errors.Wrap(err, "send hello message to tasks topic")
 	}
 	// save stream
-	operatorConn.ss.tasksStream = stream
+	conn.ss.tasksStream = stream
 	for {
 		msg, err := stream.Recv()
 		if err != nil {
@@ -236,7 +236,7 @@ func SubscribeTasks(ctx context.Context) error {
 			v := msg.GetCommand()
 			command.SetId(v.GetId())
 			command.SetCmd(v.GetCmd())
-			command.SetCreatedAt(v.GetCreated().AsTime().Add(operatorConn.metadata.delta))
+			command.SetCreatedAt(v.GetCreated().AsTime().Add(conn.metadata.delta))
 			command.SetAuthor(v.GetAuthor())
 			// add command to storage
 			task.Commands.Add(command)
@@ -253,7 +253,7 @@ func SubscribeTasks(ctx context.Context) error {
 			m.SetId(v.GetMid())
 			m.SetKind(shared.TaskMessage(v.Type))
 			m.SetMessage(v.GetMessage())
-			m.SetCreatedAt(v.Created.AsTime().Add(operatorConn.metadata.delta))
+			m.SetCreatedAt(v.Created.AsTime().Add(conn.metadata.delta))
 			command.AddMessage(m)
 			continue
 		}
@@ -266,7 +266,7 @@ func SubscribeTasks(ctx context.Context) error {
 			}
 			t.SetId(v.GetTid())
 			t.SetIsOutputBig(v.GetOutputBig())
-			t.SetCreatedAt(v.GetCreated().AsTime().Add(operatorConn.metadata.delta))
+			t.SetCreatedAt(v.GetCreated().AsTime().Add(conn.metadata.delta))
 			t.SetOutput(v.GetOutput().GetValue())
 			t.SetOutputLen(v.GetOutputLen())
 			t.SetStatus(shared.TaskStatus(v.GetStatus()))
@@ -313,9 +313,9 @@ func SubscribeTasks(ctx context.Context) error {
 
 // PollAgentTasks starts polling of tasks for agent
 func PollAgentTasks(agent *agent.Agent) error {
-	if err := operatorConn.ss.tasksStream.Send(&operatorv1.SubscribeTasksRequest{
+	if err := conn.ss.tasksStream.Send(&operatorv1.SubscribeTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: operatorConn.metadata.cookie,
+			Value: conn.metadata.cookie,
 		},
 		Type: &operatorv1.SubscribeTasksRequest_Start{
 			Start: &operatorv1.StartPollAgentRequest{
@@ -330,9 +330,9 @@ func PollAgentTasks(agent *agent.Agent) error {
 
 // UnpollAgentTasks stop polling of tasks for agent
 func UnpollAgentTasks(agent *agent.Agent) error {
-	if err := operatorConn.ss.tasksStream.Send(&operatorv1.SubscribeTasksRequest{
+	if err := conn.ss.tasksStream.Send(&operatorv1.SubscribeTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: operatorConn.metadata.cookie,
+			Value: conn.metadata.cookie,
 		},
 		Type: &operatorv1.SubscribeTasksRequest_Stop{
 			Stop: &operatorv1.StopPollAgentRequest{
@@ -353,7 +353,7 @@ func NewCommand(id uint32, cmd string, visible bool) error {
 	}
 	if err = stream.Send(&operatorv1.NewCommandRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: operatorConn.metadata.cookie,
+			Value: conn.metadata.cookie,
 		},
 		Type: &operatorv1.NewCommandRequest_Command{
 			Command: &operatorv1.CreateCommandRequest{
@@ -366,19 +366,19 @@ func NewCommand(id uint32, cmd string, visible bool) error {
 		return errors.Wrap(err, "open command")
 	}
 	// save stream
-	operatorConn.ss.commandStreams.Store(id, stream)
+	conn.ss.commandStreams.Store(id, stream)
 	return nil
 }
 
 // CloseCommand closes opened command
 func CloseCommand(id uint32) error {
-	stream, ok := operatorConn.ss.commandStreams.Load(id)
+	stream, ok := conn.ss.commandStreams.Load(id)
 	if !ok {
 		return fmt.Errorf("unable load stream for agent %d", id)
 	}
 	defer func() {
 		// remove command from storage
-		operatorConn.ss.commandStreams.Delete(id)
+		conn.ss.commandStreams.Delete(id)
 	}()
 	if _, err := stream.CloseAndRecv(); err != nil {
 		if !errors.Is(err, io.EOF) {
@@ -390,13 +390,13 @@ func CloseCommand(id uint32) error {
 
 // NewCommandMessage saves message for command
 func NewCommandMessage(id uint32, tm shared.TaskMessage, message string) error {
-	stream, ok := operatorConn.ss.commandStreams.Load(id)
+	stream, ok := conn.ss.commandStreams.Load(id)
 	if !ok {
 		return fmt.Errorf("unable load stream for agent %d", id)
 	}
 	return stream.Send(&operatorv1.NewCommandRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: operatorConn.metadata.cookie,
+			Value: conn.metadata.cookie,
 		},
 		Type: &operatorv1.NewCommandRequest_Message{
 			Message: &operatorv1.CreateMessageRequest{
@@ -409,13 +409,13 @@ func NewCommandMessage(id uint32, tm shared.TaskMessage, message string) error {
 
 // NewTask creates new task in command
 func NewTask(id uint32, v *operatorv1.CreateTaskRequest) error {
-	stream, ok := operatorConn.ss.commandStreams.Load(id)
+	stream, ok := conn.ss.commandStreams.Load(id)
 	if !ok {
 		return fmt.Errorf("unable load stream for agent %d", id)
 	}
 	return stream.Send(&operatorv1.NewCommandRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: operatorConn.metadata.cookie,
+			Value: conn.metadata.cookie,
 		},
 		Type: &operatorv1.NewCommandRequest_Task{
 			Task: v,
@@ -429,7 +429,7 @@ func CancelTasks(id uint32) error {
 	defer cancel()
 	_, err := getSvc().CancelTasks(ctx, &operatorv1.CancelTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: operatorConn.metadata.cookie,
+			Value: conn.metadata.cookie,
 		},
 		Id: id,
 	})
@@ -442,7 +442,7 @@ func GetTaskOutput(id int64) ([]byte, error) {
 	defer cancel()
 	rep, err := getSvc().GetTaskOutput(ctx, &operatorv1.GetTaskOutputRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: operatorConn.metadata.cookie,
+			Value: conn.metadata.cookie,
 		},
 		Id: id,
 	})
@@ -458,7 +458,7 @@ func SendChatMessage(message string) error {
 	defer cancel()
 	_, err := getSvc().NewChatMessage(ctx, &operatorv1.NewChatMessageRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: operatorConn.metadata.cookie,
+			Value: conn.metadata.cookie,
 		},
 		Message: message,
 	})

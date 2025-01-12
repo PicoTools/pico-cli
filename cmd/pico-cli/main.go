@@ -60,7 +60,8 @@ func main() {
 				"help",
 			}, cmd.Name()) {
 				// set default printf function for notifications
-				notificator.SetOut(fmt.Printf)
+				notificator.SetPreOut(fmt.Printf)
+				notificator.SetPostOut(fmt.Printf)
 
 				if err = app.Validate(); err != nil {
 					return err
