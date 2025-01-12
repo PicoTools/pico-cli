@@ -44,8 +44,8 @@ github.com/kballard/go-shellquote
 # github.com/lrita/cmap v0.0.0-20231108122212-cb084a67f554
 ## explicit; go 1.18
 github.com/lrita/cmap
-# github.com/mattn/go-colorable v0.1.13
-## explicit; go 1.15
+# github.com/mattn/go-colorable v0.1.14
+## explicit; go 1.18
 github.com/mattn/go-colorable
 # github.com/mattn/go-isatty v0.0.20
 ## explicit; go 1.15
