@@ -1,13 +1,19 @@
 package agent
 
 import (
-	"github.com/PicoTools/pico-cli/internal/commands/shared"
+	"github.com/PicoTools/pico-cli/internal/commands/agent/alias"
+	"github.com/PicoTools/pico-cli/internal/commands/agent/command"
+	"github.com/PicoTools/pico-cli/internal/commands/agent/exit"
+	"github.com/PicoTools/pico-cli/internal/commands/agent/info"
+	"github.com/PicoTools/pico-cli/internal/commands/agent/last"
+	"github.com/PicoTools/pico-cli/internal/commands/agent/task"
+	"github.com/PicoTools/pico-cli/internal/commands/shared/use"
 	"github.com/PicoTools/pico-cli/internal/constants"
 	"github.com/reeflective/console"
 	"github.com/spf13/cobra"
 )
 
-func Commands(app *console.Console) console.Commands {
+func Cmds(app *console.Console) console.Commands {
 	return func() *cobra.Command {
 		cmd := &cobra.Command{
 			DisableFlagsInUseLine: true,
@@ -21,20 +27,20 @@ func Commands(app *console.Console) console.Commands {
 			&cobra.Group{ID: constants.CoreGroupId, Title: constants.CoreGroupId},
 		)
 
-		// command
-		cmd.AddCommand(commandCommand(app))
-		// use
-		cmd.AddCommand(shared.UseCommand(app))
-		// last
-		cmd.AddCommand(lastCommand(app))
-		// task
-		cmd.AddCommand(taskCommand(app))
-		// exit
-		cmd.AddCommand(exitCommand(app))
-		// info
-		cmd.AddCommand(infoCommand(app))
-		// aliases
-		for _, v := range aliasCommands(app) {
+		// command (list/show commands for agent)
+		cmd.AddCommand(command.Cmd(app))
+		// use (switch on agent console)
+		cmd.AddCommand(use.Cmd(app))
+		// last (get last command output for agent)
+		cmd.AddCommand(last.Cmd(app))
+		// task (list/download tasks for agent)
+		cmd.AddCommand(task.Cmd(app))
+		// exit (switch back on base menu)
+		cmd.AddCommand(exit.Cmd(app))
+		// info (print full info about agent)
+		cmd.AddCommand(info.Cmd(app))
+		// alias (aliases for interaction with agent)
+		for _, v := range alias.Cmd(app) {
 			cmd.AddCommand(v)
 		}
 

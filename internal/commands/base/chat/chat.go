@@ -1,4 +1,4 @@
-package base
+package chat
 
 import (
 	"strings"
@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func chatCommand(*console.Console) *cobra.Command {
+func Cmd(*console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:     "chat",
 		Short:   "Send message in chat",

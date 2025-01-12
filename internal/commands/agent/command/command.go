@@ -1,8 +1,9 @@
-package agent
+package command
 
 import (
 	"strconv"
 
+	"github.com/PicoTools/pico-cli/internal/commands/agent/utils"
 	"github.com/PicoTools/pico-cli/internal/constants"
 	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/storage/task"
@@ -11,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func commandCommand(c *console.Console) *cobra.Command {
+func Cmd(c *console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "commands",
 		Short:                 "Show commands for agent",
@@ -41,7 +42,7 @@ func commandCommand(c *console.Console) *cobra.Command {
 				return
 			}
 			for _, v := range tg.GetData().Get() {
-				printCommandData(c, v)
+				utils.PrintCommandData(c, v)
 			}
 		},
 	}

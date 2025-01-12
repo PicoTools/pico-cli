@@ -1,4 +1,4 @@
-package agent
+package alias
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func aliasCommands(*console.Console) []*cobra.Command {
+func Cmd(*console.Console) []*cobra.Command {
 	cmds := make([]*cobra.Command, 0)
 	for k, v := range aliases.Aliases {
 		cmd := &cobra.Command{

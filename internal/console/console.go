@@ -35,12 +35,12 @@ func Run(ctx context.Context) error {
 			os.Exit(0)
 		}
 	})
-	base.SetCommands(baseCmd.Commands(app))
+	base.SetCommands(baseCmd.Cmds(app))
 
 	// agent menu
 	agent := app.NewMenu(constants.AgentMenuName)
 	agent.Short = "agent operator cli"
-	agent.SetCommands(agentCmd.Commands(app))
+	agent.SetCommands(agentCmd.Cmds(app))
 
 	// switch on base menu
 	app.SwitchMenu(constants.BaseMenuName)

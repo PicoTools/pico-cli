@@ -1,4 +1,4 @@
-package base
+package script
 
 import (
 	"github.com/PicoTools/pico-cli/internal/constants"
@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func scriptLoadCommand(*console.Console) *cobra.Command {
+func loadCmd(*console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "load",
 		Short:                 "Load script by path on FS",
@@ -29,7 +29,7 @@ func scriptLoadCommand(*console.Console) *cobra.Command {
 	return cmd
 }
 
-func scriptListCommand(*console.Console) *cobra.Command {
+func listCmd(*console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:                   "list",
 		Short:                 "List registred scripts",
@@ -47,7 +47,7 @@ func scriptListCommand(*console.Console) *cobra.Command {
 	}
 }
 
-func scriptRemoveCommand(*console.Console) *cobra.Command {
+func removeCmd(*console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "remove",
 		Short:                 "Remove registred scripts",
@@ -65,7 +65,7 @@ func scriptRemoveCommand(*console.Console) *cobra.Command {
 	return cmd
 }
 
-func scriptReloadCommand(*console.Console) *cobra.Command {
+func reloadCmd(*console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "reload",
 		Short:                 "Reload script/all scripts",
@@ -92,7 +92,7 @@ func scriptReloadCommand(*console.Console) *cobra.Command {
 	return cmd
 }
 
-func scriptCommand(c *console.Console) *cobra.Command {
+func Cmd(c *console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "scripts",
 		Short:                 "Manage scripts",
@@ -100,10 +100,10 @@ func scriptCommand(c *console.Console) *cobra.Command {
 		GroupID:               constants.BaseGroupId,
 	}
 	cmd.AddCommand(
-		scriptLoadCommand(c),
-		scriptListCommand(c),
-		scriptReloadCommand(c),
-		scriptRemoveCommand(c),
+		loadCmd(c),
+		listCmd(c),
+		reloadCmd(c),
+		removeCmd(c),
 	)
 	return cmd
 }

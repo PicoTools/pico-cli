@@ -1,4 +1,4 @@
-package agent
+package task
 
 import (
 	"os"
@@ -15,7 +15,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func taskDownloadCommand(*console.Console) *cobra.Command {
+func downloadCmd(*console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "download <task_id> <path>",
 		Short:                 "Download output of task to file",
@@ -59,12 +59,17 @@ func taskDownloadCommand(*console.Console) *cobra.Command {
 	return cmd
 }
 
-func taskListCommand(*console.Console) *cobra.Command {
+func listCmd(*console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:   "list",
 		Short: "list tasks (with capabilities) for agent",
 		Run: func(*cobra.Command, []string) {
-			for _, v := range task.Commands.GetTasks() {
+			tasks := task.Commands.GetTasks()
+			if len(tasks) == 0 {
+				notificator.PrintWarning("no tasks exist yet")
+				return
+			}
+			for _, v := range tasks {
 				notificator.Print("[%s] (%d) %s",
 					v.GetCreatedAt().Format("01/02 15:04:05"),
 					v.GetId(),
@@ -75,17 +80,16 @@ func taskListCommand(*console.Console) *cobra.Command {
 	}
 }
 
-func taskCommand(c *console.Console) *cobra.Command {
+func Cmd(c *console.Console) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "tasks",
-		Short:                 "show tasks for agent",
-		Aliases:               []string{"t"},
+		Short:                 "Process tasks for agent",
 		DisableFlagsInUseLine: true,
 		GroupID:               constants.CoreGroupId,
 	}
 	cmd.AddCommand(
-		taskDownloadCommand(c),
-		taskListCommand(c),
+		downloadCmd(c),
+		listCmd(c),
 	)
 	return cmd
 }

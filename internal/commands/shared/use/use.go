@@ -1,4 +1,4 @@
-package shared
+package use
 
 import (
 	"fmt"
@@ -15,7 +15,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func UseCommand(c *console.Console) *cobra.Command {
+func Cmd(c *console.Console) *cobra.Command {
 	useCmd := &cobra.Command{
 		Use:                   "use",
 		Short:                 "Switch on agent shell",

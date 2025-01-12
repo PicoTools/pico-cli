@@ -95,6 +95,12 @@ func Close() error {
 	return nil
 }
 
+// getSvc returns service object to interact with GRPC server
 func getSvc() operatorv1.OperatorServiceClient {
 	return operatorConn.svc
+}
+
+// GetUsername returns username of operator
+func GetUsername() string {
+	return operatorConn.metadata.GetUsername()
 }
