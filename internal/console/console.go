@@ -29,7 +29,9 @@ func Run(ctx context.Context) error {
 	// base menu
 	base := app.NewMenu(constants.BaseMenuName)
 	base.Short = "base operator cli"
-	base.Prompt().Primary = func() string { return fmt.Sprintf("[%s] > ", color.HiCyanString("pico")) }
+	base.Prompt().Primary = func() string {
+		return fmt.Sprintf("%s > ", color.New(color.FgHiCyan).Add(color.Underline).Sprint("pico"))
+	}
 	base.AddInterrupt(io.EOF, func(c *console.Console) {
 		if utils.ExitConsolePrompt(c) {
 			service.Close()
