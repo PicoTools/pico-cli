@@ -4,7 +4,7 @@ go 1.23.4
 
 require (
 	github.com/PicoTools/pico-shared v0.0.0-20250112140806-f35177da4cab
-	github.com/PicoTools/plan v0.0.0-20250112130107-b83ab9269b36
+	github.com/PicoTools/plan v1.0.0
 	github.com/antlr4-go/antlr/v4 v4.13.1
 	github.com/docker/go-units v0.5.0
 	github.com/fatih/color v1.18.0
