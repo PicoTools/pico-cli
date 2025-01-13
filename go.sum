@@ -2,6 +2,8 @@ github.com/PicoTools/pico-shared v0.0.0-20250112140806-f35177da4cab h1:gtOUHT1cE
 github.com/PicoTools/pico-shared v0.0.0-20250112140806-f35177da4cab/go.mod h1:mLbVW3aVOY3odV7aKjVBOEbTKWdA19sNkfupz8+t4LE=
 github.com/PicoTools/plan v0.0.0-20250108175246-592915f30fcd h1:64/9YWvUYCxEdgiVDhGevtGseBNaKdZhjjv7e2XiXqs=
 github.com/PicoTools/plan v0.0.0-20250108175246-592915f30fcd/go.mod h1:/GvVL0VNecrFjCI6drsL5UnkyUmecC2HyvjGAlZwlSM=
+github.com/PicoTools/plan v0.0.0-20250112130107-b83ab9269b36 h1:Gt+W5kSDKmUFsxTknernoRZo6WwPh28O71vf7Pk2Tws=
+github.com/PicoTools/plan v0.0.0-20250112130107-b83ab9269b36/go.mod h1:/GvVL0VNecrFjCI6drsL5UnkyUmecC2HyvjGAlZwlSM=
 github.com/antlr4-go/antlr/v4 v4.13.1 h1:SqQKkuVZ+zWkMMNkjy5FZe5mr5WURWnlpmOuzYWrPrQ=
 github.com/antlr4-go/antlr/v4 v4.13.1/go.mod h1:GKmUxMtwp6ZgGwZSva4eWPC5mS6vUAmOABFgjdkM7Nw=
 github.com/cpuguy83/go-md2man/v2 v2.0.3/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
@@ -101,6 +103,8 @@ google.golang.org/genproto/googleapis/rpc v0.0.0-20250106144421-5f5ef82da422 h1:
 google.golang.org/genproto/googleapis/rpc v0.0.0-20250106144421-5f5ef82da422/go.mod h1:3ENsm/5D1mzDyhpzeRi1NR784I0BcofWBoSc5QqqMK4=
 google.golang.org/grpc v1.69.2 h1:U3S9QEtbXC0bYNvRtcoklF3xGtLViumSYxWykJS+7AU=
 google.golang.org/grpc v1.69.2/go.mod h1:vyjdE6jLBI76dgpDojsFGNaHlxdjXN9ghpnd2o7JGZ4=
+google.golang.org/grpc v1.69.4 h1:MF5TftSMkd8GLw/m0KM6V8CMOCY6NZ1NQDPGFgbTt4A=
+google.golang.org/grpc v1.69.4/go.mod h1:vyjdE6jLBI76dgpDojsFGNaHlxdjXN9ghpnd2o7JGZ4=
 google.golang.org/protobuf v1.36.2 h1:R8FeyR1/eLmkutZOM5CWghmo5itiG9z0ktFlTVLuTmU=
 google.golang.org/protobuf v1.36.2/go.mod h1:9fA7Ob0pmnwhb644+1+CVWFRbNajQ6iRojtC/QF5bRE=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
