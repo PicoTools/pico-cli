@@ -14,6 +14,7 @@ var (
 		unicode.Quotation_Mark,
 		unicode.Hyphen,
 		unicode.Pattern_Syntax,
+		unicode.Symbol,
 	}
 )
 
