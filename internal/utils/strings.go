@@ -18,10 +18,14 @@ var (
 	}
 )
 
+const (
+	PrintableStrLen = 2048
+)
+
 // IsStrPrintable checks if string can be printed to console withour artifacts
 func IsStrPrintable(s string) bool {
-	if len(s) > 1024 {
-		s = s[:1024]
+	if len(s) > PrintableStrLen {
+		s = s[:PrintableStrLen]
 	}
 	for _, r := range []rune(s) {
 		if !unicode.IsOneOf(ranger, r) {

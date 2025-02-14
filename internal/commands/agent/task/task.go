@@ -4,6 +4,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/PicoTools/pico-cli/internal/commands/agent/utils"
 	"github.com/PicoTools/pico-cli/internal/constants"
 	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/service"
@@ -59,6 +60,38 @@ func downloadCmd(*console.Console) *cobra.Command {
 	return cmd
 }
 
+func getCmd(c *console.Console) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:                   "get <task_id>",
+		Short:                 "Get output for task",
+		DisableFlagsInUseLine: true,
+		Args:                  cobra.MinimumNArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			id, err := strconv.ParseInt(args[0], 10, 64)
+			if err != nil {
+				notificator.PrintError("invalid task id")
+				return
+			}
+			task := task.Commands.GetTaskById(id)
+			if task == nil {
+				notificator.PrintError("unknown task id")
+				return
+			}
+			utils.PrintTaskData(c, task)
+		},
+	}
+	// autocomplete
+	// arg1: task id
+	carapace.Gen(cmd).PositionalCompletion(carapace.ActionCallback(func(c carapace.Context) carapace.Action {
+		var suggestions []string
+		for _, v := range task.Commands.GetTasks() {
+			suggestions = append(suggestions, strconv.Itoa(int(v.GetId())))
+		}
+		return carapace.ActionValues(suggestions...)
+	}))
+	return cmd
+}
+
 func listCmd(*console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:   "list",
@@ -88,6 +121,7 @@ func Cmd(c *console.Console) *cobra.Command {
 		GroupID:               constants.CoreGroupId,
 	}
 	cmd.AddCommand(
+		getCmd(c),
 		downloadCmd(c),
 		listCmd(c),
 	)

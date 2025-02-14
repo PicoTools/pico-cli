@@ -36,7 +36,7 @@ func listCmd(*console.Console) *cobra.Command {
 
 func getCmd(c *console.Console) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                   "get <task_id>",
+		Use:                   "get <command_id>",
 		Short:                 "Get output for command",
 		DisableFlagsInUseLine: true,
 		Args:                  cobra.MinimumNArgs(1),

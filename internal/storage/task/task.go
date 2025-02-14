@@ -391,6 +391,21 @@ func (t *commandsMapper) GetById(id int64) *Command {
 	return nil
 }
 
+func (t *commandsMapper) GetTaskById(id int64) *Task {
+	var task *Task
+	t.commands.Range(func(k int64, v *Command) bool {
+		v.data.tasks.Range(func(key int64, value *Task) bool {
+			if key == id {
+				task = value
+				return false
+			}
+			return true
+		})
+		return task == nil
+	})
+	return task
+}
+
 // Count returns number of commands in storage
 func (t *commandsMapper) Count() int {
 	return t.commands.Count()
