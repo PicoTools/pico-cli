@@ -1,7 +1,7 @@
 package service
 
 import (
-	operatorv1 "github.com/PicoTools/pico-shared/proto/gen/operator/v1"
+	operatorv1 "github.com/PicoTools/pico/pkg/proto/operator/v1"
 	"github.com/lrita/cmap"
 	"google.golang.org/grpc"
 )

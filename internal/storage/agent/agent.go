@@ -5,7 +5,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/PicoTools/pico-shared/shared"
+	"github.com/PicoTools/pico/pkg/shared"
 	"github.com/lrita/cmap"
 )
 

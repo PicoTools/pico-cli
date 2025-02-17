@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/PicoTools/pico-cli/internal/storage/agent"
-	"github.com/PicoTools/pico-shared/shared"
+	"github.com/PicoTools/pico/pkg/shared"
 	"github.com/PicoTools/plan/pkg/engine/object"
 )
 

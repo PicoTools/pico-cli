@@ -7,8 +7,8 @@ import (
 	"os"
 
 	"github.com/PicoTools/pico-cli/internal/middleware"
-	operatorv1 "github.com/PicoTools/pico-shared/proto/gen/operator/v1"
-	"github.com/PicoTools/pico-shared/shared"
+	operatorv1 "github.com/PicoTools/pico/pkg/proto/operator/v1"
+	"github.com/PicoTools/pico/pkg/shared"
 	"github.com/fatih/color"
 	"github.com/go-faster/errors"
 	"golang.org/x/sync/errgroup"
