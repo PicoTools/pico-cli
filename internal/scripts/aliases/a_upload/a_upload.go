@@ -7,9 +7,9 @@ import (
 	merror "github.com/PicoTools/pico-cli/internal/scripts/aliases/m_error"
 	"github.com/PicoTools/pico-cli/internal/service"
 	"github.com/PicoTools/pico-cli/internal/storage/agent"
-	commonv1 "github.com/PicoTools/pico-shared/proto/gen/common/v1"
-	operatorv1 "github.com/PicoTools/pico-shared/proto/gen/operator/v1"
-	"github.com/PicoTools/pico-shared/shared"
+	commonv1 "github.com/PicoTools/pico/pkg/proto/common/v1"
+	operatorv1 "github.com/PicoTools/pico/pkg/proto/operator/v1"
+	"github.com/PicoTools/pico/pkg/shared"
 	"github.com/PicoTools/plan/pkg/engine/object"
 	"github.com/go-faster/errors"
 )

@@ -1,8 +1,8 @@
-# github.com/PicoTools/pico-shared v0.0.0-20250112140806-f35177da4cab
-## explicit; go 1.23.4
-github.com/PicoTools/pico-shared/proto/gen/common/v1
-github.com/PicoTools/pico-shared/proto/gen/operator/v1
-github.com/PicoTools/pico-shared/shared
+# github.com/PicoTools/pico v0.0.0-20250217182056-52fa7fca423f
+## explicit; go 1.24.0
+github.com/PicoTools/pico/pkg/proto/common/v1
+github.com/PicoTools/pico/pkg/proto/operator/v1
+github.com/PicoTools/pico/pkg/shared
 # github.com/PicoTools/plan v1.0.0
 ## explicit; go 1.22.7
 github.com/PicoTools/plan/pkg/constants
@@ -29,7 +29,7 @@ github.com/fatih/color
 # github.com/go-faster/errors v0.7.1
 ## explicit; go 1.20
 github.com/go-faster/errors
-# github.com/go-faster/sdk v0.26.1
+# github.com/go-faster/sdk v0.27.0
 ## explicit; go 1.22.7
 github.com/go-faster/sdk/zctx
 # github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
@@ -118,7 +118,7 @@ github.com/rsteube/carapace/third_party/golang.org/x/sys/execabs
 # github.com/rsteube/carapace-shlex v0.1.2
 ## explicit; go 1.15
 github.com/rsteube/carapace-shlex
-# github.com/spf13/cobra v1.8.1
+# github.com/spf13/cobra v1.9.1
 ## explicit; go 1.15
 github.com/spf13/cobra
 # github.com/spf13/pflag v1.0.6
@@ -148,8 +148,8 @@ go.uber.org/zap/internal/exit
 go.uber.org/zap/internal/pool
 go.uber.org/zap/internal/stacktrace
 go.uber.org/zap/zapcore
-# golang.org/x/exp v0.0.0-20250210185358-939b2ce775ac
-## explicit; go 1.22.0
+# golang.org/x/exp v0.0.0-20250215185904-eff6e970281f
+## explicit; go 1.23.0
 golang.org/x/exp/maps
 golang.org/x/exp/slices
 # golang.org/x/net v0.35.0

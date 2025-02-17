@@ -38,10 +38,6 @@ go-lint:
 go-sync:
 	@go mod tidy && go mod vendor
 
-dep-shared:
-	@echo "Update shared components..."
-	@export GOPRIVATE="github.com/PicoTools" && go get -u github.com/PicoTools/pico-shared/ && go mod tidy && go mod vendor
-
 dep-plan:
 	@echo "Update plan components..."
 	@export GOPRIVATE="github.com/PicoTools" && go get -u github.com/PicoTools/plan/ && go mod tidy && go mod vendor

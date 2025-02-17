@@ -2,7 +2,7 @@ package shared
 
 import (
 	"github.com/PicoTools/pico-cli/internal/storage/agent"
-	"github.com/PicoTools/pico-shared/shared"
+	"github.com/PicoTools/pico/pkg/shared"
 )
 
 func BackendIsOs(id uint32, os shared.AgentOs) bool {

@@ -10,8 +10,8 @@ import (
 	"github.com/PicoTools/pico-cli/internal/storage/agent"
 	"github.com/PicoTools/pico-cli/internal/storage/task"
 	"github.com/PicoTools/pico-cli/internal/version"
-	operatorv1 "github.com/PicoTools/pico-shared/proto/gen/operator/v1"
-	"github.com/PicoTools/pico-shared/shared"
+	operatorv1 "github.com/PicoTools/pico/pkg/proto/operator/v1"
+	"github.com/PicoTools/pico/pkg/shared"
 	"github.com/go-faster/errors"
 	"google.golang.org/grpc"
 )

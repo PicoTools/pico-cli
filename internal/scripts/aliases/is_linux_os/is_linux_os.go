@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/PicoTools/pico-cli/internal/scripts/aliases/shared"
-	shr "github.com/PicoTools/pico-shared/shared"
+	shr "github.com/PicoTools/pico/pkg/shared"
 	"github.com/PicoTools/plan/pkg/engine/object"
 )
 
