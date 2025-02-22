@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"strings"
 	"time"
 
 	"github.com/PicoTools/pico-cli/internal/notificator"
@@ -56,7 +57,7 @@ func HelloMonitor(ctx context.Context) error {
 func SubscribeChat(ctx context.Context) error {
 	stream, err := getSvc().SubscribeChat(ctx, &operatorv1.SubscribeChatRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 	})
 	if err != nil {
@@ -76,15 +77,15 @@ func SubscribeChat(ctx context.Context) error {
 		if msg.GetMessage() != nil {
 			v := msg.GetMessage()
 			if v.GetIsServer() {
+				// server message in chat
 				notificator.Printf("[%s] %s", color.GreenString("chat"), v.GetMessage())
 				continue
 			}
-			if v.GetFrom().GetValue() == conn.metadata.username {
+			if strings.Compare(v.GetFrom().GetValue(), GetUsername()) == 0 {
 				// do not print message from operator itself
 				continue
 			}
 			notificator.Printf("[%s] %s: %s", color.GreenString("chat"), color.RedString(v.GetFrom().GetValue()), v.GetMessage())
-			continue
 		}
 	}
 	return nil
@@ -94,7 +95,7 @@ func SubscribeChat(ctx context.Context) error {
 func SubscribeAgents(ctx context.Context) error {
 	stream, err := getSvc().SubscribeAgents(ctx, &operatorv1.SubscribeAgentsRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 	})
 	if err != nil {
@@ -213,7 +214,7 @@ func SubscribeTasks(ctx context.Context) error {
 	// operator's authorization message
 	if err = stream.Send(&operatorv1.SubscribeTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Type: &operatorv1.SubscribeTasksRequest_Hello{
 			Hello: &operatorv1.SubscribeTasksHelloRequest{},
@@ -316,7 +317,7 @@ func SubscribeTasks(ctx context.Context) error {
 func PollAgentTasks(agent *agent.Agent) error {
 	if err := conn.ss.tasksStream.Send(&operatorv1.SubscribeTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Type: &operatorv1.SubscribeTasksRequest_Start{
 			Start: &operatorv1.StartPollAgentRequest{
@@ -333,7 +334,7 @@ func PollAgentTasks(agent *agent.Agent) error {
 func UnpollAgentTasks(agent *agent.Agent) error {
 	if err := conn.ss.tasksStream.Send(&operatorv1.SubscribeTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Type: &operatorv1.SubscribeTasksRequest_Stop{
 			Stop: &operatorv1.StopPollAgentRequest{
@@ -354,7 +355,7 @@ func NewCommand(id uint32, cmd string, visible bool) error {
 	}
 	if err = stream.Send(&operatorv1.NewCommandRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Type: &operatorv1.NewCommandRequest_Command{
 			Command: &operatorv1.CreateCommandRequest{
@@ -397,7 +398,7 @@ func NewCommandMessage(id uint32, tm shared.TaskMessage, message string) error {
 	}
 	return stream.Send(&operatorv1.NewCommandRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Type: &operatorv1.NewCommandRequest_Message{
 			Message: &operatorv1.CreateMessageRequest{
@@ -416,7 +417,7 @@ func NewTask(id uint32, v *operatorv1.CreateTaskRequest) error {
 	}
 	return stream.Send(&operatorv1.NewCommandRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Type: &operatorv1.NewCommandRequest_Task{
 			Task: v,
@@ -430,7 +431,7 @@ func CancelTasks(id uint32) error {
 	defer cancel()
 	_, err := getSvc().CancelTasks(ctx, &operatorv1.CancelTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Id: id,
 	})
@@ -443,7 +444,7 @@ func GetTaskOutput(id int64) ([]byte, error) {
 	defer cancel()
 	rep, err := getSvc().GetTaskOutput(ctx, &operatorv1.GetTaskOutputRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Id: id,
 	})
@@ -459,7 +460,7 @@ func SendChatMessage(message string) error {
 	defer cancel()
 	_, err := getSvc().NewChatMessage(ctx, &operatorv1.NewChatMessageRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Message: message,
 	})

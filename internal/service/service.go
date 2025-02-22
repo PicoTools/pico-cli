@@ -123,7 +123,12 @@ func getSvc() operatorv1.OperatorServiceClient {
 	return conn.svc
 }
 
+// GetMetadata returns metadata of GRPC connection
+func (g *grpcConn) getMetadata() metadata {
+	return g.metadata
+}
+
 // GetUsername returns username of operator
 func GetUsername() string {
-	return conn.metadata.GetUsername()
+	return conn.getMetadata().GetUsername()
 }
