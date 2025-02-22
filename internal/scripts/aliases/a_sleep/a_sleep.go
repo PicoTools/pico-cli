@@ -24,17 +24,17 @@ func FrontendAgentSleep(args ...object.Object) (object.Object, error) {
 	}
 	id, ok := args[0].(*object.Int)
 	if !ok {
-		return nil, fmt.Errorf("expecting 1st argument int, got '%s'", args[0].TypeName())
+		return nil, fmt.Errorf("expecting 1st argument 'int', got '%s'", args[0].TypeName())
 	}
 	sleep, ok := args[1].(*object.Int)
 	if !ok {
-		return nil, fmt.Errorf("expecting 2nd argument int, got '%s'", args[1].TypeName())
+		return nil, fmt.Errorf("expecting 2nd argument 'int', got '%s'", args[1].TypeName())
 	}
 	jitter := object.NewInt(0)
 	if len(args) == 3 {
 		jitter, ok = args[2].(*object.Int)
 		if !ok {
-			return nil, fmt.Errorf("expecting 3rd argument int, got '%s'", args[2].TypeName())
+			return nil, fmt.Errorf("expecting 3rd argument 'int', got '%s'", args[2].TypeName())
 		}
 	}
 	if err := BackendAgentSleep(uint32(id.GetValue().(int64)), uint32(sleep.GetValue().(int64)), uint32(jitter.GetValue().(int64))); err != nil {

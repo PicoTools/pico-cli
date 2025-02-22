@@ -24,13 +24,13 @@ func FrontendAgentPpid(args ...object.Object) (object.Object, error) {
 	}
 	id, ok := args[0].(*object.Int)
 	if !ok {
-		return nil, fmt.Errorf("expecting 1st argument int, got '%s'", args[0].TypeName())
+		return nil, fmt.Errorf("expecting 1st argument 'int', got '%s'", args[0].TypeName())
 	}
 	ppid := object.NewInt(0)
 	if len(args) == 2 {
 		ppid, ok = args[1].(*object.Int)
 		if !ok {
-			return nil, fmt.Errorf("expecting 2nd argument int, got '%s'", args[1].TypeName())
+			return nil, fmt.Errorf("expecting 2nd argument 'int', got '%s'", args[1].TypeName())
 		}
 	}
 	if err := BackendAgentPpid(uint32(id.GetValue().(int64)), ppid.GetValue().(int64)); err != nil {

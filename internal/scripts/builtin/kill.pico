@@ -1,16 +1,16 @@
-alias(
-  "kill",
-  fn (aid, cmd, args, raw) {
-    if args.len() != 1 {
-      c_error("invalid number of arguments");
-      return m_error(aid, "invalid number of arguments");
-    }
-    
-    c_notify("tasked agent to kill process");
-    m_notify(aid, "tasked agent to kill process");
-    return a_kill(aid, int(args[0]));
-  },
-  "Kill specified process by PID",
-  "Usage:\n  kill [pid]",
-  true
-);
+name = "kill";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() != 1 {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  }
+  
+  c_notify("tasked agent to kill process");
+  m_notify(aid, "tasked agent to kill process");
+  return a_kill(aid, int(args[0]));
+};
+description = "Kill specified process by PID";
+usage = "Usage:\n  kill <pid>";
+visible = true;
+
+alias(name, closure, description, usage, visible);

@@ -1,16 +1,16 @@
-alias(
-  "cat",
-  fn (aid, cmd, args, raw) {
-    if args.len() != 1 {
-      c_error("invalid number of arguments");
-      return m_error(aid, "invalid number of arguments");
-    }
+name = "cat";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() != 1 {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  }
 
-    c_notify("tasked agent to print content of file");
-    m_notify(aid, "tasked agent to print content of file");
-    return a_cat(aid, args[0]);
-  },
-  "Print content of file to console",
-  "Usage:\n  cat [file]",
-  true
-);
+  c_notify("tasked agent to print content of file");
+  m_notify(aid, "tasked agent to print content of file");
+  return a_cat(aid, args[0]);
+};
+description = "Print content of file to console";
+usage = "Usage:\n  cat <file>";
+visible = true;
+
+alias(name, closure, description, usage, visible);

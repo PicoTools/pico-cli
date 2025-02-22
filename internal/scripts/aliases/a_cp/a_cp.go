@@ -24,15 +24,15 @@ func FrontendAgentCp(args ...object.Object) (object.Object, error) {
 	}
 	id, ok := args[0].(*object.Int)
 	if !ok {
-		return nil, fmt.Errorf("expecting 1st argument int, got '%s'", args[0].TypeName())
+		return nil, fmt.Errorf("expecting 1st argument 'int', got '%s'", args[0].TypeName())
 	}
 	src, ok := args[1].(*object.Str)
 	if !ok {
-		return nil, fmt.Errorf("expecting 2nd argument str, got '%s'", args[1].TypeName())
+		return nil, fmt.Errorf("expecting 2nd argument 'str', got '%s'", args[1].TypeName())
 	}
 	dst, ok := args[2].(*object.Str)
 	if !ok {
-		return nil, fmt.Errorf("expecting 3rd argument str, got '%s'", args[2].TypeName())
+		return nil, fmt.Errorf("expecting 3rd argument 'str', got '%s'", args[2].TypeName())
 	}
 	if err := BackendAgentCp(uint32(id.GetValue().(int64)), src.GetValue().(string), dst.GetValue().(string)); err != nil {
 		return nil, err

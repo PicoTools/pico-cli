@@ -1,16 +1,16 @@
-alias(
-  "cd",
-  fn (aid, cmd, args, raw) {
-    if args.len() != 1 {
-      c_error("invalid number of arguments");
-      return m_error(aid, "invalid number of arguments");
-    }
+name = "cd";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() != 1 {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  }
 
-    c_notify("tasked agent to change working directory");
-    m_notify(aid, "tasked agent to change working directory");
-    return a_cd(aid, args[0]);
-  },
-  "Change working directory of agent process",
-  "Usage:\n  cd [path]",
-  true
-);
+  c_notify("tasked agent to change working directory");
+  m_notify(aid, "tasked agent to change working directory");
+  return a_cd(aid, args[0]);
+};
+description = "Change working directory of agent process";
+usage = "Usage:\n  cd <path>";
+visible = true;
+
+alias(name, closure, description, usage, visible);
