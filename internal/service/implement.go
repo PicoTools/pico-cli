@@ -12,6 +12,7 @@ import (
 	"github.com/PicoTools/pico-cli/internal/version"
 	operatorv1 "github.com/PicoTools/pico/pkg/proto/operator/v1"
 	"github.com/PicoTools/pico/pkg/shared"
+	"github.com/fatih/color"
 	"github.com/go-faster/errors"
 	"google.golang.org/grpc"
 )
@@ -34,7 +35,7 @@ func HelloHandshake(ctx context.Context) error {
 	}
 	conn.metadata.username = msg.GetHandshake().GetUsername()
 	conn.metadata.cookie = msg.GetHandshake().GetCookie().GetValue()
-	conn.metadata.delta = time.Now().Sub(msg.GetHandshake().GetTime().AsTime())
+	conn.metadata.delta = time.Since(msg.GetHandshake().GetTime().AsTime())
 	return nil
 }
 
@@ -75,14 +76,14 @@ func SubscribeChat(ctx context.Context) error {
 		if msg.GetMessage() != nil {
 			v := msg.GetMessage()
 			if v.GetIsServer() {
-				notificator.PrintfNotify("%s", v.GetMessage())
+				notificator.Printf("[%s] %s", color.GreenString("chat"), v.GetMessage())
 				continue
 			}
 			if v.GetFrom().GetValue() == conn.metadata.username {
 				// do not print message from operator itself
 				continue
 			}
-			notificator.PrintfInfo("(%s): %s", v.GetFrom().GetValue(), v.GetMessage())
+			notificator.Printf("[%s] %s: %s", color.GreenString("chat"), color.RedString(v.GetFrom().GetValue()), v.GetMessage())
 			continue
 		}
 	}
