@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	goversion "github.com/hashicorp/go-version"
+
 	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/storage/agent"
 	"github.com/PicoTools/pico-cli/internal/storage/task"
@@ -20,9 +22,7 @@ import (
 
 // HelloInit connects to hello topic
 func HelloInit(ctx context.Context) (grpc.ServerStreamingClient[operatorv1.HelloResponse], error) {
-	return getSvc().Hello(ctx, &operatorv1.HelloRequest{
-		Version: version.Version(),
-	})
+	return getSvc().Hello(ctx, &operatorv1.HelloRequest{})
 }
 
 // HelloHandshake processes hadnshake from hello topic
@@ -34,6 +34,21 @@ func HelloHandshake(ctx context.Context) error {
 	if msg.GetHandshake() == nil {
 		return fmt.Errorf("unexpected hello response (no handshake data)")
 	}
+
+	// validate server's version
+	clientVersion, err := goversion.NewVersion(version.Version())
+	if err != nil {
+		return errors.Wrap(err, "get client version")
+	}
+	serverVersion, err := goversion.NewVersion(msg.GetHandshake().GetVersion())
+	if err != nil {
+		return errors.Wrap(err, "get server version")
+	}
+	// check if major version is differ
+	if clientVersion.Segments()[0] < serverVersion.Segments()[0] {
+		return fmt.Errorf("this client is incompatible with server's API")
+	}
+
 	conn.metadata.username = msg.GetHandshake().GetUsername()
 	conn.metadata.cookie = msg.GetHandshake().GetCookie().GetValue()
 	conn.metadata.delta = time.Since(msg.GetHandshake().GetTime().AsTime())

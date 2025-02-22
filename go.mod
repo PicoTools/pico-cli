@@ -3,7 +3,7 @@ module github.com/PicoTools/pico-cli
 go 1.24.0
 
 require (
-	github.com/PicoTools/pico v0.0.0-20250217182056-52fa7fca423f
+	github.com/PicoTools/pico v0.0.0-20250222200954-0da5200ad947
 	github.com/PicoTools/plan v1.0.0
 	github.com/antlr4-go/antlr/v4 v4.13.1
 	github.com/docker/go-units v0.5.0
@@ -11,6 +11,7 @@ require (
 	github.com/go-faster/errors v0.7.1
 	github.com/go-faster/sdk v0.27.0
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
+	github.com/hashicorp/go-version v1.7.0
 	github.com/lrita/cmap v0.0.0-20231108122212-cb084a67f554
 	github.com/reeflective/console v0.1.22
 	github.com/reeflective/readline v1.1.2

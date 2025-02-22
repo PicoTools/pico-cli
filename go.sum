@@ -1,5 +1,5 @@
-github.com/PicoTools/pico v0.0.0-20250217182056-52fa7fca423f h1:MyR7SUu991Tk3CyvdaeNFwB7sNv6p2mYGys4dMdf20w=
-github.com/PicoTools/pico v0.0.0-20250217182056-52fa7fca423f/go.mod h1:aLDmNjdmSm+7cRviwrWK0M2CIDwXXxm5Dyu55lcY+iA=
+github.com/PicoTools/pico v0.0.0-20250222200954-0da5200ad947 h1:SFb/8b3Z4lX6WaV6DuMcXCTxFOVwrG8O2B6EtbIUVXM=
+github.com/PicoTools/pico v0.0.0-20250222200954-0da5200ad947/go.mod h1:aLDmNjdmSm+7cRviwrWK0M2CIDwXXxm5Dyu55lcY+iA=
 github.com/PicoTools/plan v1.0.0 h1:j4lbfkMtn/eui5OxAAsiU6ujX8QdAw9T7hIxJXMNIfk=
 github.com/PicoTools/plan v1.0.0/go.mod h1:/GvVL0VNecrFjCI6drsL5UnkyUmecC2HyvjGAlZwlSM=
 github.com/antlr4-go/antlr/v4 v4.13.1 h1:SqQKkuVZ+zWkMMNkjy5FZe5mr5WURWnlpmOuzYWrPrQ=
@@ -30,6 +30,8 @@ github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 h1:El6M4kTTCOh6aBiKaU
 github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510/go.mod h1:pupxD2MaaD3pAXIBCelhxNneeOaAeabZDe5s4K6zSpQ=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
+github.com/hashicorp/go-version v1.7.0 h1:5tqGy27NaOTB8yJKUZELlFAS/LTKJkrmONwQKeRZfjY=
+github.com/hashicorp/go-version v1.7.0/go.mod h1:fltr4n8CU8Ke44wwGCBoEymUuxUHl09ZGVZPK5anwXA=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 h1:Z9n2FFNUXsshfwJMBgNA0RU6/i7WVaAegv3PtuIHPMs=
