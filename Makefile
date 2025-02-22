@@ -38,7 +38,7 @@ linux-amd64: go-lint
 	@GOOS=linux GOARCH=amd64 CGO_ENABLED=0 CC=${CC} CXX=${CXX} go build -trimpath ${LDFLAGS} -o ${BIN_DIR}/pico-cli.linux.amd64 ${PICO_DIR}
 
 go-lint:
-	@echo "Linting Golang code..."
+	@echo "Linting Golang code"
 	@go fmt ${GOFILES}
 	@go vet ${GOFILESNOTEST}
 
@@ -46,5 +46,5 @@ go-sync:
 	@go mod tidy && go mod vendor
 
 dep-plan:
-	@echo "Update plan components..."
+	@echo "Update plan components"
 	@export GOPRIVATE="github.com/PicoTools" && go get -u github.com/PicoTools/plan/ && go mod tidy && go mod vendor
