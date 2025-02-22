@@ -18,10 +18,8 @@ func PrintCommandData(c *console.Console, v task.TaskData) {
 
 // PrintTaskData print task's data
 func PrintTaskData(_ *console.Console, data *task.Task) {
-	preambule := data.StringStatus()
-	if preambule != "" {
-		notificator.Print("%s", preambule)
-	}
+	// preambule (how much bytes and which status)
+	notificator.Print("%s", data.StringStatus())
 	if data.GetOutputLen() == 0 {
 		return
 	}
@@ -34,15 +32,13 @@ func PrintTaskData(_ *console.Console, data *task.Task) {
 		return
 	}
 	output := data.GetOutputString()
-	if output != "" {
-		// prepend '\n'
-		if output[0] != '\n' {
-			output = "\n" + output
-		}
-		// append '\n'
-		if output[len(output)-1] != '\n' {
-			output = output + "\n"
-		}
-		notificator.Print("%s", output)
+	// prepend '\n'
+	if output[0] != '\n' {
+		output = "\n" + output
 	}
+	// append '\n'
+	if output[len(output)-1] != '\n' {
+		output = output + "\n"
+	}
+	notificator.Print("%s", output)
 }

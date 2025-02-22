@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Cmd returns command "chat"
 func Cmd(*console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:     "chat",

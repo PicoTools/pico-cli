@@ -24,7 +24,7 @@ func Cmd(*console.Console) []*cobra.Command {
 			DisableFlagParsing:    true,
 			Run: func(cmd *cobra.Command, args []string) {
 				rawCmd := k + " " + strings.Join(args, " ")
-				if err := scripts.ProcessCommand(agent.ActiveAgent.GetId(), rawCmd); err != nil {
+				if err := scripts.ProcessCommand(agent.GetActiveAgent().GetId(), rawCmd); err != nil {
 					notificator.PrintError("%s", err.Error())
 				}
 			},

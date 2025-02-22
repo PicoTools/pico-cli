@@ -19,7 +19,7 @@ func Cmd(*console.Console) *cobra.Command {
 		DisableFlagsInUseLine: true,
 		GroupID:               constants.CoreGroupId,
 		Run: func(cmd *cobra.Command, args []string) {
-			agent := agent.ActiveAgent
+			agent := agent.GetActiveAgent()
 			var result strings.Builder
 			result.WriteString(fmt.Sprintf("%-16s %s\n", "ID:", agent.GetIdHex()))
 			result.WriteString(fmt.Sprintf("%-16s %v\n", "Privileged:", agent.GetIsPrivileged()))
