@@ -21,30 +21,34 @@ darwin-arm64: go-lint
 	@mkdir -p ${BIN_DIR}
 	@echo "Building operator cli darwin/arm64 ${VERSION}" 
 	@GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 CC=${CC} CXX=${CXX} go build -trimpath ${LDFLAGS} -o ${BIN_DIR}/pico-cli.darwin.arm64 ${PICO_DIR}
+	@strip ${BIN_DIR}/pico-cli.darwin.arm64 2>/dev/null || true
 
 darwin-amd64: go-lint
 	@mkdir -p ${BIN_DIR}
 	@echo "Building operator cli darwin/amd64 ${VERSION}"
 	@GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 CC=${CC} CXX=${CXX} go build -trimpath ${LDFLAGS} -o ${BIN_DIR}/pico-cli.darwin.amd64 ${PICO_DIR}
+	@strip ${BIN_DIR}/pico-cli.darwin.amd64 2>/dev/null || true
 
 linux-arm64: go-lint
 	@mkdir -p ${BIN_DIR}
 	@echo "Building operator cli linux/arm64 ${VERSION}"
 	@GOOS=linux GOARCH=arm64 CGO_ENABLED=0 CC=${CC} CXX=${CXX} go build -trimpath ${LDFLAGS} -o ${BIN_DIR}/pico-cli.linux.arm64 ${PICO_DIR}
+	@strip ${BIN_DIR}/pico-cli.linux.arm64 2>/dev/null || true
 
 linux-amd64: go-lint
 	@mkdir -p ${BIN_DIR}
 	@echo "Building operator cli linux/amd64 ${VERSION}"
 	@GOOS=linux GOARCH=amd64 CGO_ENABLED=0 CC=${CC} CXX=${CXX} go build -trimpath ${LDFLAGS} -o ${BIN_DIR}/pico-cli.linux.amd64 ${PICO_DIR}
+	@strip ${BIN_DIR}/pico-cli.linux.amd64 2>/dev/null || true
 
 go-lint:
 	@echo "Linting Golang code"
 	@go fmt ${GOFILES}
 	@go vet ${GOFILESNOTEST}
 
-go-sync:
-	@go mod tidy && go mod vendor
-
 dep-plan:
 	@echo "Update plan components"
 	@export GOPRIVATE="github.com/PicoTools" && go get -u github.com/PicoTools/plan/ && go mod tidy && go mod vendor
+
+clean:
+	@rm -rf ${BIN_DIR}
