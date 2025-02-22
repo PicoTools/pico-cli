@@ -24,11 +24,11 @@ func FrontendAgentJobkill(args ...object.Object) (object.Object, error) {
 	}
 	id, ok := args[0].(*object.Int)
 	if !ok {
-		return nil, fmt.Errorf("expecting 1st argument int, got '%s'", args[0].TypeName())
+		return nil, fmt.Errorf("expecting 1st argument 'int', got '%s'", args[0].TypeName())
 	}
 	jid, ok := args[1].(*object.Int)
 	if !ok {
-		return nil, fmt.Errorf("expecting 2nd argument int, got '%s'", args[1].TypeName())
+		return nil, fmt.Errorf("expecting 2nd argument 'int', got '%s'", args[1].TypeName())
 	}
 	if err := BackendAgentJobkill(uint32(id.GetValue().(int64)), jid.GetValue().(int64)); err != nil {
 		return nil, err

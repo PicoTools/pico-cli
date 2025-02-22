@@ -1,16 +1,16 @@
-alias(
-  "jobkill",
-  fn (aid, cmd, args, raw) {
-    if args.len() != 1 {
-      c_error("invalid number of arguments");
-      return m_error(aid, "invalid number of arguments");
-    }
+name = "jobkill";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() != 1 {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  }
 
-    c_notify("tasked agent to kill job");
-    m_notify(aid, "tasked agent to kill job");
-    return a_jobkill(aid, int(args[0]));
-  },
-  "Kill job, controlled by agent",
-  "Usage:\n  jobkill [jid]",
-  true
-);
+  c_notify("tasked agent to kill job");
+  m_notify(aid, "tasked agent to kill job");
+  return a_jobkill(aid, int(args[0]));
+};
+description = "Kill job controlled by agent";
+usage = "Usage:\n  jobkill <jid>";
+visible = true;
+
+alias(name, closure, description, usage, visible);

@@ -1,16 +1,16 @@
-alias(
-  "mkdir",
-  fn (aid, cmd, args, raw) {
-    if args.len() != 1 {
-      c_error("invalid number of arguments");
-      return m_error(aid, "invalid number of arguments");
-    }
+name = "mkdir";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() != 1 {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  }
 
-    c_notify("tasked agent to create directory");
-    m_notify(aid, "tasked agent to create directory");
-    return a_mkdir(aid, args[0]);
-  },
-  "Create directory on target FS",
-  "Usage:\n  mkdir [path]",
-  true
-);
+  c_notify("tasked agent to create directory");
+  m_notify(aid, "tasked agent to create directory");
+  return a_mkdir(aid, args[0]);
+};
+description = "Create directory on target";
+usage = "Usage:\n  mkdir <path>";
+visible = true;
+
+alias(name, closure, description, usage, visible);

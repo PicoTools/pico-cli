@@ -1,6 +1,5 @@
-alias(
-  "ppid",
-  fn (aid, cmd, args, raw) {
+name = "ppid";
+closure = fn (aid, cmd, args, raw) {
     if !is_windows(aid) {
       c_error("unsupported OS to perform PPID spoofing");
       return m_error(aid, "unsupported OS to perform PPID spoofing");
@@ -22,8 +21,9 @@ alias(
       c_error("invalid number of arguments");
       return m_error(aid, "invalid number of arguments");
     }
-  },
-  "Spoof parent PID of agent's process",
-  "Usage:\n  ppid [pid] - spoof PPID\n\tppid - reset PPID",
-  true
-);
+  };
+description = "Spoof parent PID of agent's process";
+usage = "Usage:\n  ppid <pid> - spoof PPID\n\tppid - reset PPID";
+visible = true;
+
+alias(name, closure, description, usage, visible);

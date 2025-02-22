@@ -20,7 +20,7 @@ func FrontendIsX86(args ...object.Object) (object.Object, error) {
 	}
 	id, ok := args[0].(*object.Int)
 	if !ok {
-		return nil, fmt.Errorf("expecting 1st argument int, got '%s'", args[0].TypeName())
+		return nil, fmt.Errorf("expecting 1st argument 'int', got '%s'", args[0].TypeName())
 	}
 	return object.NewBool(shared.BackendIsArch(uint32(id.GetValue().(int64)), shr.ArchX86)), nil
 }

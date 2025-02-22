@@ -24,7 +24,7 @@ func FrontendAgentDestroy(args ...object.Object) (object.Object, error) {
 	}
 	id, ok := args[0].(*object.Int)
 	if !ok {
-		return nil, fmt.Errorf("expecting 1st argument int, got '%s'", args[0].TypeName())
+		return nil, fmt.Errorf("expecting 1st argument 'int', got '%s'", args[0].TypeName())
 	}
 	if err := BackendAgentDestroy(uint32(id.GetValue().(int64))); err != nil {
 		return nil, err

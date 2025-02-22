@@ -1,20 +1,20 @@
-alias(
-    "ls",
-    fn (aid, cmd, args, raw) {
-      if args.len() == 0 {
-        c_notify("tasked agent to list files");
-        m_notify(aid, "tasked agent to list files");
-        return a_ls(aid);
-      } elif args.len() == 1 {
-        c_notify("tasked agent to list files");
-        m_notify(aid, "tasked agent to list files");
-        return a_ls(aid, args[0]);
-      } else {
-        c_error("invalid number of arguments");
-        return m_error(aid, "invalid number of arguments");
-      }
-    },
-    "List files in directory",
-    "Usage:\n  ls [dir/file]",
-    true
-);
+name = "ls";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() == 0 {
+    c_notify("tasked agent to list files");
+    m_notify(aid, "tasked agent to list files");
+    return a_ls(aid);
+  } elif args.len() == 1 {
+    c_notify("tasked agent to list files");
+    m_notify(aid, "tasked agent to list files");
+    return a_ls(aid, args[0]);
+  } else {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  }
+};
+description = "List files in directory";
+usage = "Usage:\n  ls <file/dir>";
+visible = true;
+
+alias(name, closure, description, usage, visible);

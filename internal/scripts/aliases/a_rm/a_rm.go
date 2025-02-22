@@ -1,4 +1,4 @@
-package akill
+package arm
 
 import (
 	"fmt"
@@ -12,13 +12,13 @@ import (
 	"github.com/PicoTools/plan/pkg/engine/object"
 )
 
-const name = "a_kill"
+const name = "a_rm"
 
 func GetApiName() string {
 	return name
 }
 
-func FrontendAgentKill(args ...object.Object) (object.Object, error) {
+func FrontendAgentRm(args ...object.Object) (object.Object, error) {
 	if len(args) != 2 {
 		return nil, fmt.Errorf("expecting 2 arguments, got %d", len(args))
 	}
@@ -26,18 +26,18 @@ func FrontendAgentKill(args ...object.Object) (object.Object, error) {
 	if !ok {
 		return nil, fmt.Errorf("expecting 1st argument 'int', got '%s'", args[0].TypeName())
 	}
-	pid, ok := args[1].(*object.Int)
+	path, ok := args[1].(*object.Str)
 	if !ok {
-		return nil, fmt.Errorf("expecting 2nd argument 'int', got '%s'", args[1].TypeName())
+		return nil, fmt.Errorf("expecting 2nd argument 'str', got '%s'", args[1].TypeName())
 	}
-	if err := BackendAgentKill(uint32(id.GetValue().(int64)), uint64(pid.GetValue().(int64))); err != nil {
+	if err := BackendAgentRm(uint32(id.GetValue().(int64)), path.GetValue().(string)); err != nil {
 		return nil, err
 	}
 	return object.NewNull(), nil
 }
 
-func BackendAgentKill(id uint32, pid uint64) error {
-	cap := shared.CapKill
+func BackendAgentRm(id uint32, path string) error {
+	cap := shared.CapRm
 
 	agent := agent.Agents.GetById(id)
 	if agent == nil {
@@ -50,9 +50,9 @@ func BackendAgentKill(id uint32, pid uint64) error {
 
 	return service.NewTask(id, &operatorv1.CreateTaskRequest{
 		Cap: uint32(cap),
-		Args: &operatorv1.CreateTaskRequest_Kill{
-			Kill: &commonv1.CapKill{
-				Pid: pid,
+		Args: &operatorv1.CreateTaskRequest_Rm{
+			Rm: &commonv1.CapRm{
+				Path: path,
 			},
 		},
 	})

@@ -1,16 +1,16 @@
-alias(
-  "cp",
-  fn (aid, cmd, args, raw) {
-    if args.len() != 2 {
-      c_error("invalid number of arguments");
-      return m_error(aid, "invalid number of arguments");
-    }
+name = "cp";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() != 2 {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  }
 
-    c_notify("tasked agent to copy file/dir");
-    m_notify(aid, "tasked agent to copy file/dir");
-    return a_cp(aid, args[0], args[1]);
-  },
-  "Copy source file to the specified destination on target",
-  "Usage:\n  cp [src file] [dest file]",
-  true
-);
+  c_notify("tasked agent to copy file/dir");
+  m_notify(aid, "tasked agent to copy file/dir");
+  return a_cp(aid, args[0], args[1]);
+};
+description = "Copy source file/dir to the specified destination on target";
+usage = "Usage:\n  cp <src path> <dest path>";
+visible = true;
+
+alias(name, closure, description, usage, visible);

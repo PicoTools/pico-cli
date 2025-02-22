@@ -24,6 +24,7 @@ import (
 	appid "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_ppid"
 	aps "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_ps"
 	apwd "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_pwd"
+	arm "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_rm"
 	ashell "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_shell"
 	asleep "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_sleep"
 	aupload "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_upload"
@@ -71,6 +72,8 @@ func registerApi() {
 	storage.UserFunctions[als.GetApiName()] = object.NewNativeFunc(als.GetApiName(), als.FrontendAgentLs)
 	// a_pwd: get process working directory
 	storage.UserFunctions[apwd.GetApiName()] = object.NewNativeFunc(apwd.GetApiName(), apwd.FrontendAgentPwd)
+	// a_rm: remove file or directory
+	storage.UserFunctions[arm.GetApiName()] = object.NewNativeFunc(arm.GetApiName(), arm.FrontendAgentRm)
 	// a_cd: change process working directory
 	storage.UserFunctions[acd.GetApiName()] = object.NewNativeFunc(acd.GetApiName(), acd.FrontendAgentCd)
 	// a_whoami: get current user and its grants

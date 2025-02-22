@@ -1,16 +1,16 @@
-alias(
-  "cancel",
-  fn (aid, cmd, args, raw) {
-    if args.len() != 0 {
-      c_error("invalid number of arguments");
-      return m_error(aid, "invalid number of arguments");
-    }
+name = "cancel";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() != 0 {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  }
 
-    c_notify("cancel all tasks in queue for agent");
-    m_notify(aid, "cancel all tasks in queue for agent");
-    return t_cancel(aid);
-  },
-  "Cancel all (for operator) tasks in queue for agent",
-  "Usage:\n  cancel",
-  true
-);
+  c_notify("cancel all tasks in queue for agent");
+  m_notify(aid, "cancel all tasks in queue for agent");
+  return t_cancel(aid);
+};
+description = "Cancel all tasks (created by operator) in queue for agent";
+usage = "Usage:\n  cancel";
+visible = true;
+
+alias(name, closure, description, usage, visible);
