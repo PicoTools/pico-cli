@@ -6,7 +6,14 @@ GOFILES=`go list ./...`
 GOFILESNOTEST=`go list ./... | grep -v test`
 VERSION=$(shell git describe --abbrev=0 --tags 2>/dev/null || echo "v0.0.0")
 BUILD=$(shell git rev-parse HEAD)
+GOARCH=`go env -json | jq -r .GOARCH`
+GOOS=`go env -json | jq -r .GOOS`
 LDFLAGS=-ldflags="-s -w -X github.com/PicoTools/pico-cli/internal/version.gitCommit=${BUILD} -X github.com/PicoTools/pico-cli/internal/version.gitVersion=${VERSION}"
+
+build: go-lint
+	@mkdir -p ${BIN_DIR}
+	@echo "Building operator cli for ${GOOS}/${GOARCH} ${VERSION}"
+	@GOOS=${GOOS} GOARCH=${GOARCH} CGO_ENABLED=0 CC=${CC} CXX=${CXX} go build -trimpath ${LDFLAGS} -o ${BIN_DIR}/pico-cli.${GOOS}.${GOARCH} ${PICO_DIR}
 
 build-all: darwin-arm64 darwin-amd64 linux-arm64 linux-amd64
 

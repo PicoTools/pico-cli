@@ -13,19 +13,26 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Cmds returns commands for base cmdlets
 func Cmds(app *console.Console) console.Commands {
 	return func() *cobra.Command {
 		cmd := &cobra.Command{
 			DisableFlagsInUseLine: true,
 			SilenceErrors:         true,
 			SilenceUsage:          true,
+			CompletionOptions: cobra.CompletionOptions{
+				DisableDefaultCmd: true,
+			},
 		}
 
 		cmd.AddGroup(
-			&cobra.Group{ID: constants.BaseGroupId, Title: constants.BaseGroupId},
+			&cobra.Group{
+				ID:    constants.BaseGroupId,
+				Title: constants.BaseGroupId,
+			},
 		)
 
-		// chat (send messages to chat)
+		// chat (send messages to global chat)
 		cmd.AddCommand(chat.Cmd(app))
 		// exit (exit from cli)
 		cmd.AddCommand(exit.Cmd(app))
@@ -40,8 +47,9 @@ func Cmds(app *console.Console) console.Commands {
 		// whoami (get username of operator)
 		cmd.AddCommand(whoami.Cmd(app))
 
+		// initialize help (will be interactive)
 		cmd.InitDefaultHelpCmd()
-		cmd.CompletionOptions.DisableDefaultCmd = true
+
 		return cmd
 	}
 }

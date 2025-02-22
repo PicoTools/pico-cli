@@ -10,7 +10,17 @@ import (
 )
 
 // active agent for polling
-var ActiveAgent *Agent
+var activePollingAgent *Agent
+
+// GetActiveAgent returns active agent for which tasks are polling
+func GetActiveAgent() *Agent {
+	return activePollingAgent
+}
+
+// SetActiveAgent sets active agent for which tasks are polling
+func SetActiveAgent(a *Agent) {
+	activePollingAgent = a
+}
 
 // agents storage in runtime
 var Agents = &agentsMapper{
@@ -216,8 +226,8 @@ func (b *Agent) SetLast(t time.Time) {
 	b.last = t
 }
 
-// IsDelay returns true if agent delayed on sleep + sleep * jitter
-func (b *Agent) IsDelay(delta time.Duration) bool {
+// IsDelayed returns true if agent delayed on sleep + sleep * jitter
+func (b *Agent) IsDelayed(delta time.Duration) bool {
 	sleep := int(b.sleep * 1000)
 	jitter := int(b.jitter / 100)
 	return time.Now().After(b.GetLast().Add(time.Duration(sleep+sleep*jitter) * time.Millisecond))

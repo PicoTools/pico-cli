@@ -10,14 +10,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Cmd returns command "exit"
 func Cmd(c *console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:     "exit",
-		Short:   "Exit operator cli",
+		Short:   "Exit operator's CLI",
 		GroupID: constants.BaseGroupId,
 		Run: func(*cobra.Command, []string) {
 			if utils.ExitConsolePrompt(c) {
-				service.Close()
+				_ = service.Close()
 				os.Exit(0)
 			}
 		},

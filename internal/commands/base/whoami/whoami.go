@@ -8,10 +8,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Cmd returns command "whoami"
 func Cmd(*console.Console) *cobra.Command {
 	return &cobra.Command{
 		Use:     "whoami",
-		Short:   "Get username of operator",
+		Short:   "Get my operator's username",
 		GroupID: constants.BaseGroupId,
 		Run: func(*cobra.Command, []string) {
 			notificator.Print("%s", service.GetUsername())

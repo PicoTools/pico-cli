@@ -344,13 +344,27 @@ type commands struct {
 	commands []*Command
 }
 
-// GetLast returns last command for agent
-func (t *commandsMapper) GetLast() *Command {
+// GetLastCommand returns last command created for agent
+func (t *commandsMapper) GetLastCommand() *Command {
 	data := t.Get()
 	if len(data) == 0 {
 		return nil
 	}
 	return data[len(data)-1]
+}
+
+// GetLastCommandByOperator returns last command created by operator
+func (t *commandsMapper) GetLastCommandByOperator(username string) *Command {
+	data := t.Get()
+	if len(data) == 0 {
+		return nil
+	}
+	for i := len(data) - 1; i >= 0; i-- {
+		if strings.Compare(data[i].author, username) == 0 {
+			return data[i]
+		}
+	}
+	return nil
 }
 
 // Add adds command to storage
