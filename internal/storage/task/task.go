@@ -3,6 +3,7 @@ package task
 import (
 	"fmt"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -164,6 +165,10 @@ func (t *Task) StringStatus() string {
 
 func (t *Task) GetId() int64 {
 	return t.id
+}
+
+func (t *Task) GetIdStr() string {
+	return strconv.Itoa(int(t.id))
 }
 
 func (t *Task) GetIdHex() string {
