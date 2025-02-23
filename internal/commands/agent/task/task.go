@@ -9,6 +9,7 @@ import (
 	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/service"
 	"github.com/PicoTools/pico-cli/internal/storage/task"
+	"github.com/PicoTools/pico/pkg/shared"
 	"github.com/fatih/color"
 	"github.com/reeflective/console"
 	"github.com/rsteube/carapace"
@@ -49,9 +50,22 @@ func listCmd(*console.Console) *cobra.Command {
 				return
 			}
 			for _, v := range tasks {
+				var id string
+				switch v.GetStatus() {
+				case shared.StatusNew:
+					id = color.HiWhiteString(v.GetIdStr())
+				case shared.StatusCancelled:
+					id = color.HiYellowString(v.GetIdStr())
+				case shared.StatusInProgress:
+					id = color.HiCyanString(v.GetIdStr())
+				case shared.StatusError:
+					id = color.HiRedString(v.GetIdStr())
+				case shared.StatusSuccess:
+					id = color.HiGreenString(v.GetIdStr())
+				}
 				notificator.Print("[%s | %s] %s",
 					v.GetCreatedAt().Format("02/01 15:04:05"),
-					color.GreenString("%d", v.GetId()),
+					id,
 					v.GetCapability().String(),
 				)
 			}
