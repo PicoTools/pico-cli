@@ -3,7 +3,7 @@ module github.com/PicoTools/pico-cli
 go 1.24.0
 
 require (
-	github.com/PicoTools/pico v0.0.0-20250222200954-0da5200ad947
+	github.com/PicoTools/pico v0.0.0-20250224204328-325b2cedf2ec
 	github.com/PicoTools/plan v1.0.0
 	github.com/antlr4-go/antlr/v4 v4.13.1
 	github.com/docker/go-units v0.5.0

@@ -1,5 +1,11 @@
 github.com/PicoTools/pico v0.0.0-20250222200954-0da5200ad947 h1:SFb/8b3Z4lX6WaV6DuMcXCTxFOVwrG8O2B6EtbIUVXM=
 github.com/PicoTools/pico v0.0.0-20250222200954-0da5200ad947/go.mod h1:aLDmNjdmSm+7cRviwrWK0M2CIDwXXxm5Dyu55lcY+iA=
+github.com/PicoTools/pico v0.0.0-20250224200214-2d862987de08 h1:e9n27oUjUzWPVuzibW8yam5qm4vFvcPTyNkfZnZs/gU=
+github.com/PicoTools/pico v0.0.0-20250224200214-2d862987de08/go.mod h1:YEn9sYUn6R8AbZK6dmRjnPY64Jv+lB2lhgzlMplEbT0=
+github.com/PicoTools/pico v0.0.0-20250224201306-29561ea76225 h1:XL3X5zZZWv7941PE8MQhH9CIyf+OB1Gsn76Ab1B+GYM=
+github.com/PicoTools/pico v0.0.0-20250224201306-29561ea76225/go.mod h1:YEn9sYUn6R8AbZK6dmRjnPY64Jv+lB2lhgzlMplEbT0=
+github.com/PicoTools/pico v0.0.0-20250224204328-325b2cedf2ec h1:Qg3jhJKxlDqHfnJOcGJPtxNejONYMr2oPturoY1LUcQ=
+github.com/PicoTools/pico v0.0.0-20250224204328-325b2cedf2ec/go.mod h1:YEn9sYUn6R8AbZK6dmRjnPY64Jv+lB2lhgzlMplEbT0=
 github.com/PicoTools/plan v1.0.0 h1:j4lbfkMtn/eui5OxAAsiU6ujX8QdAw9T7hIxJXMNIfk=
 github.com/PicoTools/plan v1.0.0/go.mod h1:/GvVL0VNecrFjCI6drsL5UnkyUmecC2HyvjGAlZwlSM=
 github.com/antlr4-go/antlr/v4 v4.13.1 h1:SqQKkuVZ+zWkMMNkjy5FZe5mr5WURWnlpmOuzYWrPrQ=
