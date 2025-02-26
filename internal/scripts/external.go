@@ -147,7 +147,7 @@ func processExternalScript(path string) (*Script, error) {
 		return nil, errors.Wrap(err, "read script file")
 	}
 
-	temp.tree, err = mlanUtils.CreateAST(string(data))
+	temp.tree, err = mlanUtils.CreateAstProgFile(string(data))
 	if err != nil {
 		return nil, errors.Wrap(err, "create ast")
 	}
