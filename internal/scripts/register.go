@@ -185,7 +185,7 @@ func registerBuiltin() error {
 			return errors.Wrapf(err, "read %s", v.Name())
 		}
 		// create AST
-		tree, err := mlanUtils.CreateAST(string(data))
+		tree, err := mlanUtils.CreateAstProgFile(string(data))
 		if err != nil {
 			return errors.Wrap(err, v.Name())
 		}
