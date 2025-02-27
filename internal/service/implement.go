@@ -204,6 +204,8 @@ func SubscribeAgents(ctx context.Context) error {
 			v := msg.GetLast()
 			if b := agent.Agents.GetById(v.GetId()); b != nil {
 				b.SetLast(v.GetLast().AsTime().Add(conn.metadata.delta))
+				// refill sorted array based on new last checkout
+				agent.Agents.Fill()
 			}
 			continue
 		}
@@ -213,6 +215,8 @@ func SubscribeAgents(ctx context.Context) error {
 			if b := agent.Agents.GetById(v.GetId()); b != nil {
 				b.SetSleep(v.GetSleep())
 				b.SetJitter(uint8(v.GetJitter()))
+				// refill sorted array
+				agent.Agents.Fill()
 			}
 			continue
 		}
