@@ -15,26 +15,29 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Cmd returns command "use"
 func Cmd(c *console.Console) *cobra.Command {
 	useCmd := &cobra.Command{
-		Use:                   "use",
-		Short:                 "Switch on agent shell",
-		DisableFlagsInUseLine: true,
-		GroupID:               constants.BaseGroupId,
-		Args:                  cobra.MinimumNArgs(1),
+		Use:     "use <id>",
+		Short:   "Switch on agent's interactione shell",
+		GroupID: constants.BaseGroupId,
+		Args:    cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
+			// parse input
 			id, err := strconv.ParseUint(args[0], 16, 32)
 			if err != nil {
-				notificator.PrintError("invalid agent id")
+				notificator.PrintError("invalid agent's ID")
 				return
 			}
+			// find agent by ID
 			a := agent.Agents.GetById(uint32(id))
 			if a == nil {
-				notificator.PrintError("unknown agent id")
+				notificator.PrintError("unknown agent's ID")
 				return
 			}
-			if agent.ActiveAgent != nil {
-				if err := service.UnpollAgentTasks(agent.ActiveAgent); err != nil {
+			// stop polling tasks for current agent if you switching from another agent's shell
+			if agent.GetActiveAgent() != nil {
+				if err := service.UnpollAgentTasks(agent.GetActiveAgent()); err != nil {
 					notificator.PrintWarning("unable stop polling tasks for agent: %s", err.Error())
 				}
 				task.ResetStorage()
@@ -43,7 +46,8 @@ func Cmd(c *console.Console) *cobra.Command {
 				notificator.PrintError("unable start polling tasks for agent: %s", err.Error())
 				return
 			}
-			agent.ActiveAgent = a
+			agent.SetActiveAgent(a)
+			// set prompt for agent
 			c.Menu(constants.AgentMenuName).Prompt().Primary = func() string {
 				return fmt.Sprintf("%s > ", color.New(color.FgHiMagenta).Add(color.Underline).Sprint(args[0]))
 			}

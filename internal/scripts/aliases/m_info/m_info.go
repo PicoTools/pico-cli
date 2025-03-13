@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/PicoTools/pico-cli/internal/service"
-	"github.com/PicoTools/pico-shared/shared"
+	"github.com/PicoTools/pico/pkg/shared"
 	"github.com/PicoTools/plan/pkg/engine/object"
 )
 
@@ -20,11 +20,11 @@ func FrontendMessageInfo(args ...object.Object) (object.Object, error) {
 	}
 	id, ok := args[0].(*object.Int)
 	if !ok {
-		return nil, fmt.Errorf("expecting 1st argument int, got '%s'", args[0].TypeName())
+		return nil, fmt.Errorf("expecting 1st argument 'int', got '%s'", args[0].TypeName())
 	}
 	msg, ok := args[1].(*object.Str)
 	if !ok {
-		return nil, fmt.Errorf("expectign 2nd argument str, got '%s'", args[1].TypeName())
+		return nil, fmt.Errorf("expecting 2nd argument 'str', got '%s'", args[1].TypeName())
 	}
 	if err := BackendMessageInfo(uint32(id.GetValue().(int64)), msg.GetValue().(string)); err != nil {
 		return nil, err

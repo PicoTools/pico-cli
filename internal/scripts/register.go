@@ -24,6 +24,15 @@ import (
 	appid "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_ppid"
 	aps "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_ps"
 	apwd "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_pwd"
+	areserved23 "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_reserved23"
+	areserved24 "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_reserved24"
+	areserved25 "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_reserved25"
+	areserved26 "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_reserved26"
+	areserved27 "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_reserved27"
+	areserved28 "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_reserved28"
+	areserved29 "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_reserved29"
+	areserved30 "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_reserved30"
+	arm "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_rm"
 	ashell "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_shell"
 	asleep "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_sleep"
 	aupload "github.com/PicoTools/pico-cli/internal/scripts/aliases/a_upload"
@@ -71,6 +80,8 @@ func registerApi() {
 	storage.UserFunctions[als.GetApiName()] = object.NewNativeFunc(als.GetApiName(), als.FrontendAgentLs)
 	// a_pwd: get process working directory
 	storage.UserFunctions[apwd.GetApiName()] = object.NewNativeFunc(apwd.GetApiName(), apwd.FrontendAgentPwd)
+	// a_rm: remove file or directory
+	storage.UserFunctions[arm.GetApiName()] = object.NewNativeFunc(arm.GetApiName(), arm.FrontendAgentRm)
 	// a_cd: change process working directory
 	storage.UserFunctions[acd.GetApiName()] = object.NewNativeFunc(acd.GetApiName(), acd.FrontendAgentCd)
 	// a_whoami: get current user and its grants
@@ -113,6 +124,22 @@ func registerApi() {
 	storage.UserFunctions[aexit.GetApiName()] = object.NewNativeFunc(aexit.GetApiName(), aexit.FrontendAgentExit)
 	// a_caps: returns list of supported capabilities by agent
 	storage.UserFunctions[acaps.GetApiName()] = object.NewNativeFunc(acaps.GetApiName(), acaps.FrontendAgentCaps)
+	// a_reserved23: reserved capability to use on your own
+	storage.UserFunctions[areserved23.GetApiName()] = object.NewNativeFunc(areserved23.GetApiName(), areserved23.FrontendAgentReserved23)
+	// a_reserved24: reserved capability to use on your own
+	storage.UserFunctions[areserved24.GetApiName()] = object.NewNativeFunc(areserved24.GetApiName(), areserved24.FrontendAgentReserved24)
+	// a_reserved25: reserved capability to use on your own
+	storage.UserFunctions[areserved25.GetApiName()] = object.NewNativeFunc(areserved25.GetApiName(), areserved25.FrontendAgentReserved25)
+	// a_reserved26: reserved capability to use on your own
+	storage.UserFunctions[areserved26.GetApiName()] = object.NewNativeFunc(areserved26.GetApiName(), areserved26.FrontendAgentReserved26)
+	// a_reserved27: reserved capability to use on your own
+	storage.UserFunctions[areserved27.GetApiName()] = object.NewNativeFunc(areserved27.GetApiName(), areserved27.FrontendAgentReserved27)
+	// a_reserved28: reserved capability to use on your own
+	storage.UserFunctions[areserved28.GetApiName()] = object.NewNativeFunc(areserved28.GetApiName(), areserved28.FrontendAgentReserved28)
+	// a_reserved29: reserved capability to use on your own
+	storage.UserFunctions[areserved29.GetApiName()] = object.NewNativeFunc(areserved29.GetApiName(), areserved29.FrontendAgentReserved29)
+	// a_reserved30: reserved capability to use on your own
+	storage.UserFunctions[areserved30.GetApiName()] = object.NewNativeFunc(areserved30.GetApiName(), areserved30.FrontendAgentReserved30)
 	// t_cancel: cancel all operator's tasks with status NEW
 	storage.UserFunctions[tcancel.GetApiName()] = object.NewNativeFunc(tcancel.GetApiName(), tcancel.FrontendTasksCancel)
 	// is_windows: is agent running on windows
@@ -158,7 +185,7 @@ func registerBuiltin() error {
 			return errors.Wrapf(err, "read %s", v.Name())
 		}
 		// create AST
-		tree, err := mlanUtils.CreateAST(string(data))
+		tree, err := mlanUtils.CreateAstProgFile(string(data))
 		if err != nil {
 			return errors.Wrap(err, v.Name())
 		}

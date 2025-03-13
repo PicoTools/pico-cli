@@ -1,25 +1,25 @@
-alias(
-  "caps",
-  fn (aid, cmd, args, raw) {
-    if args.len() != 0 {
-      c_error("invalid number of arguments");
-      return m_error(aid, "invalid number of arguments");
-    }
+name = "caps";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() != 0 {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  }
 
-    caps_list = a_caps(aid);
+  caps_list = a_caps(aid);
 
-    temp = "supported list of capabilities:\n";
-    for i = 0; i < caps_list.len(); i += 1 {
-        temp += "  - " + caps_list[i];
-        if i != caps_list.len() - 1 {
-            temp += "\n";
-        }
-    }
+  temp = "supported list of capabilities:\n";
+  for i = 0; i < caps_list.len(); i += 1 {
+      temp += "  - " + caps_list[i];
+      if i != caps_list.len() - 1 {
+          temp += "\n";
+      }
+  }
 
-    c_info(temp);
-    return m_info(aid, temp);
-  },
-  "List capabilities supported by agent",
-  "Usage:\n  caps",
-  false
-);
+  c_info(temp);
+  return m_info(aid, temp);
+};
+description = "List capabilities supported by agent";
+usage = "Usage:\n  caps";
+visible = false;
+
+alias(name, closure, description, usage, visible);

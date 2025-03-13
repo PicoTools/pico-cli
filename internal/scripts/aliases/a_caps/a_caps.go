@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/PicoTools/pico-cli/internal/storage/agent"
-	"github.com/PicoTools/pico-shared/shared"
+	"github.com/PicoTools/pico/pkg/shared"
 	"github.com/PicoTools/plan/pkg/engine/object"
 )
 
@@ -18,11 +18,11 @@ func GetApiName() string {
 
 func FrontendAgentCaps(args ...object.Object) (object.Object, error) {
 	if len(args) != 1 {
-		return nil, fmt.Errorf("expecting 1 arguments, got %d", len(args))
+		return nil, fmt.Errorf("expecting 1 argument, got %d", len(args))
 	}
 	id, ok := args[0].(*object.Int)
 	if !ok {
-		return nil, fmt.Errorf("expecting 1st argument int, got '%s'", args[0].TypeName())
+		return nil, fmt.Errorf("expecting 1st argument 'int', got '%s'", args[0].TypeName())
 	}
 	caps, err := BackendAgentCaps(uint32(id.GetValue().(int64)))
 	if err != nil {

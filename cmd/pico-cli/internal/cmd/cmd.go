@@ -16,8 +16,8 @@ type App struct {
 }
 
 func (a *App) RegisterFlags(f *pflag.FlagSet) {
-	f.StringVarP(&a.Host, "host", "H", utils.EnvOr(constants.CmdEnvHostKey, ""), "host for management server")
-	f.StringVarP(&a.Token, "token", "t", utils.EnvOr(constants.CmdEnvTokenKey, ""), "management token")
+	f.StringVarP(&a.Host, "host", "H", utils.EnvOr(constants.CmdEnvHostKey, ""), "host:port for operator's server")
+	f.StringVarP(&a.Token, "token", "t", utils.EnvOr(constants.CmdEnvTokenKey, ""), "operator's token")
 }
 
 func (a *App) Validate() error {

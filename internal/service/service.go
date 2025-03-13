@@ -7,8 +7,8 @@ import (
 	"os"
 
 	"github.com/PicoTools/pico-cli/internal/middleware"
-	operatorv1 "github.com/PicoTools/pico-shared/proto/gen/operator/v1"
-	"github.com/PicoTools/pico-shared/shared"
+	operatorv1 "github.com/PicoTools/pico/pkg/proto/operator/v1"
+	"github.com/PicoTools/pico/pkg/shared"
 	"github.com/fatih/color"
 	"github.com/go-faster/errors"
 	"golang.org/x/sync/errgroup"
@@ -123,7 +123,12 @@ func getSvc() operatorv1.OperatorServiceClient {
 	return conn.svc
 }
 
+// GetMetadata returns metadata of GRPC connection
+func (g *grpcConn) getMetadata() metadata {
+	return g.metadata
+}
+
 // GetUsername returns username of operator
 func GetUsername() string {
-	return conn.metadata.GetUsername()
+	return conn.getMetadata().GetUsername()
 }

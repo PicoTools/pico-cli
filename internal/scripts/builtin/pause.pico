@@ -1,20 +1,20 @@
-alias(
-  "pause",
-  fn (aid, cmd, args, raw) {
-    if args.len() != 1 {
-      c_error("invalid number of arguments");
-      return m_error(aid, "invalid number of arguments");
-    }
-    value = int(args[0]);
-    if value < 0 {
-      c_error("invalid sleep value");
-      return m_error(aid, "invalid sleep value");
-    }
-    c_notify("tasked agent to pause communication");
-    m_notify(aid, "tasked agent to pause communication");
-    return a_pause(aid, value);
-  },
-  "One-time sleep interval for agent",
-  "Usage:\n  pause [time in sec]",
-  true
-);
+name = "pause";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() != 1 {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  }
+  value = int(args[0]);
+  if value < 0 {
+    c_error("invalid sleep value");
+    return m_error(aid, "invalid sleep value");
+  }
+  c_notify("tasked agent to pause communication");
+  m_notify(aid, "tasked agent to pause communication");
+  return a_pause(aid, value);
+};
+description = "One-time sleep interval for agent";
+usage = "Usage:\n  pause <seconds>";
+visible = true;
+
+alias(name, closure, description, usage, visible);

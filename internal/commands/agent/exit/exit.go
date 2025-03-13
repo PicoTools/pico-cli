@@ -17,11 +17,11 @@ func Cmd(c *console.Console) *cobra.Command {
 		DisableFlagsInUseLine: true,
 		GroupID:               constants.CoreGroupId,
 		Run: func(cmd *cobra.Command, args []string) {
-			if err := service.UnpollAgentTasks(agent.ActiveAgent); err != nil {
+			if err := service.UnpollAgentTasks(agent.GetActiveAgent()); err != nil {
 				notificator.PrintWarning("unable stop polling tasks for agent: %s", err.Error())
 			}
 			task.ResetStorage()
-			agent.ActiveAgent = nil
+			agent.SetActiveAgent(nil)
 			c.SwitchMenu(constants.BaseMenuName)
 		},
 	}

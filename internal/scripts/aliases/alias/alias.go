@@ -31,23 +31,23 @@ func FrontendAlias(args ...object.Object) (object.Object, error) {
 	}
 	name, ok := args[0].(*object.Str)
 	if !ok {
-		return nil, fmt.Errorf("expecting str as 1st argument, got '%s'", args[0].TypeName())
+		return nil, fmt.Errorf("expecting 1st argument 'str', got '%s'", args[0].TypeName())
 	}
 	closure, ok := args[1].(*object.RuntimeFunc)
 	if !ok {
-		return nil, fmt.Errorf("expecting closure as 2nd argument, got '%s'", args[1].TypeName())
+		return nil, fmt.Errorf("expecting 2nd argument 'closure', got '%s'", args[1].TypeName())
 	}
 	description, ok := args[2].(*object.Str)
 	if !ok {
-		return nil, fmt.Errorf("expecting str as 3rd argument, got '%s'", args[2].TypeName())
+		return nil, fmt.Errorf("expecting 3rd argument 'str', got '%s'", args[2].TypeName())
 	}
 	usage, ok := args[3].(*object.Str)
 	if !ok {
-		return nil, fmt.Errorf("expecting str as 4th argument, got '%s'", args[3].TypeName())
+		return nil, fmt.Errorf("expecting 4th argument 'str', got '%s'", args[3].TypeName())
 	}
 	visible, ok := args[4].(*object.Bool)
 	if !ok {
-		return nil, fmt.Errorf("expecting bool as 5th argument, got '%s'", args[4].TypeName())
+		return nil, fmt.Errorf("expecting 5th argument 'bool', got '%s'", args[4].TypeName())
 	}
 	newAlias := &aliases.Alias{}
 	newAlias.SetDescription(description.GetValue().(string))

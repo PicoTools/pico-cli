@@ -10,11 +10,27 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Cmd returns command "agents"
+func Cmd(c *console.Console) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "agents",
+		Short:   "Manage agents",
+		GroupID: constants.BaseGroupId,
+	}
+
+	cmd.AddCommand(
+		// list all registered agents
+		listCmd(c),
+	)
+
+	return cmd
+}
+
+// listCmd returns command "list" for "agents"
 func listCmd(*console.Console) *cobra.Command {
 	return &cobra.Command{
-		Use:                   "list",
-		Short:                 "List agents",
-		DisableFlagsInUseLine: true,
+		Use:   "list",
+		Short: "List registered agents",
 		Run: func(cmd *cobra.Command, args []string) {
 			agents := agent.Agents.Get()
 			for _, v := range agents {
@@ -23,13 +39,15 @@ func listCmd(*console.Console) *cobra.Command {
 					os = color.RedString(v.GetOs().StringShort())
 				}
 				last := color.GreenString(utils.HumanDurationC(v.GetLast()))
-				if v.IsDelay(0) {
+				if v.IsDelayed(0) {
+					// if agent is delayed on predictable time
 					last = color.YellowString(utils.HumanDurationC(v.GetLast()))
 				}
 				if v.IsDead(0) {
+					// if agent is dead (or not?)
 					last = color.RedString(utils.HumanDurationC(v.GetLast()))
 				}
-				notificator.Print("[%s] (%15s) %6s %-20s %-16s %s",
+				notificator.Print("[%s] %15s  %6s %-20s %-16s %s",
 					os,
 					last,
 					v.GetIdHex(),
@@ -40,17 +58,4 @@ func listCmd(*console.Console) *cobra.Command {
 			}
 		},
 	}
-}
-
-func Cmd(c *console.Console) *cobra.Command {
-	cmd := &cobra.Command{
-		Use:                   "agents",
-		Short:                 "Manage agents",
-		DisableFlagsInUseLine: true,
-		GroupID:               constants.BaseGroupId,
-	}
-	cmd.AddCommand(
-		listCmd(c),
-	)
-	return cmd
 }

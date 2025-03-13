@@ -1,35 +1,35 @@
-alias(
-  "sleep",
-  fn (aid, cmd, args, raw) {
-    if args.len() == 1 {
-      s = int(args[0]);
-      if s < 0 {
-        c_error("invalid sleep value");
-        return m_error(aid, "invalid sleep value");
-      }
-      c_notify("tasked agnet to change sleep/jitter values");
-      m_notify(aid, "tasked agnet to change sleep/jitter values");
-      return a_sleep(aid, s);
-    } elif args.len() == 2 {
-      s = int(args[0]);
-      j = int(args[1]);
-      if s < 0 {
-        c_error("invalid sleep value");
-        return m_error(aid, "invalid sleep value");
-      }
-      if j > 99 || j < 0 {
-        c_error("invalid jitter value");
-        return m_error(aid, "invalid jitter value");
-      }
-      c_notify("tasked agent to change sleep/jitter values");
-      m_notify(aid, "tasked agent to change sleep/jitter values");
-      return a_sleep(aid, s, j);
-    } else {
-      c_error("invalid number of arguments");
-      return m_error(aid, "invalid number of arguments");
+name = "sleep";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() == 1 {
+    s = int(args[0]);
+    if s < 0 {
+      c_error("invalid sleep value");
+      return m_error(aid, "invalid sleep value");
     }
-  },
-  "Change sleep/jitter values for agent",
-  "Usage:\n  sleep <sleep in sec> [jitter 1-99]",
-  true
-);
+    c_notify("tasked agnet to change sleep/jitter values");
+    m_notify(aid, "tasked agnet to change sleep/jitter values");
+    return a_sleep(aid, s);
+  } elif args.len() == 2 {
+    s = int(args[0]);
+    j = int(args[1]);
+    if s < 0 {
+      c_error("invalid sleep value");
+      return m_error(aid, "invalid sleep value");
+    }
+    if j > 99 || j < 0 {
+      c_error("invalid jitter value");
+      return m_error(aid, "invalid jitter value");
+    }
+    c_notify("tasked agent to change sleep/jitter values");
+    m_notify(aid, "tasked agent to change sleep/jitter values");
+    return a_sleep(aid, s, j);
+  } else {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  }
+};
+description = "Change sleep/jitter values for agent";
+usage = "Usage:\n  sleep <sleep in sec> [jitter 1-99]";
+visible = true;
+
+alias(name, closure, description, usage, visible);

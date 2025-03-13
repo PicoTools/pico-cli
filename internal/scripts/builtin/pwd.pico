@@ -1,16 +1,16 @@
-alias(
-  "pwd",
-  fn (aid, cmd, args, raw) {
-    if args.len() != 0 {
-      c_error("invalid number of arguments");
-      return m_error(aid, "invalid number of arguments");
-    }
+name = "pwd";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() != 0 {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  }
 
-    c_notify("tasked agent to print process working directory");
-    m_notify(aid, "tasked agent to print process working directory");
-    return a_pwd(aid);
-  },
-  "Print agent's process working directory",
-  "Usage:\n  pwd",
-  true
-);
+  c_notify("tasked agent to print process working directory");
+  m_notify(aid, "tasked agent to print process working directory");
+  return a_pwd(aid);
+};
+description = "Print agent's process working directory";
+usage = "Usage:\n  pwd";
+visible = true;
+
+alias(name, closure, description, usage, visible);

@@ -4,23 +4,25 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"strings"
 	"time"
+
+	goversion "github.com/hashicorp/go-version"
 
 	"github.com/PicoTools/pico-cli/internal/notificator"
 	"github.com/PicoTools/pico-cli/internal/storage/agent"
 	"github.com/PicoTools/pico-cli/internal/storage/task"
 	"github.com/PicoTools/pico-cli/internal/version"
-	operatorv1 "github.com/PicoTools/pico-shared/proto/gen/operator/v1"
-	"github.com/PicoTools/pico-shared/shared"
+	operatorv1 "github.com/PicoTools/pico/pkg/proto/operator/v1"
+	"github.com/PicoTools/pico/pkg/shared"
+	"github.com/fatih/color"
 	"github.com/go-faster/errors"
 	"google.golang.org/grpc"
 )
 
 // HelloInit connects to hello topic
 func HelloInit(ctx context.Context) (grpc.ServerStreamingClient[operatorv1.HelloResponse], error) {
-	return getSvc().Hello(ctx, &operatorv1.HelloRequest{
-		Version: version.Version(),
-	})
+	return getSvc().Hello(ctx, &operatorv1.HelloRequest{})
 }
 
 // HelloHandshake processes hadnshake from hello topic
@@ -32,9 +34,24 @@ func HelloHandshake(ctx context.Context) error {
 	if msg.GetHandshake() == nil {
 		return fmt.Errorf("unexpected hello response (no handshake data)")
 	}
+
+	// validate server's version
+	clientVersion, err := goversion.NewVersion(version.Version())
+	if err != nil {
+		return errors.Wrap(err, "get client version")
+	}
+	serverVersion, err := goversion.NewVersion(msg.GetHandshake().GetVersion())
+	if err != nil {
+		return errors.Wrap(err, "get server version")
+	}
+	// check if major version is differ
+	if clientVersion.Segments()[0] < serverVersion.Segments()[0] {
+		return fmt.Errorf("this client is incompatible with server's API")
+	}
+
 	conn.metadata.username = msg.GetHandshake().GetUsername()
 	conn.metadata.cookie = msg.GetHandshake().GetCookie().GetValue()
-	conn.metadata.delta = time.Now().Sub(msg.GetHandshake().GetTime().AsTime())
+	conn.metadata.delta = time.Since(msg.GetHandshake().GetTime().AsTime())
 	return nil
 }
 
@@ -55,7 +72,7 @@ func HelloMonitor(ctx context.Context) error {
 func SubscribeChat(ctx context.Context) error {
 	stream, err := getSvc().SubscribeChat(ctx, &operatorv1.SubscribeChatRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 	})
 	if err != nil {
@@ -75,15 +92,15 @@ func SubscribeChat(ctx context.Context) error {
 		if msg.GetMessage() != nil {
 			v := msg.GetMessage()
 			if v.GetIsServer() {
-				notificator.PrintfNotify("%s", v.GetMessage())
+				// server message in chat
+				notificator.Printf("[%s] %s", color.GreenString("chat"), v.GetMessage())
 				continue
 			}
-			if v.GetFrom().GetValue() == conn.metadata.username {
+			if strings.Compare(v.GetFrom().GetValue(), GetUsername()) == 0 {
 				// do not print message from operator itself
 				continue
 			}
-			notificator.PrintfInfo("(%s): %s", v.GetFrom().GetValue(), v.GetMessage())
-			continue
+			notificator.Printf("[%s] %s: %s", color.GreenString("chat"), color.RedString(v.GetFrom().GetValue()), v.GetMessage())
 		}
 	}
 	return nil
@@ -93,7 +110,7 @@ func SubscribeChat(ctx context.Context) error {
 func SubscribeAgents(ctx context.Context) error {
 	stream, err := getSvc().SubscribeAgents(ctx, &operatorv1.SubscribeAgentsRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 	})
 	if err != nil {
@@ -187,6 +204,8 @@ func SubscribeAgents(ctx context.Context) error {
 			v := msg.GetLast()
 			if b := agent.Agents.GetById(v.GetId()); b != nil {
 				b.SetLast(v.GetLast().AsTime().Add(conn.metadata.delta))
+				// refill sorted array based on new last checkout
+				agent.Agents.Fill()
 			}
 			continue
 		}
@@ -196,6 +215,8 @@ func SubscribeAgents(ctx context.Context) error {
 			if b := agent.Agents.GetById(v.GetId()); b != nil {
 				b.SetSleep(v.GetSleep())
 				b.SetJitter(uint8(v.GetJitter()))
+				// refill sorted array
+				agent.Agents.Fill()
 			}
 			continue
 		}
@@ -212,7 +233,7 @@ func SubscribeTasks(ctx context.Context) error {
 	// operator's authorization message
 	if err = stream.Send(&operatorv1.SubscribeTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Type: &operatorv1.SubscribeTasksRequest_Hello{
 			Hello: &operatorv1.SubscribeTasksHelloRequest{},
@@ -315,7 +336,7 @@ func SubscribeTasks(ctx context.Context) error {
 func PollAgentTasks(agent *agent.Agent) error {
 	if err := conn.ss.tasksStream.Send(&operatorv1.SubscribeTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Type: &operatorv1.SubscribeTasksRequest_Start{
 			Start: &operatorv1.StartPollAgentRequest{
@@ -332,7 +353,7 @@ func PollAgentTasks(agent *agent.Agent) error {
 func UnpollAgentTasks(agent *agent.Agent) error {
 	if err := conn.ss.tasksStream.Send(&operatorv1.SubscribeTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Type: &operatorv1.SubscribeTasksRequest_Stop{
 			Stop: &operatorv1.StopPollAgentRequest{
@@ -353,7 +374,7 @@ func NewCommand(id uint32, cmd string, visible bool) error {
 	}
 	if err = stream.Send(&operatorv1.NewCommandRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Type: &operatorv1.NewCommandRequest_Command{
 			Command: &operatorv1.CreateCommandRequest{
@@ -396,7 +417,7 @@ func NewCommandMessage(id uint32, tm shared.TaskMessage, message string) error {
 	}
 	return stream.Send(&operatorv1.NewCommandRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Type: &operatorv1.NewCommandRequest_Message{
 			Message: &operatorv1.CreateMessageRequest{
@@ -415,7 +436,7 @@ func NewTask(id uint32, v *operatorv1.CreateTaskRequest) error {
 	}
 	return stream.Send(&operatorv1.NewCommandRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Type: &operatorv1.NewCommandRequest_Task{
 			Task: v,
@@ -429,7 +450,7 @@ func CancelTasks(id uint32) error {
 	defer cancel()
 	_, err := getSvc().CancelTasks(ctx, &operatorv1.CancelTasksRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Id: id,
 	})
@@ -442,7 +463,7 @@ func GetTaskOutput(id int64) ([]byte, error) {
 	defer cancel()
 	rep, err := getSvc().GetTaskOutput(ctx, &operatorv1.GetTaskOutputRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Id: id,
 	})
@@ -458,7 +479,7 @@ func SendChatMessage(message string) error {
 	defer cancel()
 	_, err := getSvc().NewChatMessage(ctx, &operatorv1.NewChatMessageRequest{
 		Cookie: &operatorv1.SessionCookie{
-			Value: conn.metadata.cookie,
+			Value: conn.getMetadata().GetCookie(),
 		},
 		Message: message,
 	})

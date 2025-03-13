@@ -8,14 +8,14 @@ type metadata struct {
 	delta    time.Duration
 }
 
-func (m *metadata) GetUsername() string {
+func (m metadata) GetUsername() string {
 	return m.username
 }
 
-func (m *metadata) GetCookie() string {
+func (m metadata) GetCookie() string {
 	return m.cookie
 }
 
-func (m *metadata) GetDelta() time.Duration {
+func (m metadata) GetDelta() time.Duration {
 	return m.delta
 }

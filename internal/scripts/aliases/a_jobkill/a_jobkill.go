@@ -6,9 +6,9 @@ import (
 	merror "github.com/PicoTools/pico-cli/internal/scripts/aliases/m_error"
 	"github.com/PicoTools/pico-cli/internal/service"
 	"github.com/PicoTools/pico-cli/internal/storage/agent"
-	commonv1 "github.com/PicoTools/pico-shared/proto/gen/common/v1"
-	operatorv1 "github.com/PicoTools/pico-shared/proto/gen/operator/v1"
-	"github.com/PicoTools/pico-shared/shared"
+	commonv1 "github.com/PicoTools/pico/pkg/proto/common/v1"
+	operatorv1 "github.com/PicoTools/pico/pkg/proto/operator/v1"
+	"github.com/PicoTools/pico/pkg/shared"
 	"github.com/PicoTools/plan/pkg/engine/object"
 )
 
@@ -24,11 +24,11 @@ func FrontendAgentJobkill(args ...object.Object) (object.Object, error) {
 	}
 	id, ok := args[0].(*object.Int)
 	if !ok {
-		return nil, fmt.Errorf("expecting 1st argument int, got '%s'", args[0].TypeName())
+		return nil, fmt.Errorf("expecting 1st argument 'int', got '%s'", args[0].TypeName())
 	}
 	jid, ok := args[1].(*object.Int)
 	if !ok {
-		return nil, fmt.Errorf("expecting 2nd argument int, got '%s'", args[1].TypeName())
+		return nil, fmt.Errorf("expecting 2nd argument 'int', got '%s'", args[1].TypeName())
 	}
 	if err := BackendAgentJobkill(uint32(id.GetValue().(int64)), jid.GetValue().(int64)); err != nil {
 		return nil, err

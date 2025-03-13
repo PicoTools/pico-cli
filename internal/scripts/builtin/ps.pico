@@ -1,16 +1,16 @@
-alias(
-  "ps",
-  fn (aid, cmd, args, raw) {
-    if args.len() != 0 {
-      c_error("invalid number of arguments");
-      return m_error(aid, "invalid number of arguments");
-    }
+name = "ps";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() != 0 {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  }
 
-    c_notify("tasked agent to list processes");
-    m_notify(aid, "tasked agent to list processes");
-    return a_ps(aid);
-  },
-  "List running processes on target machine",
-  "Usage:\n  ps",
-  true
-);
+  c_notify("tasked agent to list processes");
+  m_notify(aid, "tasked agent to list processes");
+  return a_ps(aid);
+};
+description = "List running processes on target";
+usage = "Usage:\n  ps";
+visible = true;
+
+alias(name, closure, description, usage, visible);

@@ -1,0 +1,29 @@
+name = "execute-assembly";
+closure = fn (aid, cmd, args, raw) {
+  if args.len() == 0 {
+    c_error("invalid number of arguments");
+    return m_error(aid, "invalid number of arguments");
+  } elif args.len() == 1 {
+    c_notify("tasked agent to execute .NET in memory");
+    m_notify(aid, "tasked agent to execute .NET in memory");
+    return a_exec_assembly(aid, args[0]);
+  } else {
+    splitted = raw.split(" ");
+    r = "";
+    for i = 1; i < splitted.len(); i += 1 {
+      if i != splitted.len() -1 {
+        r += splitted[i] + " ";
+      } else {
+        r += splitted[i];
+      }
+    }
+    c_notify("tasked agent to execute .NET with arguments in memory");
+    m_notify(aid, "tasked agent to execute .NET with arguments in memory");
+    return a_exec_assembly(aid, args[0], r);
+  }
+};
+description = "Execute .NET binary with arguments in agent's process memory";
+usage = "Usage:\n  execute-assembly <host file path> [args]";
+visible = true;
+
+alias(name, closure, description, usage, visible);

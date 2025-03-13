@@ -3,11 +3,12 @@ package task
 import (
 	"fmt"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
 	"github.com/PicoTools/pico-cli/internal/utils"
-	"github.com/PicoTools/pico-shared/shared"
+	"github.com/PicoTools/pico/pkg/shared"
 	"github.com/fatih/color"
 	"github.com/lrita/cmap"
 )
@@ -164,6 +165,10 @@ func (t *Task) StringStatus() string {
 
 func (t *Task) GetId() int64 {
 	return t.id
+}
+
+func (t *Task) GetIdStr() string {
+	return strconv.Itoa(int(t.id))
 }
 
 func (t *Task) GetIdHex() string {
@@ -344,13 +349,27 @@ type commands struct {
 	commands []*Command
 }
 
-// GetLast returns last command for agent
-func (t *commandsMapper) GetLast() *Command {
+// GetLastCommand returns last command created for agent
+func (t *commandsMapper) GetLastCommand() *Command {
 	data := t.Get()
 	if len(data) == 0 {
 		return nil
 	}
 	return data[len(data)-1]
+}
+
+// GetLastCommandByOperator returns last command created by operator
+func (t *commandsMapper) GetLastCommandByOperator(username string) *Command {
+	data := t.Get()
+	if len(data) == 0 {
+		return nil
+	}
+	for i := len(data) - 1; i >= 0; i-- {
+		if strings.Compare(data[i].author, username) == 0 {
+			return data[i]
+		}
+	}
+	return nil
 }
 
 // Add adds command to storage
@@ -389,6 +408,21 @@ func (t *commandsMapper) GetById(id int64) *Command {
 		return v
 	}
 	return nil
+}
+
+func (t *commandsMapper) GetTaskById(id int64) *Task {
+	var task *Task
+	t.commands.Range(func(k int64, v *Command) bool {
+		v.data.tasks.Range(func(key int64, value *Task) bool {
+			if key == id {
+				task = value
+				return false
+			}
+			return true
+		})
+		return task == nil
+	})
+	return task
 }
 
 // Count returns number of commands in storage
